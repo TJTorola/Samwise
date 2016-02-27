@@ -1,0 +1,1 @@
+# Samwise SPA Storefront Manager
