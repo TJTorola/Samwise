@@ -2,42 +2,157 @@
 
 /*
 |--------------------------------------------------------------------------
-| Routes File
+| API Routes (Laravel Resources)
 |--------------------------------------------------------------------------
-|
-| Here is where you will register all of the routes in an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
 */
 
 Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Session Group (Accessing user session)
+	| Auth Group (Handling authentication)
 	|--------------------------------------------------------------------------
 	*/
-	Route::group(['prefix' => 'session'], function() {
+	Route::group(['prefix' => 'auth'], function() {
 
-		
+		Route::post('login', 'AuthController@login');
+		Route::get('logout', 'AuthController@logout');
+		Route::post('register', 'AuthController@register');
+
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Cart Group (Viewing a user's cart)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'cart'], function() {
+
+		Route::get('/', 'CartController@index');
+		Route::post('/', 'CartController@store');
+		Route::delete('/', 'CartController@clear');
+		Route::patch('{item}', 'CartController@update');
+		Route::delete('{item}', 'CartController@destroy');
+
+		Route::post('test', 'CartController@test');
 		
 	});
 
 	/*
 	|--------------------------------------------------------------------------
-	| Static Group (Non-dynamic resources)
+	| Catalogs Group (Mix it up with the catalogs)
 	|--------------------------------------------------------------------------
 	*/
-	Route::group(['prefix' => 'static'], function() {
+	Route::group(['prefix' => 'catalogs'], function() {
 
-		Route::get('tags', 'TagController@getTags');
-		Route::get('tags/catalog', 'TagController@getTagsCatalog');
-		Route::get('tags/item', 'TagController@getTagsItem');
+		Route::get('/', 'CatalogsController@index');
+		Route::post('/', 'CatalogsController@store');
+		Route::get('{catalog}', 'CatalogsController@show');
+		Route::patch('{catalog}', 'CatalogsController@update');
+		Route::delete('{catalog}', 'CatalogsController@destroy');
+		
+	});
 
-		Route::get('types', 'TypeController@getTypes');
-		Route::get('type/{type}', 'TypeController@getType');
+	/*
+	|--------------------------------------------------------------------------
+	| Customers Group (Keep those customers happy)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'customers'], function() {
 
+		Route::get('/', 'CustomersController@index');
+		Route::post('/', 'CustomersController@store');
+		Route::get('{customer}', 'CustomersController@show');
+		Route::patch('{customer}', 'CustomersController@update');
+		Route::delete('{customer}', 'CustomersController@destroy');
+		
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Email Group (Send out pre-formatted emails)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'email'], function() {
+
+		Route::post('invoice/{invoice}', 'EmailController@invoice');
+		
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Inventory Group (Control the inventory)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'inventory'], function() {
+
+		Route::get('/', 'InventoryController@index');
+		Route::post('/', 'InventoryController@store');
+		Route::get('{item}', 'InventoryController@show');
+		Route::patch('{item}', 'InventoryController@update');
+		Route::delete('{item}', 'InventoryController@destroy');
+		
+		Route::get('{item}/variants', 'ItemVariantsController@index');
+		Route::post('{item}/variants', 'ItemVariantsController@store');
+		Route::get('variants/{variant}', 'ItemVariantsController@show');
+		Route::post('variants/{variant}', 'ItemVariantsController@update');
+		Route::delete('variants/{variant}', 'ItemVariantsController@destroy');
+
+		Route::get('{item}/images', 'InventoryImageController@show');
+		Route::post('{item}/images', 'InventoryImageController@store');
+		Route::delete('{item}/images', 'InventoryImageController@destroy');
+
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Invoices Group (View/Modify customer invoices)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'invoices'], function() {
+
+		Route::get('/', 'InvoicesController@index');
+		Route::post('/', 'InvoicesController@store');
+		Route::get('{invoice}', 'InvoicesController@show');
+		Route::patch('{invoice}', 'InvoicesController@update');
+		Route::delete('{invoice}', 'InvoicesController@destroy');
+
+		Route::get('{invoice}/cart', 'InvoicesCartController@index');
+		Route::post('{invoice}/cart', 'InvoicesCartController@store');
+		Route::get('cart/{item}', 'InvoicesCartController@show');
+		Route::post('cart/{item}', 'InvoicesCartController@update');
+		Route::delete('cart/{item}', 'InvoicesCartController@destroy');
+		
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Pages Group (Modify indevidual pages)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'pages'], function() {
+
+		Route::get('/', 'PagesController@index');
+		Route::post('/', 'PagesController@store');
+		Route::get('{page}', 'PagesController@show')->where(['page' => '.*']);
+		Route::patch('{page}', 'PagesController@update');
+		Route::delete('{page}', 'PagesController@destroy');
+		
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Settings Group (Configure the system)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'settings'], function() {
+
+		Route::get('/', 'SettingsController@index');
+		Route::post('/', 'SettingsController@store');
+		Route::get('{setting}', 'SettingsController@show');
+		Route::patch('{setting}', 'SettingsController@patch');
+		Route::delete('{setting}', 'SettingsController@destroy');
+		
 	});
 
 	/*
@@ -47,98 +162,95 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	*/
 	Route::group(['prefix' => 'storage'], function() {
 
-		Route::get('images', 'ImageController@getImages');
-		Route::post('images', 'ImageController@postImage');
-		Route::delete('images/{path}', 'ImageController@deleteImage')->where(['path' => '.*']);
+		Route::get('/', 'ImageController@index');
+		Route::post('/', 'ImageController@store');
+		Route::delete('/', 'ImageController@destroy');
+		
+	});
 
-		Route::get('inventory', 'InventoryImageController@getImages');
-		Route::get('inventory/{item_id}', 'InventoryImageController@getItemImages');
+	/*
+	|--------------------------------------------------------------------------
+	| User Group (Handling admin users)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'users'], function() {
+
+		Route::get('/', 'UsersController@index');
+		Route::get('{user}', 'UsersController@show');
+
+		Route::get('whoami', 'UsersController@self');
+		
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Tags Group (Retrieve tags and tag usage)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'tags'], function() {
+
+		Route::get('/', 'TagsController@index');
+		
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Todo Group (Handles user todos)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'todos'], function() {
+
+		Route::get('/', 'TodosController@index');
+		Route::post('/', 'TodosController@store');
+		Route::delete('/', 'TodosController@destroy');
+		
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Types Group (Return static type data)
+	|--------------------------------------------------------------------------
+	*/
+	Route::group(['prefix' => 'types'], function() {
+
+		Route::get('/', 'TypesController@index');
+		Route::get('{type_name}', 'TypesController@show');
 		
 	});
 });
 
-// OLD ROUTES
-// // Session Info
-// Route::group(['prefix' => 'session'], function() {
-// 	Route::get('/', 'SessionController@getSession');
-// 	Route::get('/cart', 'SessionController@getCart');
-// 	Route::post('/cart-item', 'SessionController@addCartItem');
-// 	Route::delete('/cart', 'SessionController@getTags');
-// });
 
-// // Authentication
-// Route::group(['prefix' => 'auth'], function() {
-// 	Route::get('login', 'Auth\AuthController@getLogin');
-// 	Route::post('login', 'Auth\AuthController@postLogin');
-// 	Route::get('logout', 'Auth\AuthController@getLogout');
-// });
+/*
+|--------------------------------------------------------------------------
+| Search Routes (ElasticSearch Resources)
+|--------------------------------------------------------------------------
+*/
 
-// /*
-//  | The admin panel is accessable from domain/admin
-//  */
-// Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
-	
-// 	Route::get('/', function() { return view('admin.home'); });
-// 	Route::get('user', function() { return Auth::user(); });
+Route::group(['domain' => 'search.'.env('STORE_DOMAIN')], function() {
 
-// 	// USER
-// 	Route::post('/register', 'Admin\UsersController@register');
-// 	Route::get('/users', 'Admin\UsersController@getUsers');
-// 	Route::post('/users/privilege', 'Admin\UsersController@changePrivilege');
+	Route::post('/item', 'SearchController@items');
 
-// 	// USER_TODOS
-// 	Route::resource('todos', 'Admin\TodosController', ['except' => ['edit', 'create']]);
+});
 
-// 	// INVOICES
-// 	Route::get('/invoices/cart/{invoice_id}', 'Admin\InvoicesController@getCart'); // TODO, wrap into resources
-// 	Route::post('/invoices/email', 'Admin\InvoicesController@sendEmail');
-// 	Route::resource('invoices', 'Admin\InvoicesController', ['except' => ['edit', 'create']]);
-// 	Route::resource('invoices-cart', 'Admin\InvoicesCartController', ['except' => ['edit', 'create']]);
-	
-// 	// INVENTORY
-// 	Route::resource('inventory', 'Admin\InventoryController', ['except' => ['edit', 'create']]);
 
-// 	// PAGES
-// 	Route::patch('/pages', 'Admin\PagesController@updateAll');
-// 	Route::post('/page', 'Admin\PagesController@postPage');
-// 	Route::get('/page/{id}', 'Admin\PagesController@getPage');
-// 	Route::get('/upload', 'Admin\PagesController@getUploadedFiles');
-// 	Route::post('/upload', 'Admin\PagesController@uploadFile');
-// 	Route::delete('/upload', 'Admin\PagesController@deleteFile');
-// 	Route::post('/upload/directory', 'Admin\PagesController@createDirectory');
-// 	Route::delete('/upload/directory', 'Admin\PagesController@deleteDirectory');
-// 	Route::resource('pages', 'Admin\PagesController', ['except' => ['edit', 'create']]);
+/*
+|--------------------------------------------------------------------------
+| Admin panel
+|--------------------------------------------------------------------------
+*/
 
-// 	// CATALOGS
-// 	Route::patch('/catalogs', 'Admin\CatalogsController@updateAll');
-// 	Route::resource('catalogs', 'Admin\CatalogsController', ['except' => ['edit', 'create']]);
+Route::group(['domain' => 'admin.'.env('STORE_DOMAIN')], function() {
 
-// 	// CUSTOMERS
-// 	Route::resource('customers', 'Admin\CustomersController', ['except' => ['edit', 'create']]);
+	Route::get('/', 'AdminController@home');
 
-// 	// DATATABLES
-// 	Route::get('/datatables/invoices', 'DatatablesController@getInvoices');
-// 	Route::get('/datatables/activeinvoices', 'DatatablesController@getActiveInvoices');
-// 	Route::get('/datatables/archivedinvoices', 'DatatablesController@getArchivedInvoices');
-// 	Route::get('/datatables/inventory', 'DatatablesController@getInventory');
+});
 
-// 	// UPLOADS
-// 	Route::post('/inventory/pic-upload', 'Admin\InventoryController@uploadPics'); // TODO, move to upload controller
-// });
 
-// Route::group(['prefix' => 'api'], function() {
-// 	Route::get('/settings', 'PublicController@getSettings');
-// 	Route::get('/page/{page}', 'PublicController@getPage')->where(['page' => '.*']);
-// 	Route::get('/catalog', 'PublicController@getCatalogs');
-// 	Route::post('/catalog', 'PublicController@searchCatalogs');
-// 	Route::get('/catalog/{catalog}', 'PublicController@getCatalog');
-// 	Route::post('/catalog/{catalog}', 'PublicController@searchCatalog');
-// 	Route::get('/item/{item}', 'PublicController@getItem');
-// 	Route::post('/search/item-tags', 'PublicController@searchItemsTags');
-// 	Route::post('/search/items', 'PublicController@searchItems');
-// 	Route::post('/test/cart', 'PublicController@testCart');
-// 	Route::post('/submit/invoice', 'PublicController@submitInvoice');
-// });
+/*
+|--------------------------------------------------------------------------
+| Storefront Routes
+|--------------------------------------------------------------------------
+*/
 
-// Route::get('/', function() { return redirect('home'); });
-// Route::get('/{path}', 'PublicController@getHome')->where(['path' => '.*']);
+Route::get('/', function() { return redirect('home'); });
+Route::get('/{path}', 'StoreController@home')->where(['path' => '.*']);

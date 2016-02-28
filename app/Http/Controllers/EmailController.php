@@ -7,20 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ImageController extends Controller
+class EmailController extends Controller
 {
-	public function index() 
+	public function invoice()
 	{
 
-	}
-
-	public function store()
-	{
-
-	}
-
-	public function destroy()
-	{
-		
 	}
 }
