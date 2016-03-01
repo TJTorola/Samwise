@@ -17,6 +17,14 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('root')->default(0);
+            $table->boolean('admin')->default(0);
+            $table->boolean('catalogs')->default(0);
+            $table->boolean('customers')->default(0);
+            $table->boolean('inventory')->default(0);
+            $table->boolean('invoices')->default(0);
+            $table->boolean('pages')->default(0);
+            $table->string('home')->default('/');
             $table->rememberToken();
             $table->timestamps();
         });

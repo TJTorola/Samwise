@@ -28,7 +28,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'http://admin.samwise.lcl';
 
     /**
      * Create a new authentication controller instance.
