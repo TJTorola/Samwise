@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\ItemVariants\UpdateRequest;
+
 class ItemVariantsController extends Controller
 {
 	public function index()
@@ -19,7 +21,7 @@ class ItemVariantsController extends Controller
 		
 	}
 
-	public function update()
+	public function update(UpdateRequest $request)
 	{
 		
 	}

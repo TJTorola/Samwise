@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Invoices\StoreRequest;
+use App\Http\Requests\Invoices\UpdateRequest;
+use App\Http\Requests\Invoices\StoreItemRequest;
+
 class InvoicesController extends Controller
 {
 	public function index()
@@ -14,7 +18,7 @@ class InvoicesController extends Controller
 
 	}
 
-	public function store()
+	public function store(StoreRequest $request)
 	{
 		
 	}
@@ -24,7 +28,7 @@ class InvoicesController extends Controller
 		
 	}
 
-	public function update()
+	public function update(UpdateRequest $request)
 	{
 		
 	}
@@ -39,7 +43,7 @@ class InvoicesController extends Controller
 
 	}
 
-	public function storeItem()
+	public function storeItem(StoreItemRequest $request)
 	{
 		
 	}

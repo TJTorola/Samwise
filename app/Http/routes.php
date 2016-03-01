@@ -84,11 +84,11 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	| Images Group (Manage store images)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('images', 'ImageController@index');
+	Route::get('images', 'ImagesController@index');
 	Route::group(['prefix' => 'image'], function() {
 
-		Route::post('/', 'ImageController@store');
-		Route::delete('/', 'ImageController@destroy');
+		Route::post('/', 'ImagesController@store');
+		Route::delete('/', 'ImagesController@destroy');
 		
 	});
 
