@@ -9,8 +9,13 @@ use App\Http\Controllers\Controller;
 
 class TagsController extends Controller
 {
-	public function index()
-	{
-		
-	}
+	/**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {
+    //
+  }
 }

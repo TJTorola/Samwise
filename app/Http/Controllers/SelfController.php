@@ -11,10 +11,16 @@ use App\Http\Requests\Pages\StoreTodoRequest;
 
 class SelfController extends Controller
 {
-	public function show()
-	{
-
-	}
+	/**
+   * Display the specified resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function show($id)
+  {
+    //
+  }
 
 	public function indexTodos()
 	{
