@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        Model::unguard();
+
+        DB::table('users')->delete();
+
+        $users = array(
+                ['name' => 'Tyler Torola', 'email' => 'tyler@tjt.codes', 'password' => Hash::make('password')],
+                ['name' => 'Bobby Anderson', 'email' => 'bobby@pangolin4x4.com', 'password' => Hash::make("Y0da'sdick")],
+                ['name' => 'Ike Goss', 'email' => 'pangolin4x4@aol.com', 'password' => Hash::make('yodadick')],
+        );
+            
+        // Loop through each user above and create the record for them in the database
+        foreach ($users as $user)
+        {
+            User::create($user);
+        }
+
+        Model::reguard();
     }
 }

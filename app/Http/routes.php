@@ -8,6 +8,23 @@
 
 Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 
+	/**
+	 * Authentication Middleware:
+	 * auth
+	 * auth:admin
+	 * auth:catalogs
+	 * auth:customers
+	 * auth:inventory
+	 * auth:invoices
+	 * auth:pages
+	 * 
+	 * Apply to groups, ex:
+	 * Route::group(['prefix' => 'group', 'middleware' => 'auth'], function() {});
+	 * 
+	 * Or routes, ex:
+	 * Route::post('/', 'AuthController@login')->middleware('auth:admin');
+	 */
+
 	/*
 	|--------------------------------------------------------------------------
 	| Auth Group (Handling authentication)
@@ -15,7 +32,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	*/
 	Route::group(['prefix' => 'auth'], function() {
 
-		Route::post('login', 'AuthController@login');
+		Route::post('/', 'AuthController@login');
 		Route::get('logout', 'AuthController@logout');
 		Route::post('register', 'AuthController@register');
 
@@ -173,13 +190,13 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	| User Group (Handling admin users)
 	|--------------------------------------------------------------------------
 	*/
-	Route::group(['prefix' => 'users'], function() {
+	Route::group(['prefix' => 'users', 'middleware' => 'auth'], function() {
+
+		Route::get('/whoami', 'UsersController@self');
 
 		Route::get('/', 'UsersController@index');
 		Route::get('{user}', 'UsersController@show');
 
-		Route::get('whoami', 'UsersController@self');
-		
 	});
 
 	/*

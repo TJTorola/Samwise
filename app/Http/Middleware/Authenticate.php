@@ -3,7 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+
+use JWTAuth;
 
 class Authenticate
 {
@@ -15,13 +16,36 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, $roll = 'user')
     {
-        if (Auth::guard($guard)->guest()) {
-            if ($request->ajax() || $request->wantsJson()) {
-                return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
+        // Check if logged in
+        if (!$user = JWTAuth::parseToken()->authenticate()) {
+            return response()->json('User is unauthorized.', 401);
+        }
+
+        if ($roll == 'admin') {
+            if (!$user->admin && !$user->root) {
+                return response()->json('User is forbidden.', 403);
+            }
+        } else if ($roll == 'catalogs') {
+            if (!$user->admin && !$user->root && !$user->catalogs) {
+                return response()->json('User is forbidden.', 403);
+            }
+        } else if ($roll == 'customers') {
+            if (!$user->admin && !$user->root && !$user->customers) {
+                return response()->json('User is forbidden.', 403);
+            }
+        } else if ($roll == 'inventory') {
+            if (!$user->admin && !$user->root && !$user->inventory) {
+                return response()->json('User is forbidden.', 403);
+            }
+        } else if ($roll == 'invoices') {
+            if (!$user->admin && !$user->root && !$user->invoices) {
+                return response()->json('User is forbidden.', 403);
+            }
+        } else if ($roll == 'pages') {
+            if (!$user->admin && !$user->root && !$user->pages) {
+                return response()->json('User is forbidden.', 403);
             }
         }
 
