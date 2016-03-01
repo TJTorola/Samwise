@@ -75,7 +75,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	*/
 	Route::group(['prefix' => 'email'], function() {
 
-		Route::get('invoice/{invoice}', 'EmailController@invoice');
+		Route::post('invoice/{invoice}', 'EmailController@invoice');
 		
 	});
 
@@ -233,7 +233,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 
 		Route::post('/', 'UsersController@store');
 		Route::get('{user}', 'UsersController@show');
-		Route::patch('{user}', 'UsersController@patch');
+		Route::patch('{user}', 'UsersController@update');
 		Route::delete('{user}', 'UsersController@destroy');
 
 	});
