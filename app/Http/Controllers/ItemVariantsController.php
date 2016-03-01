@@ -14,11 +14,6 @@ class ItemVariantsController extends Controller
 
 	}
 
-	public function store()
-	{
-		
-	}
-
 	public function show()
 	{
 		

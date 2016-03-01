@@ -7,19 +7,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class InventoryImageController extends Controller
+class SelfController extends Controller
 {
 	public function show()
+	{
+
+	}
+
+	public function indexTodos()
 	{
 		
 	}
 
-	public function store()
+	public function storeTodo()
 	{
-
+		
 	}
 
-	public function destroy()
+	public function destroyTodo()
 	{
 		
 	}
