@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Catalogs\StoreRequest;
+use App\Http\Requests\Catalogs\UpdateRequest;
+use App\Http\Requests\Catalogs\StoreVariantRequest;
+use App\Http\Requests\Catalogs\StoreImageRequest;
+use App\Http\Requests\Catalogs\UpdateImageRequest;
+
 class ItemsController extends Controller
 {
 	public function index()
@@ -14,7 +20,7 @@ class ItemsController extends Controller
 
 	}
 
-	public function store()
+	public function store(StoreRequest $request)
 	{
 		
 	}
@@ -24,7 +30,7 @@ class ItemsController extends Controller
 		
 	}
 
-	public function update()
+	public function update(UpdateRequest $request)
 	{
 		
 	}
@@ -39,7 +45,7 @@ class ItemsController extends Controller
 
 	}
 
-	public function storeVariant()
+	public function storeVariant(StoreVariantRequest $request)
 	{
 
 	}
@@ -49,12 +55,12 @@ class ItemsController extends Controller
 
 	}
 
-	public function storeImage()
+	public function storeImage(StoreImageRequest $request)
 	{
 
 	}
 
-	public function updateImage()
+	public function updateImage(UpdateImageRequest $request)
 	{
 
 	}

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Settings\StoreRequest;
+use App\Http\Requests\Settings\UpdateRequest;
+
 class SettingsController extends Controller
 {
 	public function index()
@@ -14,7 +17,7 @@ class SettingsController extends Controller
 
 	}
 
-	public function store()
+	public function store(StoreRequest $request)
 	{
 		
 	}
@@ -24,7 +27,7 @@ class SettingsController extends Controller
 		
 	}
 
-	public function update()
+	public function update(UpdateRequest $request)
 	{
 		
 	}

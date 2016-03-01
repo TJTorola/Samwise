@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Pages\StoreTodoRequest;
+
 class SelfController extends Controller
 {
 	public function show()
@@ -19,7 +21,7 @@ class SelfController extends Controller
 		
 	}
 
-	public function storeTodo()
+	public function storeTodo(StoreTodoRequest $request)
 	{
 		
 	}

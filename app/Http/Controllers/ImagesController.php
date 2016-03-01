@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ImageController extends Controller
+use App\Http\Requests\Images\StoreRequest;
+
+class ImagesController extends Controller
 {
 	public function index() 
 	{
 
 	}
 
-	public function store()
+	public function store(StoreRequest $request)
 	{
 
 	}
