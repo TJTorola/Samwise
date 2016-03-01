@@ -13,7 +13,7 @@ class RegisterRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
