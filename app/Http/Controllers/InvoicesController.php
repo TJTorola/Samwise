@@ -33,4 +33,14 @@ class InvoicesController extends Controller
 	{
 		
 	}
+
+	public function indexItems()
+	{
+
+	}
+
+	public function storeItem()
+	{
+		
+	}
 }

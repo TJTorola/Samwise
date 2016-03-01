@@ -7,24 +7,30 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\Users\Index;
-
-use JWTAuth;
-
 class UsersController extends Controller
 {
-	public function index(Index $request)
+	public function index()
 	{
-		return 'here';
+
 	}
 
-	public function show($user)
+	public function store()
 	{
-		return $user;
+		
 	}
 
-	public function self()
+	public function show()
 	{
-    return JWTAuth::parseToken()->toUser();
+		
+	}
+
+	public function update()
+	{
+		
+	}
+
+	public function destroy()
+	{
+		
 	}
 }
