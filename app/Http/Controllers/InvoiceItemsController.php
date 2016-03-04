@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\InvoiceItems\UpdateRequest;
 
+use App\Search;
+use App\InvoiceItems;
+
 class InvoiceItemsController extends Controller
 {
 	/**
@@ -16,9 +19,9 @@ class InvoiceItemsController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request, Search $search)
   {
-    //
+    return $search->chunk('invoice-items', $request);
   }
 
   /**

@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\StoreRequest;
 use App\Http\Requests\Users\UpdateRequest;
 
+use App\Search;
+use App\Users;
+
 class UsersController extends Controller
 {
 	/**
@@ -17,9 +20,9 @@ class UsersController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request, Search $search)
   {
-    //
+    return $search->chunk('users', $request);
   }
 
   /**
