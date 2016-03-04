@@ -17,7 +17,7 @@ class CreateCatalogsTable extends Migration
             $table->string('name');
             $table->integer('sorting')->unsigned();
             $table->boolean('label')->default(0);
-            $table->text('description')->nullable()->default(null);
+            $table->text('description')->default("");
             $table->string('tags', 511)->default("");
             $table->timestamps();
         });

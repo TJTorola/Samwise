@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTodosTable extends Migration
+class CreateUserTodosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateUsersTodosTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_todos', function (Blueprint $table) {
+        Schema::create('user_todos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->boolean('completed')->default(0);
@@ -33,6 +33,6 @@ class CreateUsersTodosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users_todos');
+        Schema::drop('user_todos');
     }
 }
