@@ -11,6 +11,9 @@ use App\Http\Requests\Invoices\StoreRequest;
 use App\Http\Requests\Invoices\UpdateRequest;
 use App\Http\Requests\Invoices\StoreItemRequest;
 
+use App\Search;
+use App\Invoices;
+
 class InvoicesController extends Controller
 {
 	/**
@@ -18,9 +21,9 @@ class InvoicesController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request, Search $search)
   {
-    //
+    return $search->chunk('invoices', $request);
   }
 
   /**

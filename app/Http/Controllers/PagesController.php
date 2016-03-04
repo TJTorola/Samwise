@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Pages\StoreRequest;
 use App\Http\Requests\Pages\UpdateRequest;
 
+use App\Search;
+use App\Pages;
+
 class PagesController extends Controller
 {
 	/**
@@ -17,9 +20,9 @@ class PagesController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request, Search $search)
   {
-    //
+    return $search->chunk('pages', $request);
   }
 
   /**

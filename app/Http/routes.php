@@ -239,20 +239,6 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	});
 });
 
-
-/*
-|--------------------------------------------------------------------------
-| Search Routes (ElasticSearch Resources)
-|--------------------------------------------------------------------------
-*/
-
-Route::group(['domain' => 'search.'.env('STORE_DOMAIN')], function() {
-
-	Route::post('/item', 'SearchController@items');
-
-});
-
-
 /*
 |--------------------------------------------------------------------------
 | Admin panel

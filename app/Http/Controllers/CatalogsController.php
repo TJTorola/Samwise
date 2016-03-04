@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalogs\StoreRequest;
 use App\Http\Requests\Catalogs\UpdateRequest;
 
+use App\Search;
+use App\Catalogs;
+
 class CatalogsController extends Controller
 {
 	/**
@@ -17,9 +20,9 @@ class CatalogsController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request, Search $search)
   {
-    //
+    return $search->chunk('catalogs', $request);
   }
 
   /**
