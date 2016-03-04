@@ -14,19 +14,32 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        $faker = Faker::create();
 
-        DB::table('users')->delete();
+        // DB::table('users')->delete();
 
-        $users = array(
-                ['name' => 'Tyler Torola', 'email' => 'tyler@tjt.codes', 'password' => Hash::make('password')],
-                ['name' => 'Bobby Anderson', 'email' => 'bobby@pangolin4x4.com', 'password' => Hash::make("Y0da'sdick")],
-                ['name' => 'Ike Goss', 'email' => 'pangolin4x4@aol.com', 'password' => Hash::make('yodadick')],
-        );
+        // $users = array(
+        //         ['name' => 'Tyler Torola', 'email' => 'tyler@tjt.codes', 'password' => Hash::make('password')],
+        //         ['name' => 'Bobby Anderson', 'email' => 'bobby@pangolin4x4.com', 'password' => Hash::make("Y0da'sdick")],
+        //         ['name' => 'Ike Goss', 'email' => 'pangolin4x4@aol.com', 'password' => Hash::make('yodadick')],
+        // );
             
-        // Loop through each user above and create the record for them in the database
-        foreach ($users as $user)
-        {
-            User::create($user);
+        // // Loop through each user above and create the record for them in the database
+        // foreach ($users as $user)
+        // {
+        //     User::create($user);
+        // }
+
+        // foreach (range(1,10) as $index) {
+        //     $invoice = [
+        //         'first_name' => $faker->firstName,
+        //         'last_name' => $faker->lastName,
+
+        //     ]
+        // }
+
+        foreach (range(1,10) as $index) {
+            
         }
 
         Model::reguard();

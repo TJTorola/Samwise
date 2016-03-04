@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoicesCartTable extends Migration
+class CreateInvoiceItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,20 +12,14 @@ class CreateInvoicesCartTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices_cart', function (Blueprint $table) {
+        Schema::create('invoice_items', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invoice_id')->unsigned();
-            $table->integer('inventory_stock_id')->unsigned()->nullable()->default(null);
+            $table->integer('item_variant_id')->unsigned()->nullable()->default(null);
             $table->string('name');
-            $table->float('weight')->nullable()->default(null);
-            $table->float('x')->nullable()->default(null);
-            $table->float('y')->nullable()->default(null);
-            $table->float('z')->nullable()->default(null);
-            $table->boolean('oversized')->nullable()->default(null);
-            $table->float('shipping_cost')->nullable()->default(null);
             $table->integer('count');
             $table->float('price');
-            $table->string('unit')->default('unit');
+            $table->string('unit');
             $table->timestamps();
 
             $table->foreign('invoice_id')
@@ -33,9 +27,9 @@ class CreateInvoicesCartTable extends Migration
                   ->on('invoices')
                   ->onDelete('cascade');
 
-            $table->foreign('inventory_stock_id')
+            $table->foreign('item_variant_id')
                   ->references('id')
-                  ->on('invoices')
+                  ->on('item_variants')
                   ->onDelete('set null');
         });
     }
@@ -47,6 +41,6 @@ class CreateInvoicesCartTable extends Migration
      */
     public function down()
     {
-        Schema::drop('invoices_cart');
+        Schema::drop('invoice_items');
     }
 }
