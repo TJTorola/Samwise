@@ -12,7 +12,6 @@ class Invoice extends Model
    * @var array
    */
   protected $appends = [];
-
   /**
    * The attributes that should be casted to native types.
    *
