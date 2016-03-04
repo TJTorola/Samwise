@@ -18,7 +18,8 @@ class CreateItemsTable extends Migration
             $table->string('type');
             $table->text('type_info')->default("");
             $table->boolean('public')->default(1);
-            $table->text('description')->default("");
+            $table->string('description', 2047)->default("");
+            $table->text('long_description')->default("");
             $table->string('tags', 511)->default("");
             $table->float('x')->default(0);
             $table->float('y')->default(0);
