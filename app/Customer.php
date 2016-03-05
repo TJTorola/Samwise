@@ -4,8 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Elasticquent\ElasticquentTrait;
+
 class Customer extends Model
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Eloquent Configuration
+  |--------------------------------------------------------------------------
+  */
+
 	/**
    * The accessors to append to the model's array form.
    *
@@ -26,6 +34,12 @@ class Customer extends Model
    * @var array
    */
   protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next'];
+
+  /*
+  |--------------------------------------------------------------------------
+  | Computed Properties
+  |--------------------------------------------------------------------------
+  */
 
   /**
    * Retrieve the prev item
@@ -49,5 +63,25 @@ class Customer extends Model
       $next_id = Customer::all()->min('id');
     }
     return "/customer/$next_id";
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Elastiquent Configuration
+  |--------------------------------------------------------------------------
+  */
+  use ElasticquentTrait;
+
+  /**
+   * Set mapping properties
+   */
+  protected $mappingProperties = array();
+
+  /**
+   * Modify index model as it goes into ES
+   */
+  function getIndexDocumentData()
+  {
+    
   }
 }

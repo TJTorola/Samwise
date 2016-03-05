@@ -4,8 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Elasticquent\ElasticquentTrait;
+
 class Invoice extends Model
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Eloquent Configuration
+  |--------------------------------------------------------------------------
+  */
+
 	/**
    * The accessors to append to the model's array form.
    *
@@ -26,6 +34,12 @@ class Invoice extends Model
    */
   protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next'];
 
+  /*
+  |--------------------------------------------------------------------------
+  | Eloquent Relations
+  |--------------------------------------------------------------------------
+  */
+
   /**
    * An item can have many items
    */
@@ -33,6 +47,12 @@ class Invoice extends Model
   {
       return $this->hasMany('App\InvoiceItem');
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Computed Properties
+  |--------------------------------------------------------------------------
+  */
 
   /**
    * Retrieve the prev item
@@ -56,5 +76,25 @@ class Invoice extends Model
       $next_id = Invoice::all()->min('id');
     }
     return "/invoice/$next_id";
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Elastiquent Configuration
+  |--------------------------------------------------------------------------
+  */
+  use ElasticquentTrait;
+
+  /**
+   * Set mapping properties
+   */
+  protected $mappingProperties = array();
+
+  /**
+   * Modify index model as it goes into ES
+   */
+  function getIndexDocumentData()
+  {
+    
   }
 }
