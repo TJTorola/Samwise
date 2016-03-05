@@ -4,8 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Elasticquent\ElasticquentTrait;
+
 class ItemVariant extends Model
 {
+  /*
+  |--------------------------------------------------------------------------
+  | Eloquent Configuration
+  |--------------------------------------------------------------------------
+  */
+
 	/**
    * The accessors to append to the model's array form.
    *
@@ -26,6 +34,12 @@ class ItemVariant extends Model
    */
   protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next'];
 
+  /*
+  |--------------------------------------------------------------------------
+  | Eloquent Relations
+  |--------------------------------------------------------------------------
+  */
+
   /**
    * An variant belongs to one item
    */
@@ -33,6 +47,12 @@ class ItemVariant extends Model
   {
       return $this->belongsTo('App\Item');
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Computed Properties
+  |--------------------------------------------------------------------------
+  */
 
   /**
    * Retrieve the prev item
@@ -56,5 +76,25 @@ class ItemVariant extends Model
       $next_id = ItemVariant::all()->min('id');
     }
     return "/item-variant/$next_id";
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Elastiquent Configuration
+  |--------------------------------------------------------------------------
+  */
+  use ElasticquentTrait;
+
+  /**
+   * Set mapping properties
+   */
+  protected $mappingProperties = array();
+
+  /**
+   * Modify index model as it goes into ES
+   */
+  function getIndexDocumentData()
+  {
+    
   }
 }

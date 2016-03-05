@@ -149,6 +149,36 @@ class Search
     ];
   }
 
+  /**
+   * Index all the models that are set to be indexed.
+   */
+  public function index()
+  {
+  	// Customer index
+  	Customer::createIndex($shards = null, $replicas = null);
+  	Customer::putMapping($ignoreConflicts = true);
+
+  	// Invoice index
+  	Invoice::createIndex($shards = null, $replicas = null);
+  	Invoice::putMapping($ignoreConflicts = true);
+
+  	// Item index
+  	Item::createIndex($shards = null, $replicas = null);
+  	Item::putMapping($ignoreConflicts = true);
+
+  	// Item Variant index
+  	ItemVariant::createIndex($shards = null, $replicas = null);
+  	ItemVariant::putMapping($ignoreConflicts = true);
+  }
+
+  /**
+   * Refresh the index of all the models that are set to be indexed.
+   */
+  public function reindex()
+  {
+
+  }
+
   public function query($index, Request $request)
   {
     return 'Houston, we have ignition';
