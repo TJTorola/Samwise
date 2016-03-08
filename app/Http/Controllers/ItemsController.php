@@ -25,7 +25,7 @@ class ItemsController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('items', $request);
+    return $search->query('items', $request);
   }
 
   /**

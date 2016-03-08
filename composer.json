@@ -4,11 +4,17 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/TJTorola/Elasticquent.git"
+        }
+    ],
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "tymon/jwt-auth": "0.5.*",
-        "elasticquent/elasticquent": "1.0.5"
+        "elasticquent/elasticquent": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
