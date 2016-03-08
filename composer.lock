@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "db1b0f68971fb40c4706781677d81542",
-    "content-hash": "47365adcd795b923a7d4bed386cbb19f",
+    "hash": "8581b9f9b16388564d1a7422426ba1b2",
+    "content-hash": "acf2e52659c30573ceb3a7a5b9530606",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -163,26 +163,27 @@
         },
         {
             "name": "elasticquent/elasticquent",
-            "version": "v1.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/elasticquent/Elasticquent.git",
-                "reference": "893468a09b31c65d6e97226d9d2099768d300ad8"
+                "url": "https://github.com/TJTorola/Elasticquent.git",
+                "reference": "0fa2563584392c70241fbe5f7f04edc404617ffe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elasticquent/Elasticquent/zipball/893468a09b31c65d6e97226d9d2099768d300ad8",
-                "reference": "893468a09b31c65d6e97226d9d2099768d300ad8",
+                "url": "https://api.github.com/repos/TJTorola/Elasticquent/zipball/0fa2563584392c70241fbe5f7f04edc404617ffe",
+                "reference": "0fa2563584392c70241fbe5f7f04edc404617ffe",
                 "shasum": ""
             },
             "require": {
                 "elasticsearch/elasticsearch": ">1.0 <2.1",
-                "illuminate/config": "~4.2|~5.2",
-                "illuminate/database": "~4.2|~5.2",
+                "illuminate/config": "~4.2|^5",
+                "illuminate/database": "~4.2|^5",
                 "nesbot/carbon": "~1.0",
                 "php": ">=5.4.0"
             },
             "require-dev": {
+                "mockery/mockery": "^0.9.4",
                 "phpunit/phpunit": "~5.0"
             },
             "type": "library",
@@ -196,7 +197,6 @@
                     "Elasticquent\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -214,7 +214,10 @@
                 "eloquent",
                 "laravel"
             ],
-            "time": "2016-01-27 05:03:47"
+            "support": {
+                "source": "https://github.com/TJTorola/Elasticquent/tree/master"
+            },
+            "time": "2016-03-05 07:15:44"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -3471,7 +3474,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "elasticquent/elasticquent": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
