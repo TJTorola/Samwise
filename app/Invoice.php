@@ -95,6 +95,6 @@ class Invoice extends Model
    */
   function getIndexDocumentData()
   {
-    
+
   }
 }
