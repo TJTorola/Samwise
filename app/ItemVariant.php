@@ -95,6 +95,6 @@ class ItemVariant extends Model
    */
   function getIndexDocumentData()
   {
-    
+
   }
 }
