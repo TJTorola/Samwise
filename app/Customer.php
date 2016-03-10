@@ -80,8 +80,8 @@ class Customer extends Model
   /**
    * Modify index model as it goes into ES
    */
-  function getIndexDocumentData()
-  {
-    
-  }
+  // function getIndexDocumentData()
+  // {
+  //
+  // }
 }
