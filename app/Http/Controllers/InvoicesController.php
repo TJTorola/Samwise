@@ -23,7 +23,7 @@ class InvoicesController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('invoices', $request);
+    return $search->query('invoices', $request);
   }
 
   /**
@@ -78,6 +78,6 @@ class InvoicesController extends Controller
 
 	public function storeItem(StoreItemRequest $request)
 	{
-		
+
 	}
 }
