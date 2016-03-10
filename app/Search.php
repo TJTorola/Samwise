@@ -62,7 +62,7 @@ class Search
   static public function reindex()
   {}
 
-  public function query($index, QueryRequest $request)
+  public function query($index, Request $request)
   {
     // validate the request
     // Set index specific variables
@@ -89,12 +89,17 @@ class Search
       // and the particular chunk asked for
     $searchable = ['customers', 'invoices', 'items', 'item-variants'];
     if (in_array($index, $searchable)) {
-      $response = $this.search($index, $request);
+      $response = $this->search($index, $request);
     } else {
-      $response = $this.collect($index, $request);
+      $response = $this->collect($index, $request);
     }
 
-    return $response;
+    // unpack response
+    $page = $response['_page'];
+    $limit = $response['_limit'];
+    $pages = $response['pages'];
+    $length = $response['length'];
+    $body = $response['body'];
 
     // chunk and format the response
     // calculate next page
@@ -154,6 +159,12 @@ class Search
       $prev = "$base_href";
     }
 
+    // if there is only one page, set next/prev to null
+    if ($pages <= 1) {
+      $prev = null;
+      $next = null;
+    }
+
     return [
     '_page' => $page,
     '_limit' => $limit,
@@ -169,8 +180,8 @@ class Search
   public function search($index, Request $request)
   {
     // If there is no query, just collect the items
-    if ($request->has('_query')) {
-      return $this.collect($index, $request);
+    if (!$request->has('_query')) {
+      return $this->collect($index, $request);
     }
 
     // Take the query and brake it into an array for ES
@@ -189,22 +200,45 @@ class Search
     }
     array_push($query['bool']['should'], [ "prefix" => ["_all" => $prefix ]]);
 
+    // set defaults
+    $page = 0;
+    $limit = env('STORE_COLLECTION_LIMIT', 25);
+
+    // set requested page/limit
+    if ($request->has('_page')) {
+      $page = $request->_page;
+    }
+    if ($request->has('_limit')) {
+      $limit = $request->_limit;
+    }
+
+    // ES uses offset rather than chunks
+    $offset = $page * $limit;
+
     // search the appropriate index
     if ($index == 'customers') {
-      $results = Customer::searchByQuery($query);
+      $results = Customer::searchByQuery($query, $limit, $offset);
     } else if ($index == 'invoices') {
-      $results = Invoice::searchByQuery($query);
+      $results = Invoice::searchByQuery($query, $limit, $offset);
     } else if ($index == 'items') {
-      $results = Item::searchByQuery($query);
+      $results = Item::searchByQuery($query, $limit, $offset);
     } else if ($index == 'item-variants') {
-      $results = ItemVariant::searchByQuery($query);
+      $results = ItemVariant::searchByQuery($query, $limit, $offset);
     } else {
       return response()->json(['$index' => ['Chunking index was not found.']], 500);
     }
 
     // build/return the response
     $collection = collect($results->getItems());
-    return $collection;
+    $length = $results->totalHits();
+    $pages = ceil($length / $limit);
+    return [
+      '_page' => $page,
+      '_limit' => $limit,
+      'pages' => $pages,
+      'length' => $length,
+      'body' => $collection
+    ];
   }
 
   public function collect($index, Request $request)
@@ -255,8 +289,11 @@ class Search
     }
 
     return [
+      '_page' => $page,
+      '_limit' => $limit,
+      'pages' => $pages,
       'length' => $length,
       'body' => $collection
-    ]
+    ];
   }
 }
