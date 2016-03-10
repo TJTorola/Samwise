@@ -17,10 +17,10 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	 * auth:inventory
 	 * auth:invoices
 	 * auth:pages
-	 * 
+	 *
 	 * Apply to groups, ex:
 	 * Route::group(['prefix' => 'group', 'middleware' => 'auth'], function() {});
-	 * 
+	 *
 	 * Or routes, ex:
 	 * Route::post('/', 'AuthController@login')->middleware('auth:admin');
 	 */
@@ -50,7 +50,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 		Route::get('{catalog}', 'CatalogsController@show');
 		Route::patch('{catalog}', 'CatalogsController@update');
 		Route::delete('{catalog}', 'CatalogsController@destroy');
-		
+
 	});
 
 	/*
@@ -65,7 +65,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 		Route::get('{customer}', 'CustomersController@show');
 		Route::patch('{customer}', 'CustomersController@update');
 		Route::delete('{customer}', 'CustomersController@destroy');
-		
+
 	});
 
 	/*
@@ -76,7 +76,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	Route::group(['prefix' => 'email'], function() {
 
 		Route::post('invoice/{invoice}', 'EmailController@invoice');
-		
+
 	});
 
 	/*
@@ -89,7 +89,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 
 		Route::post('/', 'ImagesController@store');
 		Route::delete('/', 'ImagesController@destroy');
-		
+
 	});
 
 	/*
@@ -108,7 +108,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 		Route::get('{invoice}/cart', 'InvoicesController@indexItems');
 		Route::get('{invoice}/items', 'InvoicesController@indexItems');
 		Route::post('{invoice}/item', 'InvoicesController@storeItem');
-		
+
 	});
 
 	/*
@@ -139,7 +139,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 		Route::get('{item}', 'ItemsController@show');
 		Route::patch('{item}', 'ItemsController@update');
 		Route::delete('{item}', 'ItemsController@destroy');
-		
+
 		Route::get('{item}/variants', 'ItemsController@indexVariants');
 		Route::post('{item}/variant', 'ItemsController@storeVariant');
 
@@ -176,7 +176,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 		Route::get('{page_slug}', 'PagesController@show')->where(['page_slug' => '.*']);
 		Route::patch('{page}', 'PagesController@update');
 		Route::delete('{page}', 'PagesController@destroy');
-		
+
 	});
 
 	/*
@@ -205,7 +205,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 		Route::get('{setting}', 'SettingsController@show');
 		Route::patch('{setting}', 'SettingsController@update');
 		Route::delete('{setting}', 'SettingsController@destroy');
-		
+
 	});
 
 	/*

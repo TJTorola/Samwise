@@ -22,7 +22,7 @@ class UsersController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('users', $request);
+    return $search->query('users', $request);
   }
 
   /**
