@@ -21,7 +21,7 @@ class InvoiceItemsController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('invoice-items', $request);
+    return $search->query('invoice-items', $request);
   }
 
   /**

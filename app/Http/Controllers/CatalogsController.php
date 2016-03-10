@@ -22,7 +22,7 @@ class CatalogsController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('catalogs', $request);
+    return $search->query('catalogs', $request);
   }
 
   /**

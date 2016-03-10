@@ -22,7 +22,7 @@ class CustomersController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('customers', $request);
+    return $search->query('customers', $request);
   }
 
   /**

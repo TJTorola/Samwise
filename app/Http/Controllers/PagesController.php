@@ -22,7 +22,7 @@ class PagesController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('pages', $request);
+    return $search->query('pages', $request);
   }
 
   /**
