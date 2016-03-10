@@ -21,7 +21,7 @@ class ItemVariantsController extends Controller
    */
   public function index(Request $request, Search $search)
   {
-    return $search->chunk('item-variants', $request);
+    return $search->query('item-variants', $request);
   }
 
   /**
