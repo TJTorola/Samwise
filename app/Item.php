@@ -83,6 +83,69 @@ class Item extends Model
 
   /*
   |--------------------------------------------------------------------------
+  | Return Arrays
+  |--------------------------------------------------------------------------
+  */
+  public function publicArray()
+  {
+    if (!$this->public) {
+      return null;
+    }
+
+    $in_stock = false;
+
+    $variants = $this->variants;
+    foreach ($variants as $variant) {
+      $variant['stock'] = $variant['stock'] - $variant['store_reserve'];
+      if ($variant['infinite'] || $variant['stock'] > 0) {
+        $in_stock = true;
+      }
+      unset($variant['store_reserve']);
+      unset($variant['sold']);
+      unset($variant['created_at']);
+      unset($variant['updated_at']);
+    }
+
+    $return = $this->toArray();
+
+    unset($return['type_info']);
+    $return['tags'] = explode(',', $return['tags']);
+
+    $type_info = json_decode($this->type_info);
+    foreach ($type_info as $type_field => $value) {
+      $return[$type_field] = $value;
+    }
+
+    return $return;
+  }
+
+  public function privateArray()
+  {
+    $in_stock = false;
+
+    $variants = $this->variants;
+    foreach ($variants as $variant) {
+      if ($variant['infinite'] || $variant['stock'] > 0) {
+        $in_stock = true;
+      }
+    }
+
+    $return = $this->toArray();
+
+    unset($return['type_info']);
+    $return['tags'] = explode(',', $return['tags']);
+
+    $type_info = json_decode($this->type_info);
+    foreach ($type_info as $type_field => $value) {
+      $return[$type_field] = $value;
+    }
+
+    return $return;
+  }
+
+
+  /*
+  |--------------------------------------------------------------------------
   | Elastiquent Configuration
   |--------------------------------------------------------------------------
   */
@@ -103,36 +166,6 @@ class Item extends Model
    */
   function getIndexDocumentData()
   {
-    $in_stock = false;
-
-    $variants = $this->variants;
-    foreach ($variants as $variant) {
-      $variant['stock'] = $variant['stock'] - $variant['store_reserve'];
-      if ($variant['infinite'] || $variant['stock'] > 0) {
-        $in_stock = true;
-      }
-      unset($variant['store_reserve']);
-      unset($variant['sold']);
-      unset($variant['created_at']);
-      unset($variant['updated_at']);
-    }
-
-    $return = [
-      'id' => $this->id,
-      'name' => $this->name,
-      'description' => $this->description,
-      'tags' => explode(',', $this->tags),
-      'images' => $this->images,
-      'variants' => $variants,
-      'in_stock' => $in_stock,
-      'updated' => $this->updated_at->getTimestamp()
-    ];
-
-    $type_info = json_decode($this->type_info);
-    foreach ($type_info as $type_field => $value) {
-      $return[$type_field] = $value;
-    }
-
-    return $return;
+    return $this->publicArray();
   }
 }

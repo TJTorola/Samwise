@@ -94,8 +94,6 @@ class Search
       $response = $this->collect($index, $request);
     }
 
-    return $response;
-
     // unpack response
     $page = $response['_page'];
     $limit = $response['_limit'];

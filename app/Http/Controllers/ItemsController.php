@@ -40,14 +40,25 @@ class ItemsController extends Controller
   }
 
   /**
-   * Display the specified resource.
+   * Display the specified public version of the resource.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
   public function show($id)
   {
-    //
+    return Item::findOrFail($id)->publicArray();
+  }
+
+  /**
+   * Display the specified private version of the resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function showAdmin($id)
+  {
+    return Item::findOrFail($id)->privateArray();
   }
 
   /**
