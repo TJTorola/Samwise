@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemVariants\UpdateRequest;
 
 use App\Search;
-use App\ItemVariants;
+use App\ItemVariant;
 
 class ItemVariantsController extends Controller
 {
@@ -32,7 +32,7 @@ class ItemVariantsController extends Controller
    */
   public function show($id)
   {
-    //
+    return ItemVariant::findOrFail($id)->publicArray();
   }
 
   /**
