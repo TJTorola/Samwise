@@ -19,7 +19,8 @@ class ItemVariant extends Model
    *
    * @var array
    */
-  protected $appends = [];
+  protected $appends = ['next', 'prev'];
+
   /**
    * The attributes that should be casted to native types.
    *
@@ -80,6 +81,25 @@ class ItemVariant extends Model
 
   /*
   |--------------------------------------------------------------------------
+  | Return Arrays
+  |--------------------------------------------------------------------------
+  */
+  public function publicArray()
+  {
+    $variant = $this->toArray();
+    $variant['item'] = $this->item->publicArray();
+    unset($variant['item']['variants']);
+    if ($variant['name']) {
+      $variant['name'] = $variant['item']['name']." - ".$variant['name'];
+    } else {
+      $variant['name'] = $variant['item']['name'];
+    }
+
+    return $variant;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
   | Elastiquent Configuration
   |--------------------------------------------------------------------------
   */
@@ -93,8 +113,8 @@ class ItemVariant extends Model
   /**
    * Modify index model as it goes into ES
    */
-  // function getIndexDocumentData()
-  // {
-  //
-  // }
+  function getIndexDocumentData()
+  {
+    return $this->publicArray();
+  }
 }
