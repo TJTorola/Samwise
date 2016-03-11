@@ -137,6 +137,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 
 		Route::post('/', 'ItemsController@store');
 		Route::get('{item}', 'ItemsController@show');
+		Route::get('{item}/admin', 'ItemsController@showAdmin'); // ->middleware('auth:inventory')
 		Route::patch('{item}', 'ItemsController@update');
 		Route::delete('{item}', 'ItemsController@destroy');
 
