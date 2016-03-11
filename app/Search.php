@@ -181,40 +181,62 @@ class Search
 
   public function search($index, Request $request)
   {
-    // Take the query and brake it into an array for ES
-    $query = $request->_query;
-    $query = explode(" ", strtolower($query));
+    // Build the must query
+    $must = [];
 
-    // Search the last word as a prefix, all the others as full
-    $full = array_slice($query, 0, -1);
-    $prefix = end($query);
+    // Add the full text query to the must query
+    if ($request->has('_query')) {
+      // Take the query and brake it into an array for ES
+      $query = $request->_query;
+      $query = explode(" ", strtolower($query));
 
-    // Build the query structure
-    $query = array();
-    $query['bool']['should'] = array();
-    foreach ($full as $key) {
-      array_push($query['bool']['should'], [ "match" => ["_all" => $key ]]);
+      // Search the last word as a prefix, all the others as full
+      $full = array_slice($query, 0, -1);
+      $prefix = end($query);
+
+      foreach ($full as $key) {
+        $must[] = [ "match" => ["_all" => $key ]];
+      }
+      $must[] = [ "prefix" => ["_all" => $prefix ]];
     }
-    array_push($query['bool']['should'], [ "prefix" => ["_all" => $prefix ]]);
 
-    // Build the filter
-    if ($request->has('_filter')) {
-      $filter = [];
-      $filters = $request->_filter;
-      $filters = json_decode($filters);
-      foreach ($filters as $key => $terms) {
+    // Add defined must rules
+    if ($request->has('_must')) {
+      $rules = $request->_must;
+      $rules = json_decode($rules);
+      foreach ($rules as $rule => $terms) {
         if (is_array($terms)) {
-          $filter[] = [ 'terms' => [ $key => $terms]];
+          $must[] = [ 'terms' => [ $rule => $terms]];
         } else {
-          $filter[] = [ 'term' => [ $key => $terms]];
+          $must[] = [ 'term' => [ $rule => $terms]];
         }
       }
-
-      // Apply the filter to the query
-      $query['bool']['filter'] = $filter;
     }
 
-    // set defaults
+    // Add defined must not rules
+    $must_not = [];
+    if ($request->has('_must_not')) {
+      $rules = $request->_must_not;
+      $rules = json_decode($rules);
+      foreach ($rules as $rule => $terms) {
+        if (is_array($terms)) {
+          $must_not[] = [ 'terms' => [ $rule => $terms]];
+        } else {
+          $must_not[] = [ 'term' => [ $rule => $terms]];
+        }
+      }
+    }
+
+    $query = [];
+    if (count($must)) {
+      $query['bool']['must'] = $must;
+    }
+
+    if (count($must_not)) {
+      $query['bool']['must_not'] = $must_not;
+    }
+
+    // set defaults for page/limit
     $page = 0;
     $limit = env('STORE_COLLECTION_LIMIT', 25);
 
