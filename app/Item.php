@@ -113,23 +113,26 @@ class Item extends Model
       }
       unset($variant['store_reserve']);
       unset($variant['sold']);
-      unset($variant['in_cart']); // TODO, this stays in results
       unset($variant['created_at']);
       unset($variant['updated_at']);
     }
 
-    $type_info = $this->type_info;
-
-    return array(
+    $return = [
       'id' => $this->id,
       'name' => $this->name,
       'description' => $this->description,
       'tags' => explode(',', $this->tags),
       'images' => $this->images,
-      'type_info' => $this->type_info,
       'variants' => $variants,
       'in_stock' => $in_stock,
-      'updated' => $this->updated_at->getTimestamp(),
-    );
+      'updated' => $this->updated_at->getTimestamp()
+    ];
+
+    $type_info = json_decode($this->type_info);
+    foreach ($type_info as $type_field => $value) {
+      $return[$type_field] = $value;
+    }
+
+    return $return;
   }
 }

@@ -94,6 +94,8 @@ class Search
       $response = $this->collect($index, $request);
     }
 
+    return $response;
+
     // unpack response
     $page = $response['_page'];
     $limit = $response['_limit'];
@@ -179,11 +181,6 @@ class Search
 
   public function search($index, Request $request)
   {
-    // If there is no query, just collect the items
-    if (!$request->has('_query')) {
-      return $this->collect($index, $request);
-    }
-
     // Take the query and brake it into an array for ES
     $query = $request->_query;
     $query = explode(" ", strtolower($query));
@@ -200,16 +197,33 @@ class Search
     }
     array_push($query['bool']['should'], [ "prefix" => ["_all" => $prefix ]]);
 
+    // Build the filter
+    if ($request->has('_filter')) {
+      $filter = [];
+      $filters = $request->_filter;
+      $filters = json_decode($filters);
+      foreach ($filters as $key => $terms) {
+        if (is_array($terms)) {
+          $filter[] = [ 'terms' => [ $key => $terms]];
+        } else {
+          $filter[] = [ 'term' => [ $key => $terms]];
+        }
+      }
+
+      // Apply the filter to the query
+      $query['bool']['filter'] = $filter;
+    }
+
     // set defaults
     $page = 0;
     $limit = env('STORE_COLLECTION_LIMIT', 25);
 
     // set requested page/limit
     if ($request->has('_page')) {
-      $page = $request->_page;
+      $page = (int)$request->_page;
     }
     if ($request->has('_limit')) {
-      $limit = $request->_limit;
+      $limit = (int)$request->_limit;
     }
 
     // ES uses offset rather than chunks
