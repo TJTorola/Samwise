@@ -16,7 +16,7 @@
   </div>
 
   <header class="main-header">
-    <a href="/" class="logo">
+    <a href="/" :class="(loaded)?'logo':'u-full logo'">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- // TODO: add variable short titles -->
       <span class="logo-mini"><b>P</b>4x4</span>
