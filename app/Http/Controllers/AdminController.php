@@ -12,15 +12,11 @@ use Auth;
 class AdminController extends Controller
 {
 	/**
-	 * Return the correct view for someone trying to 
+	 * Return the correct view for someone trying to
 	 * access the admin panel.
 	 */
-	public function home() 
+	public function home()
 	{
-		if (Auth::check()) {
-    	return view('admin');
-		}
-
-		return view('login');
+		return view('admin');
 	}
 }

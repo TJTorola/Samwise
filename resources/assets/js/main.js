@@ -18,6 +18,7 @@ Vue.use(VueResource)
 
 // Vue-pages
 var App = 					require('./app.vue')
+var Login =					require('./pages/login.vue')
 // var FileNotFound =	require('./pages/404.vue')
 // var ServerError =		require('./pages/500.vue')
 // var Invoices = 			require('./pages/invoices.vue')
@@ -43,9 +44,15 @@ var Inventory = 		require('./pages/inventory.vue')
 // var Log = 					require('./pages/log.vue')
 
 // Set up routing and match routes to components
-var router = new VueRouter()
+var router = new VueRouter({
+	history: true,
+})
 
 router.map({
+	'/login': {
+		name: 'Login',
+		component: Login
+	},
 	// // Error Pages
 	// '/404': {
 	// 	component: FileNotFound
@@ -145,7 +152,7 @@ router.map({
 // Redirect to home route on unmatched route
 // TODO: set to user's home
 router.redirect({
-	'*': user.state.home
+	'*': '/login'
 })
 
 router.beforeEach(function () {
