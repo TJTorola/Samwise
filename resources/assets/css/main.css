@@ -316,3 +316,7 @@ ul.dropdown-menu li.footer:hover a {
 .fade-leave {
   opacity: 0;
 }
+
+.u-full {
+  width: 100% !important;
+}
