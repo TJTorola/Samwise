@@ -12,8 +12,12 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss', 'resources/assets/css/app.css');
-    mix.stylesIn('resources/assets/css', 'public/css/vendor.css');
-    mix.browserify('main.js');
-    mix.scriptsIn('resources/assets/js/vendor', 'public/js/vendor.js');
+    mix.sass('adminLTE.scss', 'resources/assets/css/adminLTE.css');
+    mix.sass('bootstrap.scss', 'resources/assets/css/bootstrap.css');
+    mix.sass('font-awesome.scss', 'resources/assets/css/font-awesome.css');
+    mix.sass('main.scss', 'resources/assets/css/main.css');
+    mix.sass('skin-blue.scss', 'resources/assets/css/skin-blue.css');
+    mix.stylesIn('resources/assets/css', 'public/css/vendor.min.css');
+    mix.browserify('main.js', 'public/js/main.min.js');
+    mix.scriptsIn('resources/assets/js/vendor', 'public/js/vendor.min.js');
 });

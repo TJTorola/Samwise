@@ -248,7 +248,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 
 Route::group(['domain' => 'admin.'.env('STORE_DOMAIN')], function() {
 
-	Route::get('/', 'AdminController@home');
+	Route::get('{path}', 'AdminController@home')->where(['path' => '.*']);
 
 });
 
