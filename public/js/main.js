@@ -14290,6 +14290,7 @@ Vue.use(VueResource);
 
 // Vue-pages
 var App = require('./app.vue');
+var Login = require('./pages/login.vue');
 // var FileNotFound =	require('./pages/404.vue')
 // var ServerError =		require('./pages/500.vue')
 // var Invoices = 			require('./pages/invoices.vue')
@@ -14315,9 +14316,15 @@ var Inventory = require('./pages/inventory.vue');
 // var Log = 					require('./pages/log.vue')
 
 // Set up routing and match routes to components
-var router = new VueRouter();
+var router = new VueRouter({
+	history: true
+});
 
 router.map({
+	'/login': {
+		name: 'Login',
+		component: Login
+	},
 	// // Error Pages
 	// '/404': {
 	// 	component: FileNotFound
@@ -14417,7 +14424,7 @@ router.map({
 // 	component: Log
 // },
 router.redirect({
-	'*': user.state.home
+	'*': '/login'
 });
 
 router.beforeEach(function () {
@@ -14431,12 +14438,24 @@ Vue.config.debug = true;
 // start app on #app div
 router.start(App, '#app');
 
-},{"./app.vue":29,"./pages/inventory.vue":31,"vue":28,"vue-resource":16,"vue-router":27}],31:[function(require,module,exports){
+},{"./app.vue":29,"./pages/inventory.vue":31,"./pages/login.vue":32,"vue":28,"vue-resource":16,"vue-router":27}],31:[function(require,module,exports){
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/Users/TJTorola/Sites/Samwise/resources/assets/js/pages/inventory.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"vue":28,"vue-hot-reload-api":2}],32:[function(require,module,exports){
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/TJTorola/Sites/Samwise/resources/assets/js/pages/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
