@@ -16,7 +16,7 @@
   </div>
 
   <header class="main-header">
-    <a href="/" :class="(loaded)?'logo':'u-full logo'">
+    <a href="/" :class="(loggedIn)?'logo':'u-full logo'">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- // TODO: add variable short titles -->
       <span class="logo-mini"><b>P</b>4x4</span>
@@ -24,7 +24,7 @@
       <span class="logo-lg"><b>Admin P</b>4x4</span>
     </a>
 
-    <nav class="navbar navbar-static-top" role="navigation" v-if="loaded">
+    <nav class="navbar navbar-static-top" role="navigation" v-if="loggedIn">
       <!-- Sidebar toggle button-->
       <a class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
@@ -38,20 +38,23 @@
 </template>
 
 <script>
+var store = require('./vuex/store.js')
+var actions = require('./vuex/actions.js')
+
 module.exports = {
-  data () {
-    return {
-      loaded: false,
-      status: {
-    		notifications: [],
-    		messages: 0,
-    		invoices: 0,
-    		events: 0
-    	}
+  computed: {
+    loggedIn () {
+      return false
     }
   },
 
-  events: {},
-  methods: {},
+  store,
+
+  vuex: {
+    getters: {
+      status: state => state.status
+    },
+    actions
+  }
 }
 </script>
