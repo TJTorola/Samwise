@@ -34,6 +34,34 @@
       </div>
     </nav>
   </header>
+
+  <div class="page">
+    <!-- Content Wrapper. Contains page content -->
+    <div id="vue-page" :class="(loggedIn)?'content-wrapper':'u-no-margin content-wrapper'">
+
+      <!-- Content Header (Page header) -->
+      <section class="content-header" v-if="loggedIn">
+        <h1>
+          <span class="fa fa-home"></span>
+          {{{ page.title }}}
+          <small>{{{ page.description }}}</small>
+        </h1>
+        <ol class="breadcrumb">
+          <!-- <li><a href="javascript:;" onclick="renderPage('<?=$crumb['link']?>');"><?=$crumb['title']?></a></li> -->
+          <li class="active">{{{ page.title }}}</li>
+        </ol>
+      </section>
+
+      <section class='content'>
+
+        <router-view v-if="loggedIn"></router-view>
+        <div v-else>
+          <input type="button" name="name" value="Login" @click="login">
+        </div>
+
+      </section>
+    </div><!-- /.content-wrapper -->
+  </div>
 </div>
 </template>
 
@@ -44,7 +72,17 @@ var actions = require('./vuex/actions.js')
 module.exports = {
   computed: {
     loggedIn () {
-      return false
+      return (this.$http.headers.common.authorization != null)
+    }
+  },
+
+  methods: {
+    login () {
+      var request = {
+        email: 'tjtorola@gmail.com',
+        password: 'password'
+      }
+      this.$http.post('http://api.homestead.app/auth', request)
     }
   },
 
