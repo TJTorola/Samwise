@@ -9,7 +9,7 @@
 // CORS
 // header('Access-Control-Allow-Origin: http://admin.'.env('STORE_DOMAIN'));
 
-Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
+Route::group(['domain' => env('API_DOMAIN')], function() {
 
 	/**
 	 * Authentication Middleware:
@@ -188,7 +188,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 	| Self Group (Control yourself!)
 	|--------------------------------------------------------------------------
 	*/
-	Route::group(['prefix' => 'self'], function() {
+	Route::group(['prefix' => 'self', 'middleware' => 'auth'], function() {
 
 		Route::get('/', 'SelfController@show');
 		Route::get('todos', 'SelfController@indexTodos');
@@ -249,7 +249,7 @@ Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 |--------------------------------------------------------------------------
 */
 
-Route::group(['domain' => 'admin.'.env('STORE_DOMAIN')], function() {
+Route::group(['domain' => env('ADMIN_DOMAIN')], function() {
 
 	Route::get('{path}', 'AdminController@home')->where(['path' => '.*']);
 

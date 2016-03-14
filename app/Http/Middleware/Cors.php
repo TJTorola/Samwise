@@ -16,7 +16,7 @@ class Cors
     public function handle($request, Closure $next)
     {
         return $next($request)
-            ->header('Access-Control-Allow-Origin', 'http://admin.'.env('STORE_DOMAIN'))
+            ->header('Access-Control-Allow-Origin', env('DOMAIN_PROTOCOL').env('ADMIN_DOMAIN'))
             ->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
             ->header('Access-Control-Allow-Headers', 'Content-Type, Origin, Authorization');
     }
