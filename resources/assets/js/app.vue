@@ -31,9 +31,187 @@
       </a>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+
+          <!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <!-- Menu toggle button -->
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-shopping-cart"></i>
+              <span class="label label-warning" v-if="cart.items.length">
+                <span class="fa fa-spinner fa-pulse" v-if="cart.working"></span>
+                <span v-else>{{ cart.count }}</span>
+              </span>
+            </a>
+            <ul class="dropdown-menu" v-if="!cart.working">
+              <li class="header">You have {{ cart.count }} item in your cart.</li>
+              <li>
+                <cart></cart>
+              </li>
+              <li>
+                <li class="footer"><a href="#/newinvoice">Subtotal: {{ cart.subtotal | currency }} - Add Invoice</a></li>
+              </li>
+            </ul>
+          </li><!-- /cart-menu -->
+
+          <!-- User Account Menu -->
+          <li class="dropdown user user-menu">
+            <!-- Menu Toggle Button -->
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              <!-- The user image in the navbar-->
+              <img v-bind:src="user.gravitar" class="user-image" alt="User Image">
+              <!-- hidden-xs hides the username on small devices so only the image appears. -->
+              <span class="hidden-xs">{{ user.name }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- The user image in the menu -->
+              <li class="user-header">
+                <img v-bind:src="user.gravitar" class="img-circle" alt="User Image">
+                <p>
+                  {{ user.name }}
+                  <small>Member since {{ user.created_at }}</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="javascript:;" class="btn btn-default btn-flat js-link" data-href="/user">Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a data-toggle="control-sidebar"><i class="fa fa-check-square-o"></i></a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
+
+  <aside class="main-sidebar" v-if=loggedIn>
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img v-bind:src="user.gravitar" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{{ user.name }}</p>
+          <!-- Status -->
+          <small><i class="fa fa-circle text-success"></i> Online</small>
+        </div>
+      </div>
+
+      <!-- search form -->
+      <div class="input-group isSearch">
+          <input type="text" class="form-control grayFade-input" placeholder="Search...">
+          <span class="input-group-addon grayFade-addon">
+            <i class="fa fa-search"></i>
+          </span>
+        </div>
+      <!-- /.search form -->
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu">
+      	<!-- invoices inventory pages catalogs customers -->
+        <li class="header" v-if="user.invoices || user.inventory || user.pages || user.catalogs || user.customers">Resources</li>
+
+        <li class="js-link" v-if="user.invoices">
+          <a v-link="{ path: '/invoices' }">
+            <i class="fa fa-credit-card"></i> <span>Invoices</span>
+            <small class="label pull-right label-danger" v-if="status.invoices">{{ status.invoices }}</small>
+          </a>
+        </li>
+
+        <li class="js-link" v-if="user.inventory">
+          <a v-link="{ path: '/inventory' }">
+            <i class="fa fa-archive"></i> <span>Inventory</span>
+          </a>
+        </li>
+
+        <li class="js-link" v-if="user.pages">
+          <a v-link="{ path: '/pages' }">
+            <i class="fa fa-file-text"></i> <span>Pages</span>
+          </a>
+        </li>
+
+        <li class="js-link" v-if="user.catalogs">
+          <a v-link="{ path: '/catalogs' }">
+            <i class="fa fa-list-alt"></i> <span>Catalogs</span>
+          </a>
+        </li>
+
+        <!-- <li class="js-link" v-if="user.customers">
+          <a v-link="{ path: '/customers' }">
+            <i class="fa fa-users"></i> <span>Customers</span>
+          </a>
+        </li> -->
+
+        <!-- <li class="header">User Tools</li>
+
+        <li class="js-link">
+          <a v-link="{ path: '/statistics' }">
+            <i class="fa fa-bar-chart"></i> <span>Site Statistics</span>
+          </a>
+        </li>
+
+        <li class="js-link">
+          <a v-link="{ path: '/calendar' }">
+            <i class="fa fa-calendar"></i> <span>Calendar</span>
+            <small class="label pull-right label-success">{{ status.events }}</small>
+          </a>
+        </li>
+
+        <li class="js-link">
+          <a v-link="{ path: '/messages' }">
+            <i class="fa fa-inbox"></i> <span>Messages</span>
+            <small class="label pull-right label-warning">{{ status.messages }}</small>
+          </a>
+        </li>
+
+        <li class="js-link">
+          <a v-link="{ path: '/users' }">
+            <i class="fa fa-user-md"></i> <span>Staff</span>
+          </a>
+        </li> -->
+
+        <li class="header" v-if="user.admin">Settings</li>
+
+        <!-- <li class="js-link">
+          <a v-link="{ path: '/mysettings' }">
+            <i class="fa fa-cog"></i> <span>My Settings</span>
+          </a>
+        </li> -->
+
+        <li class="js-link" v-if="user.admin">
+          <a v-link="{ path: '/adminsettings' }">
+            <i class="fa fa-cogs"></i> <span>Admin Settings</span>
+          </a>
+        </li>
+
+        <!-- <li class="js-link" v-if="user.admin">
+          <a v-link="{ path: '/storesettings' }">
+            <i class="fa fa-wrench"></i> <span>Store Settings</span>
+          </a>
+        </li>
+
+        <li class="js-link" v-if="user.admin">
+          <a v-link="{ path: '/log' }">
+            <i class="fa fa-list"></i> <span>Log</span>
+          </a>
+        </li> -->
+
+      </ul><!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
 
   <div class="page">
     <!-- Content Wrapper. Contains page content -->
@@ -122,73 +300,10 @@ module.exports = {
   vuex: {
     getters: {
       status: state => state.status,
-      user: state => state.user
+      user: state => state.user,
+      cart: state => state.cart,
     },
     actions
   }
 }
 </script>
-
-<style>
-.login-form {
-  width: 280px;
-  left: 50%;
-  top: 50%;
-  position: fixed;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.login-form span {
-  background-color: #AAA;
-  border-radius: 3px 0px 0px 3px;
-  color: #f7f7f7;
-  display: block;
-  float: left;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  width: 50px;
-}
-
-.login-form input {
-  height: 50px;
-  line-height: 1.5em;
-  border: none;
-}
-
-.login-form input[type=text], .login-form input[type=password] {
-  background-color: #FFF;
-  border-radius: 0px 3px 3px 0px;
-  margin-bottom: 1em;
-  padding: 0 16px;
-  width: 230px;
-}
-
-.submit-placeholder {
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  background-color: #AAA;
-  color: #FFF;
-  font-weight: bold;
-  margin-bottom: 2em;
-  text-transform: uppercase;
-  width: 280px;
-}
-
-.login-form input[type=submit] {
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  background: #367FA9;
-  color: #FFF;
-  font-weight: bold;
-  margin-bottom: 2em;
-  text-transform: uppercase;
-  width: 280px;
-}
-</style>

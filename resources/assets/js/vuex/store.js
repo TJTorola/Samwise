@@ -10,7 +10,10 @@ const state = {
     invoices: 0,
     events: 0
   },
-  user: {}
+  user: {},
+  cart: {
+    items: []
+  }
 }
 
 const mutations = {
