@@ -16,7 +16,7 @@
   </div>
 
   <header class="main-header">
-    <a href="/" :class="(loggedIn)?'logo':'u-full logo'">
+    <a v-link="{ path: '/' }" :class="(loggedIn)?'logo':'u-full logo'">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- // TODO: add variable short titles -->
       <span class="logo-mini"><b>P</b>4x4</span>
@@ -43,12 +43,12 @@
       <section class="content-header" v-if="loggedIn">
         <h1>
           <span class="fa fa-home"></span>
-          {{{ page.title }}}
-          <small>{{{ page.description }}}</small>
+          page.title
+          <small>page.description</small>
         </h1>
         <ol class="breadcrumb">
           <!-- <li><a href="javascript:;" onclick="renderPage('<?=$crumb['link']?>');"><?=$crumb['title']?></a></li> -->
-          <li class="active">{{{ page.title }}}</li>
+          <li class="active">page.title</li>
         </ol>
       </section>
 
@@ -56,7 +56,7 @@
 
         <router-view v-if="loggedIn"></router-view>
         <div v-else>
-          <input type="button" name="name" value="Login" @click="login">
+          <input type="button" name="name" value="Login" @click="postLogin">
         </div>
 
       </section>
@@ -72,17 +72,17 @@ var actions = require('./vuex/actions.js')
 module.exports = {
   computed: {
     loggedIn () {
-      return (this.$http.headers.common.authorization != null)
+      return Boolean(this.user.name)
     }
   },
 
   methods: {
-    login () {
+    postLogin () {
       var request = {
         email: 'tjtorola@gmail.com',
         password: 'password'
       }
-      this.$http.post('http://api.homestead.app/auth', request)
+      this.$http.post('auth', request)
     }
   },
 
@@ -90,7 +90,8 @@ module.exports = {
 
   vuex: {
     getters: {
-      status: state => state.status
+      status: state => state.status,
+      user: state => state.user
     },
     actions
   }
