@@ -55,8 +55,22 @@
       <section class='content'>
 
         <router-view v-if="loggedIn"></router-view>
-        <div v-else>
-          <input type="button" name="name" value="Login" @click="postLogin">
+
+        <div v-else class="login-form">
+          <div class="input-wrapper">
+            <span class='fa fa-envelope'></span>
+            <input type='text' name='email' placeholder="E-Mail" v-model="email">
+          </div>
+
+          <div class="input-wrapper">
+            <span class='fa fa-key'></span>
+            <input type='password' name='password' placeholder="*******" v-model="password">
+          </div>
+
+          <div class="submit-placeholder" v-if="!validLogin">
+            ENTER VALID {{ (validEmail)?'PASSWORD':'EMAIL' }}
+          </div>
+          <input type='submit' value='SUBMIT LOGIN' @click="postLogin" v-else>
         </div>
 
       </section>
@@ -70,17 +84,34 @@ var store = require('./vuex/store.js')
 var actions = require('./vuex/actions.js')
 
 module.exports = {
+  data () {
+    return {
+      email: "",
+      password: ""
+    }
+  },
+
   computed: {
     loggedIn () {
       return Boolean(this.user.name)
+    },
+    validEmail () {
+      var regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      return regex.test(this.email)
+    },
+    validPassword () {
+      return this.password.length >= 8
+    },
+    validLogin () {
+      return this.validEmail && this.validPassword
     }
   },
 
   methods: {
     postLogin () {
       var request = {
-        email: 'tjtorola@gmail.com',
-        password: 'password'
+        email: this.email,
+        password: this.password
       }
       this.$http.post('auth', request)
     }
@@ -97,3 +128,67 @@ module.exports = {
   }
 }
 </script>
+
+<style>
+.login-form {
+  width: 280px;
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.login-form span {
+  background-color: #AAA;
+  border-radius: 3px 0px 0px 3px;
+  color: #f7f7f7;
+  display: block;
+  float: left;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
+}
+
+.login-form input {
+  height: 50px;
+  line-height: 1.5em;
+  border: none;
+}
+
+.login-form input[type=text], .login-form input[type=password] {
+  background-color: #FFF;
+  border-radius: 0px 3px 3px 0px;
+  margin-bottom: 1em;
+  padding: 0 16px;
+  width: 230px;
+}
+
+.submit-placeholder {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  background-color: #AAA;
+  color: #FFF;
+  font-weight: bold;
+  margin-bottom: 2em;
+  text-transform: uppercase;
+  width: 280px;
+}
+
+.login-form input[type=submit] {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  background: #367FA9;
+  color: #FFF;
+  font-weight: bold;
+  margin-bottom: 2em;
+  text-transform: uppercase;
+  width: 280px;
+}
+</style>
