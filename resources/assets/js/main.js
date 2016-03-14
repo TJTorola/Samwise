@@ -153,13 +153,24 @@ router.map({
 
 // Redirect to home route on unmatched route
 // TODO: set to user's home
-router.redirect({
-	'*': '/login'
-})
+// router.redirect({
+// 	'*': '/login'
+// })
 
-router.beforeEach(function () {
+router.beforeEach(function (transition) {
+	// Vue.http.headers.common['Authorization'] = 'Bearer foobar'
 	window.scrollTo(0, 0)
-	// $("html, body").animate({ scrollTop: 0 }, "slow")
+}.bind(Vue))
+
+Vue.http.interceptors.push({
+    request: function (request) {
+        return request;
+    },
+
+    response (response) {
+			console.log(response)
+      return response;
+    }
 })
 
 // config Vue global settings

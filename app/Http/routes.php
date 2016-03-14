@@ -6,6 +6,9 @@
 |--------------------------------------------------------------------------
 */
 
+// CORS
+// header('Access-Control-Allow-Origin: http://admin.'.env('STORE_DOMAIN'));
+
 Route::group(['domain' => 'api.'.env('STORE_DOMAIN')], function() {
 
 	/**
