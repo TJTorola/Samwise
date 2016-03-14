@@ -24,16 +24,16 @@ Vue.http.options.root = '/api';
 var App = 					require('./app.vue')
 // var FileNotFound =	require('./pages/404.vue')
 // var ServerError =		require('./pages/500.vue')
-// var Invoices = 			require('./pages/invoices.vue')
-// var Invoice = 			require('./pages/invoice.vue')
-// var NewInvoice = 		require('./pages/newinvoice.vue')
-// var PrintInvoice = 	require('./pages/printinvoice.vue')
+var Invoices = 			require('./pages/invoices.vue')
+var Invoice = 			require('./pages/invoice.vue')
+var NewInvoice = 		require('./pages/newinvoice.vue')
+var PrintInvoice = 	require('./pages/printinvoice.vue')
 var Inventory = 		require('./pages/inventory.vue')
-// var Item = 					require('./pages/item.vue')
-// var Pages = 				require('./pages/pages.vue')
+var Item = 					require('./pages/item.vue')
+var Pages = 				require('./pages/pages.vue')
 // var Page = 					require('./pages/page.vue')
-// var Catalogs = 			require('./pages/catalogs.vue')
-// var Catalog = 			require('./pages/catalog.vue')
+var Catalogs = 			require('./pages/catalogs.vue')
+var Catalog = 			require('./pages/catalog.vue')
 // var Customers = 		require('./pages/customers.vue')
 // var Customer = 			require('./pages/customer.vue')
 // var Statistics = 		require('./pages/statistics.vue')
@@ -42,7 +42,7 @@ var Inventory = 		require('./pages/inventory.vue')
 // var Users = 				require('./pages/users.vue')
 // var User = 					require('./pages/user.vue')
 // var MySettings = 		require('./pages/mysettings.vue')
-// var AdminSettings = require('./pages/adminsettings.vue')
+var AdminSettings = require('./pages/adminsettings.vue')
 // var StoreSettings = require('./pages/storesettings.vue')
 // var Log = 					require('./pages/log.vue')
 
@@ -59,47 +59,47 @@ router.map({
 	// '/500': {
 	// 	component: ServerError
 	// },
-	// // Resources
-	// '/invoices': {
-	// 	name: 'Invoices',
-	// 	component: Invoices
-	// },
-	// '/newinvoice': {
-	// 	name: 'NewInvoice',
-	// 	component: NewInvoice
-	// },
-	// '/invoice/:id': {
-	// 	name: 'Invoice',
-	// 	component: Invoice
-	// },
-	// '/printInvoice/:id': {
-	// 	name: 'PrintInvoice',
-	// 	component: PrintInvoice
-	// },
+	// Resources
+	'/invoices': {
+		name: 'Invoices',
+		component: Invoices
+	},
+	'/newinvoice': {
+		name: 'NewInvoice',
+		component: NewInvoice
+	},
+	'/invoice/:id': {
+		name: 'Invoice',
+		component: Invoice
+	},
+	'/printInvoice/:id': {
+		name: 'PrintInvoice',
+		component: PrintInvoice
+	},
 	'/inventory': {
 		name: 'Inventory',
 		component: Inventory
 	},
-	// '/item/:id': {
-	// 	name: 'Item',
-	// 	component: Item
-	// },
-	// '/pages': {
-	// 	name: 'Pages',
-	// 	component: Pages
-	// },
+	'/item/:id': {
+		name: 'Item',
+		component: Item
+	},
+	'/pages': {
+		name: 'Pages',
+		component: Pages
+	},
 	// '/page/:id': {
 	// 	name: 'Page',
 	// 	component: Page
 	// },
-	// '/catalogs': {
-	// 	name: 'Catalogs',
-	// 	component: Catalogs
-	// },
-	// '/catalog/:id': {
-	// 	name: 'Catalog',
-	// 	component: Catalog
-	// },
+	'/catalogs': {
+		name: 'Catalogs',
+		component: Catalogs
+	},
+	'/catalog/:id': {
+		name: 'Catalog',
+		component: Catalog
+	},
 	// '/customers': {
 	// 	name: 'Customers',
 	// 	component: Customers
@@ -134,10 +134,10 @@ router.map({
 	// 	name: 'MySettings',
 	// 	component: MySettings
 	// },
-	// '/adminsettings': {
-	// 	name: 'AdminSettings',
-	// 	component: AdminSettings
-	// },
+	'/admin-settings': {
+		name: 'AdminSettings',
+		component: AdminSettings
+	},
 	// '/storesettings': {
 	// 	name: 'StoreSettings',
 	// 	component: StoreSettings

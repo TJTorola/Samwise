@@ -46,7 +46,7 @@
             <ul class="dropdown-menu" v-if="!cart.working">
               <li class="header">You have {{ cart.count }} item in your cart.</li>
               <li>
-                <cart></cart>
+                <!-- <cart></cart> -->
               </li>
               <li>
                 <li class="footer"><a href="#/newinvoice">Subtotal: {{ cart.subtotal | currency }} - Add Invoice</a></li>
@@ -254,6 +254,54 @@
       </section>
     </div><!-- /.content-wrapper -->
   </div>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-check-square-o"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-list"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane active" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Todo List:</h3>
+
+        <div class="input-group">
+          <input type="text" class="form-control grayFade-input" placeholder="I need to..." v-model="user.newTodo" v-on:keyup.enter="storeTodo">
+          <span class="input-group-addon grayFade-addon" v-on:click="storeTodo">
+            <i class="fa fa-thumb-tack"></i>
+          </span>
+        </div>
+
+        <br>
+
+        <ul class="control-sidebar-menu">
+          <li v-for="todo in user.todos">
+            <a class="task-link" v-on:click="deleteTodo($index)">
+              <i class="menu-icon fa fa-square-o bg-red"></i>
+              <i class="menu-icon fa fa-check-square-o bg-red"></i>
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">{{ todo.task }}</h4>
+                <p>{{ todo.created_at }}</p>
+              </div>
+            </a>
+          </li>
+        </ul><!-- /.control-sidebar-menu -->
+
+      </div><!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <h3 class="control-sidebar-heading">Event Log:</h3>
+        Under Construction
+      </div><!-- /.tab-pane -->
+    </div>
+  </aside><!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+
 </div>
 </template>
 
@@ -292,6 +340,10 @@ module.exports = {
         password: this.password
       }
       this.$http.post('auth', request)
+    },
+
+    storeTodo () {
+      
     }
   },
 

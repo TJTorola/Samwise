@@ -11,6 +11,12 @@ module.exports = {
   login ({ dispatch }) {
     this.$http.get('self').then(function(response) {
       dispatch('LOGIN', response.data)
+
+      // activate newly revealed adminLTE controls
+      this.$nextTick(function() {
+        $.AdminLTE.pushMenu.activate("[data-toggle='offcanvas']")
+        $.AdminLTE.controlSidebar.activate()
+      })
     })
   },
   logout ({ dispatch }) {
