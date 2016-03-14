@@ -49,6 +49,7 @@ var AdminSettings = require('./pages/adminsettings.vue')
 // Set up routing and match routes to components
 var router = new VueRouter({
 	history: true,
+	root: '/admin'
 })
 
 router.map({

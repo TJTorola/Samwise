@@ -191,7 +191,7 @@
         </li> -->
 
         <li class="js-link" v-if="user.admin">
-          <a v-link="{ path: '/adminsettings' }">
+          <a v-link="{ path: '/admin-settings' }">
             <i class="fa fa-cogs"></i> <span>Admin Settings</span>
           </a>
         </li>
@@ -343,7 +343,7 @@ module.exports = {
     },
 
     storeTodo () {
-      
+
     }
   },
 
