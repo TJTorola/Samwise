@@ -6,10 +6,7 @@
 |--------------------------------------------------------------------------
 */
 
-// CORS
-// header('Access-Control-Allow-Origin: http://admin.'.env('STORE_DOMAIN'));
-
-Route::group(['domain' => env('API_DOMAIN')], function() {
+Route::group(['prefix' => 'api'], function() {
 
 	/**
 	 * Authentication Middleware:
@@ -249,8 +246,9 @@ Route::group(['domain' => env('API_DOMAIN')], function() {
 |--------------------------------------------------------------------------
 */
 
-Route::group(['domain' => env('ADMIN_DOMAIN')], function() {
+Route::group(['prefix' => 'admin'], function() {
 
+	Route::get('/', 'AdminController@home');
 	Route::get('{path}', 'AdminController@home')->where(['path' => '.*']);
 
 });
