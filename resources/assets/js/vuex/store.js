@@ -9,7 +9,8 @@ const state = {
     messages: 0,
     invoices: 0,
     events: 0
-  }
+  },
+  user: {}
 }
 
 const mutations = {
@@ -24,6 +25,14 @@ const mutations = {
   SET_EVENTS (state, count) {
     state.status.events = count
   },
+
+  LOGIN (state, user) {
+    state.user = user
+  },
+
+  LOGOUT (state) {
+    state.user = {}
+  }
 }
 
 module.exports = new Vuex.Store({

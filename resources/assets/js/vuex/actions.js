@@ -7,5 +7,13 @@ module.exports = {
   },
   setInvoices ({ dispatch }, count) {
     dispatch('SET_INVOICES', count)
+  },
+  login ({ dispatch }) {
+    this.$http.get('self').then(function(response) {
+      dispatch('LOGIN', response.data)
+    })
+  },
+  logout ({ dispatch }) {
+    dispatch('LOGOUT')
   }
 }

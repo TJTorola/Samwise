@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta id="api-url" content="{{ env('DOMAIN_PROTOCOL').env('API_DOMAIN') }}">
 
     <title>Samwise</title>
     <!-- Tell the browser to be responsive to screen width -->

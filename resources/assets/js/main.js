@@ -7,6 +7,8 @@ Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
+Vue.http.options.root = $('#api-url').attr('content');
+
 // Vue-filters
 // var nl2br = 				require('./filters/nl2br.js')
 // var displayFormat = require('./filters/display-format.js')
@@ -20,7 +22,6 @@ Vue.use(VueResource)
 
 // Vue-pages
 var App = 					require('./app.vue')
-var Login =					require('./pages/login.vue')
 // var FileNotFound =	require('./pages/404.vue')
 // var ServerError =		require('./pages/500.vue')
 // var Invoices = 			require('./pages/invoices.vue')
@@ -51,10 +52,6 @@ var router = new VueRouter({
 })
 
 router.map({
-	'/login': {
-		name: 'Login',
-		component: Login
-	},
 	// // Error Pages
 	// '/404': {
 	// 	component: FileNotFound
@@ -158,19 +155,29 @@ router.map({
 // })
 
 router.beforeEach(function (transition) {
-	// Vue.http.headers.common['Authorization'] = 'Bearer foobar'
 	window.scrollTo(0, 0)
 }.bind(Vue))
 
 Vue.http.interceptors.push({
-    request: function (request) {
-        return request;
-    },
+	request: function (request) {
+		return request
+	},
 
-    response (response) {
-			console.log(response)
-      return response;
-    }
+	response (response) {
+		if (response.status == 200) {
+			if (response.request.url == "auth") {
+				Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
+				this.login()
+			}
+		}
+
+		if (response.status == 401) {
+			unset(Vue.http.headers.common['Authorization'])
+			this.logout()
+		}
+
+		return response
+	}
 })
 
 // config Vue global settings
