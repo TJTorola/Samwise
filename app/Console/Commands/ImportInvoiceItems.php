@@ -3010,22 +3010,19 @@ class ImportInvoiceItems extends Command
     } while (false);
 
     Model::unguard();
-    $fields = ['id','invoice_id','inventory_stock_id','name','count','price','unit','created_at','updated_at'];
+    $fields = ['id','invoice_id','name','count','unit','created_at','updated_at'];
     foreach ($models as $model) {
       $new_model = [];
 
       foreach ($fields as $field) {
-        if ($field == 'inventory_stock_id') {
-          if ($model['inventory_stock_id'] != null) {
-            $new_model['item_variant_id'] = $model['inventory_stock_id'];
-          }
-        } else {
-          if ($model[$field] != null) {
-            $new_model[$field] = $model[$field];
-          }
+        if ($model[$field] != null) {
+          $new_model[$field] = $model[$field];
         }
       }
-      
+
+      $new_model['item_variant_id'] = $model['inventory_stock_id'];
+      $new_model['price'] = $model['price'] * 100;
+
       InvoiceItem::create($new_model);
     }
     Model::reguard();
