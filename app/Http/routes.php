@@ -109,6 +109,9 @@ Route::group(['prefix' => 'api'], function() {
 		Route::get('{invoice}/items', 'InvoicesController@indexItems');
 		Route::post('{invoice}/item', 'InvoicesController@storeItem');
 
+		Route::get('{invoice}/payments', 'InvoicesController@indexPayments');
+		Route::post('{invoice}/payment', 'InvoicesController@storePayment');
+
 	});
 
 	/*
@@ -177,6 +180,18 @@ Route::group(['prefix' => 'api'], function() {
 		Route::get('{page_slug}', 'PagesController@show')->where(['page_slug' => '.*']);
 		Route::patch('{page}', 'PagesController@update');
 		Route::delete('{page}', 'PagesController@destroy');
+
+	});
+
+	/*
+	|--------------------------------------------------------------------------
+	| Payments Group (Lets make some money)
+	|--------------------------------------------------------------------------
+	*/
+	Route::get('payments', 'PaymentsController@index');
+	Route::group(['prefix' => 'payment'], function() {
+
+		Route::get('{payment}', 'PaymentsController@show');
 
 	});
 

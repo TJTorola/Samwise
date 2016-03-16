@@ -25,8 +25,8 @@ class CreateItemsTable extends Migration
             $table->float('y')->default(0);
             $table->float('z')->default(0);
             $table->float('weight')->default(0);
-            $table->boolean('oversized')->default(0);
-            $table->float('shipping_cost')->default(0);
+            $table->boolean('oversized')->unsigned()->default(0);
+            $table->integer('shipping_cost')->default(0);
             $table->string('location')->default("");
             $table->timestamps();
         });

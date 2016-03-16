@@ -18,7 +18,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->integer('item_variant_id')->unsigned()->nullable()->default(null);
             $table->string('name');
             $table->integer('count');
-            $table->float('price');
+            $table->integer('price');
             $table->string('unit');
             $table->timestamps();
 

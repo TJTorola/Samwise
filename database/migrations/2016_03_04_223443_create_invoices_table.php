@@ -45,8 +45,7 @@ class CreateInvoicesTable extends Migration
             $table->boolean('paid')->default(0);
             $table->boolean('shipped')->default(0);
             $table->string('shipping_number')->default("");
-            $table->float('shipping_cost')->default(0);
-            $table->float('subtotal')->default(0);
+            $table->integer('shipping_cost')->unsigned()->default(0);
             $table->timestamps();
 
             $table->foreign('customer_id')
