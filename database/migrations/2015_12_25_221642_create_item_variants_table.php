@@ -16,7 +16,7 @@ class CreateItemVariantsTable extends Migration
             $table->increments('id');
             $table->integer('item_id')->unsigned();
             $table->string('name')->default("");
-            $table->float('price');
+            $table->integer('price')->unsigned();
             $table->string('unit')->default("");
             $table->boolean('infinite')->default(0);
             $table->integer('stock')->unsigned()->default(0);

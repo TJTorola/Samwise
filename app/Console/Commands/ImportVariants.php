@@ -948,7 +948,7 @@ class ImportVariants extends Command
     } while (false);
 
     Model::unguard();
-    $fields = ['id', 'item_id', 'name', 'price', 'unit', 'infinite', 'stock', 'store_reserve', 'sold', 'created_at', 'updated_at'];
+    $fields = ['id', 'item_id', 'name', 'unit', 'infinite', 'stock', 'store_reserve', 'sold', 'created_at', 'updated_at'];
     foreach ($models as $model) {
       $new_model = [];
 
@@ -957,7 +957,9 @@ class ImportVariants extends Command
           $new_model[$field] = $model[$field];
         }
       }
-      
+
+      $new_model['price'] = $model['price'] * 100;
+
       ItemVariant::create($new_model);
     }
     Model::reguard();
