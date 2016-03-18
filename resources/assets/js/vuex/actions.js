@@ -2,12 +2,15 @@ module.exports = {
   setEvents ({ dispatch }, count) {
     dispatch('SET_EVENTS', count)
   },
+
   setMessages ({ dispatch }, count) {
     dispatch('SET_MESSAGES', count)
   },
+
   setInvoices ({ dispatch }, count) {
     dispatch('SET_INVOICES', count)
   },
+
   login ({ dispatch }) {
     this.$http.get('self').then(function(response) {
       dispatch('LOGIN', response.data)
@@ -19,7 +22,19 @@ module.exports = {
       })
     })
   },
+
   logout ({ dispatch }) {
     dispatch('LOGOUT')
+  },
+
+  notify ({ dispatch }, type, title, message, timeout) {
+    var id = dispatch('PUSH_NOTIFICATION', type, title, message)
+
+    // if timeout is set, remove notification after timeout
+    if (typeof timeout === 'integer') {
+      setTimeout(function() {
+        dispatch('REMOVE_NOTIFICATION', id)
+      }, timeout)
+    }
   }
 }
