@@ -33,8 +33,17 @@ module.exports = {
     // if timeout is set, remove notification after timeout
     if (typeof timeout === 'integer') {
       setTimeout(function() {
-        dispatch('REMOVE_NOTIFICATION', id)
+        dispatch('DELETE_NOTIFICATION', id)
       }, timeout)
     }
+  },
+
+  deleteNotification({ dispatch }, id)
+  {
+    dispatch('DELETE_NOTIFICATION', id)
+  },
+
+  setPage ({ dispatch }, name, description) {
+    dispatch('SET_PAGE', name, description)
   }
 }
