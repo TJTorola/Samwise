@@ -155,9 +155,9 @@ router.map({
 // 	'*': '/login'
 // })
 
-router.beforeEach(function (transition) {
-	window.scrollTo(0, 0)
-}.bind(Vue))
+// router.beforeEach(function (transition) {
+// 	window.scrollTo(0, 0)
+// })
 
 Vue.http.interceptors.push({
 	request: function (request) {
@@ -167,15 +167,23 @@ Vue.http.interceptors.push({
 	response (response) {
 		if (response.status == 200) {
 			if (response.request.url == "auth") {
+				this.password = ""
+				this.email = ""
 				Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
 				this.login()
 			}
+		}
+
+		if (response.status == 400) {
+			this.notify('warning', 'Invalid Credentials', response.data)
 		}
 
 		if (response.status == 401) {
 			unset(Vue.http.headers.common['Authorization'])
 			this.logout()
 		}
+
+
 
 		return response
 	}

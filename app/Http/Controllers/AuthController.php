@@ -20,7 +20,7 @@ class AuthController extends Controller
 		$credentials = $request->only('email', 'password');
 
     if (! $token = JWTAuth::attempt($credentials)) {
-      return response()->json('Username and Password do not match our records.', 401);
+      return response()->json('Username and Password do not match our records.', 400);
     }
 
     // if no errors are encountered we can return a JWT
