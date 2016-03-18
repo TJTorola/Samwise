@@ -63,30 +63,37 @@ router.map({
 	// Resources
 	'/invoices': {
 		name: 'Invoices',
+		description: 'Browse Customer Invoices',
 		component: Invoices
 	},
 	'/newinvoice': {
 		name: 'NewInvoice',
+		description: 'Create an Invoice',
 		component: NewInvoice
 	},
 	'/invoice/:id': {
 		name: 'Invoice',
+		description: '',
 		component: Invoice
 	},
 	'/printInvoice/:id': {
 		name: 'PrintInvoice',
+		description: 'Print the Invoice',
 		component: PrintInvoice
 	},
 	'/inventory': {
 		name: 'Inventory',
+		description: 'Search your Items',
 		component: Inventory
 	},
 	'/item/:id': {
 		name: 'Item',
+		description: '',
 		component: Item
 	},
 	'/pages': {
 		name: 'Pages',
+		description: 'Sort your Pages',
 		component: Pages
 	},
 	// '/page/:id': {
@@ -95,10 +102,12 @@ router.map({
 	// },
 	'/catalogs': {
 		name: 'Catalogs',
+		description: 'Sort your Catalogs',
 		component: Catalogs
 	},
 	'/catalog/:id': {
 		name: 'Catalog',
+		description: '',
 		component: Catalog
 	},
 	// '/customers': {
@@ -137,6 +146,7 @@ router.map({
 	// },
 	'/admin-settings': {
 		name: 'AdminSettings',
+		description: 'Adminstrate your Website',
 		component: AdminSettings
 	},
 	// '/storesettings': {
@@ -155,9 +165,13 @@ router.map({
 // 	'*': '/login'
 // })
 
-// router.beforeEach(function (transition) {
-// 	window.scrollTo(0, 0)
-// })
+router.beforeEach(function (transition) {
+	var app = transition.to.router.app
+	app.setPage(transition.to.name, transition.to.description)
+
+	window.scrollTo(0, 0)
+	transition.next()
+})
 
 Vue.http.interceptors.push({
 	request: function (request) {
