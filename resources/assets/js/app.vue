@@ -6,7 +6,7 @@
 				<h3 class="box-title" v-if="notification.title">{{ notification.title }}</h3>
 				<h3 class="box-title" v-else>{{ notification.type | capitalize }}</h3>
 				<div class="box-tools pull-right">
-					<button class="btn btn-box-tool" @click="status.notifications.splice($index, 1)"><i class="fa fa-times"></i></button>
+					<button class="btn btn-box-tool" @click="deleteNotification(notification.id)"><i class="fa fa-times"></i></button>
 				</div><!-- /.box-tools -->
 			</div><!-- /.box-header -->
 			<div class="box-body">
@@ -221,12 +221,12 @@
 			<section class="content-header" v-if="loggedIn">
 				<h1>
 					<span class="fa fa-home"></span>
-					page.title
-					<small>page.description</small>
+					{{ page.name }}
+					<small>{{ page.description }}</small>
 				</h1>
 				<ol class="breadcrumb">
-					<!-- <li><a href="javascript:;" onclick="renderPage('<?=$crumb['link']?>');"><?=$crumb['title']?></a></li> -->
-					<li class="active">page.title</li>
+					<!-- <li><a href="javascript:;" onclick="renderPage('<?=$crumb['link']?>');"><?=$crumb['name']?></a></li> -->
+					<li class="active">{{ page.name }}</li>
 				</ol>
 			</section>
 
@@ -370,6 +370,7 @@ module.exports = {
 			status: state => state.status,
 			user: state => state.user,
 			cart: state => state.cart,
+			page: state => state.page
 		},
 		actions
 	}

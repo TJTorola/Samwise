@@ -10,6 +10,11 @@ const state = {
     invoices: 0,
     events: 0
   },
+  page: {
+    name: "",
+    description: "",
+    crumbs: []
+  },
   user: {},
   cart: {
     items: []
@@ -49,7 +54,7 @@ const mutations = {
     state.status.notifications.push({
       id: uid,
       type: type,
-      title: title,
+      name: name,
       message: message
     })
 
@@ -62,6 +67,11 @@ const mutations = {
         state.status.notifications.splice(i, 1)
       }
     }
+  },
+
+  SET_PAGE (state, name, description) {
+    state.page.name = name
+    state.page.description = description
   }
 }
 
