@@ -6,7 +6,7 @@
 				<h3 class="box-title" v-if="notification.title">{{ notification.title }}</h3>
 				<h3 class="box-title" v-else>{{ notification.type | capitalize }}</h3>
 				<div class="box-tools pull-right">
-					<button class="btn btn-box-tool" @click="deleteNotification(notification.id)"><i class="fa fa-times"></i></button>
+					<button class="btn btn-box-tool" @click="deleteNotification($index)"><i class="fa fa-times"></i></button>
 				</div><!-- /.box-tools -->
 			</div><!-- /.box-header -->
 			<div class="box-body">
@@ -255,6 +255,8 @@
 					<div @click="postLogin" class="submit-button" v-else>
 						<status-icon icon="fa-sign-in" v-ref:login-status></status-icon> SUBMIT LOGIN
 					</div>
+
+					<div class="g-recaptcha" data-sitekey="{{ recaptchaKey }}" v-if="captchaRequired"></div>
 				</div>
 
 			</section>
@@ -319,7 +321,9 @@ module.exports = {
 	data () {
 		return {
 			email: "",
-			password: ""
+			password: "",
+			captchaRequired: false,
+			recaptchaKey: $('#key-recaptcha').attr('content')
 		}
 	},
 
@@ -345,17 +349,40 @@ module.exports = {
 
 	methods: {
 		postLogin () {
+			if (this.captchaRequired) {
+				var captcha = grecaptcha.getResponse()
+
+				if (!captcha) {
+					this.notify('warning', 'Captcha Required', 'Please indicate that you are not a robot.', 3000)
+					return
+				}
+			} else {
+				captcha = null
+			}
+
 			this.$refs.loginStatus.working()
 
 			var request = {
 				email: this.email,
-				password: this.password
+				password: this.password,
+				captcha: captcha
 			}
 			this.$http.post('auth', request).then(function(response) {
 				this.$refs.loginStatus.check()
 			}, function(response) {
 				this.$refs.loginStatus.fail()
 			})
+		},
+
+		resetCaptcha () {
+			if (this.captchaRequired) {
+				grecaptcha.reset()
+			} else {
+				this.captchaRequired = true
+				this.$nextTick(function() {
+					grecaptcha.render($('.g-recaptcha')[0], { sitekey : this.recaptchaKey })
+				})
+			}
 		},
 
 		storeTodo () {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta id="api-url" content="{{ env('DOMAIN_PROTOCOL').env('API_DOMAIN') }}">
+    <meta id="key-recaptcha" content="{{ env('RECAPTCHA_PUBLIC') }}">
 
     <!-- fake icon to stop requests -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -23,6 +23,7 @@
   <body class="hold-transition skin-blue sidebar-mini">
     <div id="app"></div>
 
+    <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer'></script>
     <script src="/js/vendor.min.js"></script>
     <script src="/js/main.min.js"></script>
   </body>
