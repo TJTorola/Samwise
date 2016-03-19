@@ -180,15 +180,15 @@ Vue.http.interceptors.push({
 			this.notify(note.type, note.title, note.body, note.timeout)
 		}
 
-		if (response.status == 200) {
-			if (response.request.url == "auth") {
-				this.password = ""
-				this.email = ""
-				this.captchaRequired = false
-				Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
-				this.login()
-			}
-		}
+		// if (response.status == 200) {
+		// 	if (response.request.url == "auth") {
+		// 		this.password = ""
+		// 		this.email = ""
+		// 		this.captchaRequired = false
+		// 		Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
+		// 		this.login()
+		// 	}
+		// }
 
 		if (response.status == 400) {
 			if (typeof response.data.attempts_remaining == 'number' && response.data.attempts_remaining <= 0) {
