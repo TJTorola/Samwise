@@ -1,4 +1,7 @@
 <template>
+<div>
+	Here
+</div>
 </template>
 
 <script>

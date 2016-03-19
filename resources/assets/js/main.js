@@ -174,30 +174,35 @@ router.beforeEach(function (transition) {
 })
 
 Vue.http.interceptors.push({
-	request: function (request) {
-		return request
-	},
-
 	response (response) {
+	if (response.data.note) {
+			var note = response.data.note
+			this.notify(note.type, note.title, note.body, note.timeout)
+		}
+
 		if (response.status == 200) {
 			if (response.request.url == "auth") {
 				this.password = ""
 				this.email = ""
+				this.captchaRequired = false
 				Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
 				this.login()
 			}
 		}
 
 		if (response.status == 400) {
-			this.notify('warning', 'Invalid Credentials', response.data)
+			if (typeof response.data.attempts_remaining == 'number' && response.data.attempts_remaining <= 0) {
+				this.resetCaptcha()
+			}
 		}
 
 		if (response.status == 401) {
-			unset(Vue.http.headers.common['Authorization'])
 			this.logout()
 		}
 
-
+		if (response.status == 429) {
+			this.resetCaptcha()
+		}
 
 		return response
 	}
