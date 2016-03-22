@@ -9,5 +9,9 @@ module.exports = {
 
 	expandIndex({ dispatch }, index) {
 		dispatch('EXPAND_INDEX', index)
+	},
+
+	setSort({ dispatch }, key) {
+		dispatch('SET_SORT', key)
 	}
 }
