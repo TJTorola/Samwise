@@ -67,8 +67,8 @@ module.exports = {
 	},
 
 	components: {
-		statusIcon: require('../components/statusIcon.vue'),
-		pagination: require('../components/pagination.vue')
+		statusIcon: require('./statusIcon.vue'),
+		pagination: require('./pagination.vue')
 	},
 
 	methods: {
