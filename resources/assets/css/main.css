@@ -300,7 +300,7 @@ ul.dropdown-menu li.footer:hover a {
   padding-left: 70px;
 }
 
-.unselectable {
+.u-unselectable {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -393,4 +393,12 @@ ul.dropdown-menu li.footer:hover a {
 
 .login-form .submit-button:hover {
   cursor: pointer;
+}
+
+.table-hover tbody:hover {
+  cursor: pointer;
+}
+
+.u-no-margin {
+  margin: 0;
 }

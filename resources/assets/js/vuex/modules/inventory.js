@@ -7,7 +7,11 @@ const state = {
 	items: []
 }
 
-const mutations = {}
+const mutations = {
+	UPDATE_QUERY (state, query) {
+		state.query = query
+	}
+}
 
 module.exports = {
 	state,

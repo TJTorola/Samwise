@@ -367,11 +367,14 @@ module.exports = {
 				password: this.password,
 				captcha: captcha
 			}
+
 			this.$http.post('auth', request).then(function(response) {
+				// reset authentication credentials
 				this.password = ""
 				this.email = ""
 				this.captchaRequired = false
 
+				// append the auth token to all http further requests
 				var Vue = require('vue')
 				Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
 
@@ -402,9 +405,7 @@ module.exports = {
 			}
 		},
 
-		storeTodo () {
-
-		}
+		storeTodo () {}
 	},
 
 	store,
