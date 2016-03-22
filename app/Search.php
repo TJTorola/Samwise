@@ -246,18 +246,26 @@ class Search
 			$limit = (int)$request->_limit;
 		}
 
+		// Build sorting array
+		if ($request->has('_sort')) {
+			$sort = $request->_sort;
+			$sort = json_decode($sort);
+		} else {
+			$sort = ['id' => 'asc'];
+		}
+
 		// ES uses offset rather than chunks
 			$offset = $page * $limit;
 
 		// search the appropriate index
 		if ($index == 'customers') {
-			$results = Customer::searchByQuery($query, $limit, $offset);
+			$results = Customer::searchByQuery($query, $limit, $offset, $sort);
 		} else if ($index == 'invoices') {
-			$results = Invoice::searchByQuery($query, $limit, $offset);
+			$results = Invoice::searchByQuery($query, $limit, $offset, $sort);
 		} else if ($index == 'items') {
-			$results = Item::searchByQuery($query, $limit, $offset);
+			$results = Item::searchByQuery($query, $limit, $offset, $sort);
 		} else if ($index == 'item-variants') {
-			$results = ItemVariant::searchByQuery($query, $limit, $offset);
+			$results = ItemVariant::searchByQuery($query, $limit, $offset, $sort);
 		} else {
 			return response()->json(['$index' => ['Chunking index was not found.']], 500);
 		}

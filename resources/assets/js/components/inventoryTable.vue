@@ -1,5 +1,5 @@
 <template>
-	<div class='box box-success'>
+	<div class='box box-warning'>
 		<div class='box-header'>
 			<h3 class='box-title'>
 				<status-icon icon="fa-archive" v-ref:status></status-icon> Inventory Table
@@ -24,10 +24,10 @@
 		</div>
 
 		<div class="box-body no-padding">
-			<table class="table">
+			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th style="width: 10px">ID#</th>
+						<th style="width: 10px">ID</th>
 						<th>Name</th>
 						<th class="text-right">Price</th>
 						<th class="text-right" style="width: 65px;">Stock</th>
