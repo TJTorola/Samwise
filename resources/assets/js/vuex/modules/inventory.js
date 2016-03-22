@@ -1,6 +1,9 @@
 const state = {
 	query: "",
-	sort: "",
+	sort: {
+		key: "id",
+		ascending: true
+	},
 	ascending: true,
 	page: 0,
 	limit: 10,
@@ -19,6 +22,15 @@ const mutations = {
 
 	EXPAND_INDEX (state, index) {
 		state.expandedIndex = index
+	},
+
+	SET_SORT (state, key) {
+		if (state.sort.key == key) {
+			state.sort.ascending = !state.sort.ascending
+		} else {
+			state.sort.key = key
+			state.sort.ascending = true
+		}
 	}
 }
 

@@ -25,13 +25,23 @@
 
 		<div class="box-body no-padding">
 			<table class="table table-hover">
-				<thead>
+				<thead class="u-unselectable">
 					<tr>
-						<th style="width: 10px">ID</th>
-						<th>Name</th>
-						<th class="text-right">Price</th>
-						<th class="text-right" style="width: 65px;">Stock</th>
-						<th style="width: 60px" class="text-right">Cart</th>
+						<th style="width: 50px" @click="sortAndGet('id')">
+							ID <sort-icon key="id"></sort-icon>
+						</th>
+						<th @click="sortAndGet('name')">
+							Name <sort-icon key="name"></sort-icon>
+						</th>
+						<th class="text-right" @click="sortAndGet('price')">
+							<sort-icon key="price"></sort-icon> Price
+						</th>
+						<th class="text-right" style="width: 75px;" @click="sortAndGet('stock')">
+							<sort-icon key="stock"></sort-icon> Stock
+						</th>
+						<th style="width: 60px" class="text-right">
+							Cart
+						</th>
 					</tr>
 				</thead>
 				<tbody v-for="item in itemCollection.body">
@@ -98,7 +108,8 @@ module.exports = {
 
 	components: {
 		statusIcon: require('./statusIcon.vue'),
-		pagination: require('./pagination.vue')
+		pagination: require('./pagination.vue'),
+		sortIcon: require('./sortIcon.vue')
 	},
 
 	events: {
@@ -111,9 +122,28 @@ module.exports = {
 	methods: {
 		getItems () {
 			this.$refs.status.working()
+
+			if (this.sort.key == 'price' && this.sort.ascending) {
+				// price gets sorted by price_high or price_low keys
+				var sort = {
+					price_low: 'asc'
+				}
+			} else if (this.sort.key == 'price' && !this.sort.ascending) {
+				var sort = {
+					price_high: 'desc'
+				}
+			} else if (this.sort.ascending) {
+				var sort = {}
+				sort[this.sort.key] = 'asc'
+			} else {
+				var sort = {}
+				sort[this.sort.key] = 'desc'
+			}
+
 			var request = {
 				_query: this.query,
-				_page: this.page
+				_page: this.page,
+				_sort: JSON.stringify(sort)
 			}
 
 			this.$http.get('items', request).then(function(response) {
@@ -131,6 +161,11 @@ module.exports = {
 		clearSearch () {
 			this.changePage(0)
 			this.updateQuery('')
+			this.getItems()
+		},
+
+		sortAndGet (key) {
+			this.setSort(key)
 			this.getItems()
 		}
 	},
