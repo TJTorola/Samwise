@@ -88,10 +88,6 @@ class Item extends Model
   */
   public function publicArray()
   {
-    if (!$this->public) {
-      return null;
-    }
-
     $variants = $this->variants;
 
     $stock = 0;
@@ -128,11 +124,8 @@ class Item extends Model
     $return['tags'] = explode(',', $return['tags']);
     $return['price_high'] = $price_high;
     $return['price_low'] = $price_low;
-    if ($infinite) {
-      $return['stock'] = '∞';
-    } else {
-      $return['stock'] = $stock;
-    }
+    $return['stock'] = $stock;
+    $return['infinite'] = $infinite;
 
     $type_info = json_decode($this->type_info);
     foreach ($type_info as $type_field => $value) {

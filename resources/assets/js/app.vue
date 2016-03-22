@@ -234,7 +234,7 @@
 				<router-view v-if="loggedIn"></router-view>
 				<login-form v-else></login-form>
 			</section>
-			
+
 		</div><!-- /.content-wrapper -->
 	</div>
 
@@ -296,6 +296,18 @@ module.exports = {
 	computed: {
 		loggedIn () {
 			return Boolean(this.user.info.name)
+		}
+	},
+
+	watch: {
+		loggedIn () {
+			if (this.loggedIn) {
+				// activate newly revealed adminLTE controls
+				this.$nextTick(function() {
+					$.AdminLTE.pushMenu.activate("[data-toggle='offcanvas']")
+					$.AdminLTE.controlSidebar.activate()
+				})
+			}
 		}
 	},
 

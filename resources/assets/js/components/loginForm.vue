@@ -88,12 +88,6 @@ module.exports = {
 				this.setAuthentication(response.data)
 				this.getUser()
 
-				// activate newly revealed adminLTE controls
-				this.$nextTick(function() {
-					$.AdminLTE.pushMenu.activate("[data-toggle='offcanvas']")
-					$.AdminLTE.controlSidebar.activate()
-				})
-
 				this.$refs.loginStatus.check()
 			}, function(response) {
 				this.$refs.loginStatus.fail()

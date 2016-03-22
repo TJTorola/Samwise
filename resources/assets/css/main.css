@@ -402,3 +402,7 @@ ul.dropdown-menu li.footer:hover a {
 .u-no-margin {
   margin: 0;
 }
+
+.u-pointer {
+  cursor: pointer;
+}
