@@ -13,5 +13,9 @@ module.exports = {
 
 	setSort({ dispatch }, key) {
 		dispatch('SET_SORT', key)
+	},
+
+	setLimit({ dispatch }, limit) {
+		dispatch('SET_LIMIT', limit)
 	}
 }

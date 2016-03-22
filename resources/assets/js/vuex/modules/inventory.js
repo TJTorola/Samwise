@@ -4,6 +4,7 @@ const state = {
 		key: "id",
 		ascending: true
 	},
+	sortSecond: null,
 	ascending: true,
 	page: 0,
 	limit: 10,
@@ -28,9 +29,18 @@ const mutations = {
 		if (state.sort.key == key) {
 			state.sort.ascending = !state.sort.ascending
 		} else {
+			// set the previous sort as the secondary sort
+			state.sortSecond = {}
+			state.sortSecond.key = state.sort.key
+			state.sortSecond.ascending = state.sort.ascending
+
 			state.sort.key = key
 			state.sort.ascending = true
 		}
+	},
+
+	SET_LIMIT (state, limit) {
+		state.limit = limit
 	}
 }
 

@@ -36,6 +36,9 @@
 						<th class="text-right" @click="sortAndGet('price')">
 							<sort-icon key="price"></sort-icon> Price
 						</th>
+						<th class="text-right" style="width: 75px;" @click="sortAndGet('sold')">
+							<sort-icon key="sold"></sort-icon> Sold
+						</th>
 						<th class="text-right" style="width: 75px;" @click="sortAndGet('stock')">
 							<sort-icon key="stock"></sort-icon> Stock
 						</th>
@@ -56,6 +59,7 @@
 						<td class="text-right" v-else>
 							{{ item.price_low / 100 | currency }} - {{ item.price_high / 100 | currency }}
 						</td>
+						<td class="text-right">{{ item.sold }}</td>
 						<td class="text-right" v-if="item.infinite">∞</td>
 						<td class="text-right" v-else>{{ item.stock }}</td>
 						<td v-if="item.variants.length == 1">
@@ -73,6 +77,7 @@
 						<td></td>
 						<td> - {{ variant.name }}</td>
 						<td class="text-right">{{ variant.price / 100 | currency }}</td>
+						<td class="text-right">{{ variant.sold }}</td>
 						<td class="text-right" v-if="variant.infinite">∞</td>
 						<td class="text-right" v-else>{{ variant.stock }}</td>
 						<td>
@@ -84,7 +89,18 @@
 		</div>
 
 		<div class="box-footer">
-			<pagination :pages="itemCollection.pages" :page="page"></pagination>
+			<pagination :pages="itemCollection.pages" :page="page" class="pull-left"></pagination>
+
+			<span class="form-inline pull-right">
+				Show
+				<select class="form-control input-sm" :value="limit" @change="limitAndGet">
+					<option value="10">10</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select> 
+				entries
+			</span>
 			<!-- <a href="#!/item/new" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add New Item</a> -->
 		</div>
 	</div>
@@ -123,26 +139,19 @@ module.exports = {
 		getItems () {
 			this.$refs.status.working()
 
-			if (this.sort.key == 'price' && this.sort.ascending) {
-				// price gets sorted by price_high or price_low keys
-				var sort = {
-					price_low: 'asc'
-				}
-			} else if (this.sort.key == 'price' && !this.sort.ascending) {
-				var sort = {
-					price_high: 'desc'
-				}
-			} else if (this.sort.ascending) {
-				var sort = {}
-				sort[this.sort.key] = 'asc'
+			if (this.sortSecond) {
+				var sort = Object.assign(
+					this.sortToArray(this.sort),
+					this.sortToArray(this.sortSecond)
+				)
 			} else {
-				var sort = {}
-				sort[this.sort.key] = 'desc'
+				var sort = this.sortToArray(this.sort)
 			}
 
 			var request = {
 				_query: this.query,
 				_page: this.page,
+				_limit: this.limit,
 				_sort: JSON.stringify(sort)
 			}
 
@@ -150,6 +159,27 @@ module.exports = {
 				this.$refs.status.check()
 				this.itemCollection = response.data
 			})
+		},
+
+		sortToArray (sort) {
+			if (sort.key == 'price' && sort.ascending) {
+				// price gets sorted by price_high or price_low keys
+				var sortArray = {
+					price_low: 'asc'
+				}
+			} else if (sort.key == 'price' && !sort.ascending) {
+				var sortArray = {
+					price_high: 'desc'
+				}
+			} else if (sort.ascending) {
+				var sortArray = {}
+				sortArray[sort.key] = 'asc'
+			} else {
+				var sortArray = {}
+				sortArray[sort.key] = 'desc'
+			}
+
+			return sortArray
 		},
 
 		search () {
@@ -167,6 +197,11 @@ module.exports = {
 		sortAndGet (key) {
 			this.setSort(key)
 			this.getItems()
+		},
+
+		limitAndGet (e) {
+			this.setLimit(e.target.value)
+			this.getItems()
 		}
 	},
 
@@ -174,6 +209,7 @@ module.exports = {
 		getters: {
 			query: state => state.inventory.query,
 			sort: state => state.inventory.sort,
+			sortSecond: state => state.inventory.sortSecond,
 			ascending: state => state.inventory.ascending,
 			page: state => state.inventory.page,
 			limit: state => state.inventory.limit,
