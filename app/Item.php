@@ -92,14 +92,30 @@ class Item extends Model
       return null;
     }
 
-    $in_stock = false;
-
     $variants = $this->variants;
+
+    $stock = 0;
+    $infinite = false;
+
+    $price_low = $variants[0]['price'];
+    $price_high = $price_low;
+
     foreach ($variants as $variant) {
       $variant['stock'] = $variant['stock'] - $variant['store_reserve'];
-      if ($variant['infinite'] || $variant['stock'] > 0) {
-        $in_stock = true;
+
+      if ($variant['infinite']) {
+        $infinite = true;
       }
+      $stock += $variant['stock'];
+
+      if ($variant['price'] < $price_low) {
+        $price_low = $variant['price'];
+      }
+
+      if ($variant['price'] > $price_high) {
+        $price_high = $variant['price'];
+      }
+
       unset($variant['store_reserve']);
       unset($variant['sold']);
       unset($variant['created_at']);
@@ -110,6 +126,13 @@ class Item extends Model
 
     unset($return['type_info']);
     $return['tags'] = explode(',', $return['tags']);
+    $return['price_high'] = $price_high;
+    $return['price_low'] = $price_low;
+    if ($infinite) {
+      $return['stock'] = '∞';
+    } else {
+      $return['stock'] = $stock;
+    }
 
     $type_info = json_decode($this->type_info);
     foreach ($type_info as $type_field => $value) {

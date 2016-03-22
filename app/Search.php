@@ -236,7 +236,7 @@ class Search
 
     // set defaults for page/limit
     $page = 0;
-    $limit = env('STORE_COLLECTION_LIMIT', 25);
+    $limit = env('STORE_COLLECTION_LIMIT', 10);
 
     // set requested page/limit
     if ($request->has('_page')) {
@@ -279,7 +279,7 @@ class Search
   {
     // set defaults
     $page = 0;
-    $limit = env('STORE_COLLECTION_LIMIT', 25);
+    $limit = env('STORE_COLLECTION_LIMIT', 10);
 
     // set requested page/limit
     if ($request->has('_page')) {
