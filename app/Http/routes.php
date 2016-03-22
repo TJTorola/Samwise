@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 */
 
-Route::group(['prefix' => 'api', 'middleware' => 'throttle'], function() {
+Route::group(['prefix' => 'api'], function() {
 
 	/**
 	 * Authentication Middleware:
