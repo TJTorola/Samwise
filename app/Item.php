@@ -92,12 +92,16 @@ class Item extends Model
 
 		$stock = 0;
 		$infinite = false;
+		$sold = 0;
 
 		$price_low = $variants[0]['price'];
 		$price_high = $price_low;
 
 		foreach ($variants as $variant) {
 			$variant['stock'] = $variant['stock'] - $variant['store_reserve'];
+			if ($variant['stock'] < 0) {
+				$variant['stock'] = 0;
+			}
 
 			if ($variant['infinite']) {
 				$infinite = true;
@@ -112,8 +116,9 @@ class Item extends Model
 				$price_high = $variant['price'];
 			}
 
+			$sold += $variant['sold'];
+
 			unset($variant['store_reserve']);
-			unset($variant['sold']);
 			unset($variant['created_at']);
 			unset($variant['updated_at']);
 		}
@@ -130,6 +135,7 @@ class Item extends Model
 			$return['stock'] = $stock; 
 		}
 		$return['infinite'] = $infinite;
+		$return['sold'] = $sold;
 
 		$type_info = json_decode($this->type_info);
 		foreach ($type_info as $type_field => $value) {
