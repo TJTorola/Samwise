@@ -400,3 +400,12 @@ ul.dropdown-menu li.footer:hover a {
 .u-pointer {
   cursor: pointer;
 }
+
+.u-active:hover {
+  color: #337AB7;
+  cursor: pointer;
+}
+
+.u-translucent {
+  opacity: .2;
+}
