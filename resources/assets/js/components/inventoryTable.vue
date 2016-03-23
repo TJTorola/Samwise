@@ -63,7 +63,7 @@
 						<td class="text-right" v-if="item.infinite">∞</td>
 						<td class="text-right" v-else>{{ item.stock }}</td>
 						<td v-if="item.variants.length == 1">
-							<button type="button" class="btn btn-block btn-warning btn-xs u-no-margin">0 <i class="fa fa-shopping-cart"></i></button>
+							<add-to-cart :id="item.variants[0].id"></add-to-cart>
 						</td>
 						<td v-else>
 							<button type="button" class="btn btn-block btn-xs u-no-margin" 
@@ -81,7 +81,7 @@
 						<td class="text-right" v-if="variant.infinite">∞</td>
 						<td class="text-right" v-else>{{ variant.stock }}</td>
 						<td>
-							<button type="button" class="btn btn-block btn-warning btn-xs u-no-margin">0 <i class="fa fa-shopping-cart"></i></button>
+							<add-to-cart :id="variant.id"></add-to-cart>
 						</td>
 					</tr>
 				</tbody>
@@ -125,7 +125,8 @@ module.exports = {
 	components: {
 		statusIcon: require('./statusIcon.vue'),
 		pagination: require('./pagination.vue'),
-		sortIcon: require('./sortIcon.vue')
+		sortIcon: require('./sortIcon.vue'),
+		addToCart: require('./addToCart.vue')
 	},
 
 	events: {

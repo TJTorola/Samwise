@@ -38,10 +38,7 @@
 						<!-- Menu toggle button -->
 						<a class="dropdown-toggle" data-toggle="dropdown">
 							<i class="fa fa-shopping-cart"></i>
-							<span class="label label-warning" v-if="cart.items.length">
-								<span class="fa fa-spinner fa-pulse" v-if="cart.working"></span>
-								<span v-else>{{ cart.count }}</span>
-							</span>
+							<span class="label label-warning" v-if="cart.count">{{ cart.count }}</span>
 						</a>
 						<ul class="dropdown-menu" v-if="!cart.working">
 							<li class="header">You have {{ cart.count }} item in your cart.</li>
@@ -59,17 +56,17 @@
 						<!-- Menu Toggle Button -->
 						<a class="dropdown-toggle" data-toggle="dropdown">
 							<!-- The user image in the navbar-->
-							<img v-bind:src="user.info.gravitar" class="user-image" alt="User Image">
+							<img v-bind:src="user.gravitar" class="user-image" alt="User Image">
 							<!-- hidden-xs hides the username on small devices so only the image appears. -->
-							<span class="hidden-xs">{{ user.info.name }}</span>
+							<span class="hidden-xs">{{ user.name }}</span>
 						</a>
 						<ul class="dropdown-menu">
 							<!-- The user image in the menu -->
 							<li class="user-header">
-								<img v-bind:src="user.info.gravitar" class="img-circle" alt="User Image">
+								<img v-bind:src="user.gravitar" class="img-circle" alt="User Image">
 								<p>
-									{{ user.info.name }}
-									<small>Member since {{ user.info.created_at }}</small>
+									{{ user.name }}
+									<small>Member since {{ user.created_at }}</small>
 								</p>
 							</li>
 							<!-- Menu Footer-->
@@ -100,10 +97,10 @@
 			<!-- Sidebar user panel (optional) -->
 			<div class="user-panel">
 				<div class="pull-left image">
-					<img v-bind:src="user.info.gravitar" class="img-circle" alt="User Image">
+					<img v-bind:src="user.gravitar" class="img-circle" alt="User Image">
 				</div>
 				<div class="pull-left info">
-					<p>{{ user.info.name }}</p>
+					<p>{{ user.name }}</p>
 					<!-- Status -->
 					<small><i class="fa fa-circle text-success"></i> Online</small>
 				</div>
@@ -121,34 +118,34 @@
 			<!-- Sidebar Menu -->
 			<ul class="sidebar-menu">
 				<!-- invoices inventory pages catalogs customers -->
-				<li class="header" v-if="user.info.invoices || user.info.inventory || user.info.pages || user.info.catalogs || user.info.customers">Resources</li>
+				<li class="header" v-if="user.invoices || user.inventory || user.pages || user.catalogs || user.customers">Resources</li>
 
-				<li class="js-link" v-if="user.info.invoices">
+				<li class="js-link" v-if="user.invoices">
 					<a v-link="{ path: '/invoices' }">
 						<i class="fa fa-credit-card"></i> <span>Invoices</span>
 						<small class="label pull-right label-danger" v-if="status.invoices">{{ status.invoices }}</small>
 					</a>
 				</li>
 
-				<li class="js-link" v-if="user.info.inventory">
+				<li class="js-link" v-if="user.inventory">
 					<a v-link="{ path: '/inventory' }">
 						<i class="fa fa-archive"></i> <span>Inventory</span>
 					</a>
 				</li>
 
-				<li class="js-link" v-if="user.info.pages">
+				<li class="js-link" v-if="user.pages">
 					<a v-link="{ path: '/pages' }">
 						<i class="fa fa-file-text"></i> <span>Pages</span>
 					</a>
 				</li>
 
-				<li class="js-link" v-if="user.info.catalogs">
+				<li class="js-link" v-if="user.catalogs">
 					<a v-link="{ path: '/catalogs' }">
 						<i class="fa fa-list-alt"></i> <span>Catalogs</span>
 					</a>
 				</li>
 
-				<!-- <li class="js-link" v-if="user.info.customers">
+				<!-- <li class="js-link" v-if="user.customers">
 					<a v-link="{ path: '/customers' }">
 						<i class="fa fa-users"></i> <span>Customers</span>
 					</a>
@@ -182,7 +179,7 @@
 					</a>
 				</li> -->
 
-				<li class="header" v-if="user.info.admin">Settings</li>
+				<li class="header" v-if="user.admin">Settings</li>
 
 				<!-- <li class="js-link">
 					<a v-link="{ path: '/mysettings' }">
@@ -190,19 +187,19 @@
 					</a>
 				</li> -->
 
-				<li class="js-link" v-if="user.info.admin">
+				<li class="js-link" v-if="user.admin">
 					<a v-link="{ path: '/admin-settings' }">
 						<i class="fa fa-cogs"></i> <span>Admin Settings</span>
 					</a>
 				</li>
 
-				<!-- <li class="js-link" v-if="user.info.admin">
+				<!-- <li class="js-link" v-if="user.admin">
 					<a v-link="{ path: '/storesettings' }">
 						<i class="fa fa-wrench"></i> <span>Store Settings</span>
 					</a>
 				</li>
 
-				<li class="js-link" v-if="user.info.admin">
+				<li class="js-link" v-if="user.admin">
 					<a v-link="{ path: '/log' }">
 						<i class="fa fa-list"></i> <span>Log</span>
 					</a>
@@ -252,7 +249,7 @@
 				<h3 class="control-sidebar-heading">Todo List:</h3>
 
 				<div class="input-group">
-					<input type="text" class="form-control grayFade-input" placeholder="I need to..." v-model="user.info.newTodo" v-on:keyup.enter="storeTodo">
+					<input type="text" class="form-control grayFade-input" placeholder="I need to..." v-model="user.newTodo" v-on:keyup.enter="storeTodo">
 					<span class="input-group-addon grayFade-addon" v-on:click="storeTodo">
 						<i class="fa fa-thumb-tack"></i>
 					</span>
@@ -261,7 +258,7 @@
 				<br>
 
 				<ul class="control-sidebar-menu">
-					<li v-for="todo in user.info.todos">
+					<li v-for="todo in user.todos">
 						<a class="task-link" v-on:click="deleteTodo($index)">
 							<i class="menu-icon fa fa-square-o bg-red"></i>
 							<i class="menu-icon fa fa-check-square-o bg-red"></i>
@@ -295,7 +292,7 @@ var actions = require('./vuex/actions.js')
 module.exports = {
 	computed: {
 		loggedIn () {
-			return Boolean(this.user.info.name)
+			return Boolean(this.user.name)
 		}
 	},
 
@@ -325,7 +322,8 @@ module.exports = {
 		getters: {
 			notifications: state => state.notifications,
 			status: state => state.status,
-			user: state => state.user,
+			user: state => state.user.info,
+			todos: state => state.user.todos,
 			cart: state => state.cart,
 			page: state => state.page
 		},
