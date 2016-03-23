@@ -27,19 +27,19 @@
 			<table class="table table-hover">
 				<thead class="u-unselectable">
 					<tr>
-						<th style="width: 50px" @click="sortAndGet('id')">
+						<th class="u-active" style="width: 50px" @click="sortAndGet('id')">
 							ID <sort-icon key="id"></sort-icon>
 						</th>
-						<th @click="sortAndGet('name')">
+						<th class="u-active" @click="sortAndGet('name')">
 							Name <sort-icon key="name"></sort-icon>
 						</th>
-						<th class="text-right" @click="sortAndGet('price')">
+						<th class="u-active text-right" @click="sortAndGet('price')">
 							<sort-icon key="price"></sort-icon> Price
 						</th>
-						<th class="text-right" style="width: 75px;" @click="sortAndGet('sold')">
+						<th class="u-active text-right" style="width: 75px;" @click="sortAndGet('sold')">
 							<sort-icon key="sold"></sort-icon> Sold
 						</th>
-						<th class="text-right" style="width: 75px;" @click="sortAndGet('stock')">
+						<th class="u-active text-right" style="width: 75px;" @click="sortAndGet('stock')">
 							<sort-icon key="stock"></sort-icon> Stock
 						</th>
 						<th style="width: 60px" class="text-right">
