@@ -2,10 +2,9 @@ const state = {
 	query: "",
 	sort: {
 		key: "id",
-		ascending: true
+		ascending: false
 	},
 	sortSecond: null,
-	ascending: true,
 	page: 0,
 	limit: 10,
 	items: [],
@@ -13,19 +12,19 @@ const state = {
 }
 
 const mutations = {
-	UPDATE_QUERY (state, query) {
+	UPDATE_ITEM_QUERY (state, query) {
 		state.query = query
 	},
 
-	CHANGE_PAGE (state, page) {
+	CHANGE_ITEM_PAGE (state, page) {
 		state.page = page
 	},
 
-	EXPAND_INDEX (state, index) {
+	EXPAND_ITEM_INDEX (state, index) {
 		state.expandedIndex = index
 	},
 
-	SET_SORT (state, key) {
+	SET_ITEM_SORT (state, key) {
 		if (state.sort.key == key) {
 			state.sort.ascending = !state.sort.ascending
 		} else {
@@ -39,7 +38,7 @@ const mutations = {
 		}
 	},
 
-	SET_LIMIT (state, limit) {
+	SET_ITEM_LIMIT (state, limit) {
 		state.limit = limit
 	}
 }

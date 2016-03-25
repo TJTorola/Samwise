@@ -5,11 +5,11 @@ const state = {
 		ascending: true
 	},
 	sortSecond: null,
-	ascending: true,
 	page: 0,
 	limit: 10,
 	items: [],
-	expandedIndex: -1
+	expandedIndex: -1,
+	status: "active"
 }
 
 const mutations = {
@@ -41,6 +41,10 @@ const mutations = {
 
 	SET_INVOICE_LIMIT (state, limit) {
 		state.limit = limit
+	},
+
+	SET_INVOICE_STATUS (state, status) {
+		state.status = status
 	}
 }
 

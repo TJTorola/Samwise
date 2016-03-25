@@ -10,8 +10,20 @@ module.exports = {
 
 	vuex: {
 		getters: {
-			sort: state => state.inventory.sort,
-			sortSecond: state => state.inventory.sortSecond
+			sort (state) {
+				if (state.page.title == "Invoices") {
+					return state.invoices.sort
+				} else {
+					return state.inventory.sort
+				}
+			},
+			sortSecond (state) {
+				if (state.page.title == "Invoices") {
+					return state.invoices.sortSecond
+				} else {
+					return state.inventory.sortSecond
+				}
+			},
 		}
 	}
 }

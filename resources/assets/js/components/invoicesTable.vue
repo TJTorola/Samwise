@@ -25,12 +25,30 @@
 
 		<div class="box-body no-padding">
 			<ul class="nav nav-tabs">
-				<li class="active" style="margin-left: 10px;"><a>Active</a></li>
-				<li><a>New</a></li>
-				<li><a>Billed</a></li>
-				<li><a>Paid</a></li>
-				<li><a>Shipped</a></li>
-				<li><a>Cancelled</a></li>
+				<li :class="(status == 'active')?'active':'u-pointer'" 
+					@click="statusAndGet('active')" style="margin-left: 10px;">
+					<a>Active</a>
+				</li>
+				<li :class="(status == 'new')?'active':'u-pointer'" 
+					@click="statusAndGet('new')">
+					<a>New</a>
+				</li>
+				<li :class="(status == 'billed')?'active':'u-pointer'" 
+					@click="statusAndGet('billed')">
+					<a>Billed</a>
+				</li>
+				<li :class="(status == 'paid')?'active':'u-pointer'" 
+					@click="statusAndGet('paid')">
+					<a>Paid</a>
+				</li>
+				<li :class="(status == 'complete')?'active':'u-pointer'" 
+					@click="statusAndGet('complete')">
+					<a>Complete</a>
+				</li>
+				<li :class="(status == 'cancelled')?'active':'u-pointer'" 
+					@click="statusAndGet('cancelled')">
+					<a>Cancelled</a>
+				</li>
 			</ul>
 
 			<table class="table table-hover">
@@ -42,22 +60,22 @@
 						<th class="u-active" @click="sortAndGet('name')">
 							Name <sort-icon key="name"></sort-icon>
 						</th>
-						<th class="u-active" style="width: 150px" @click="sortAndGet('created_at')">
-							Created <sort-icon key="created_at"></sort-icon>
+						<th class="u-active text-right" style="width: 75px" @click="sortAndGet('subtotal')">
+							Subtotal <sort-icon key="subtotal"></sort-icon>
 						</th>
-						<th style="width: 75px">Status</th>
+						<th class="text-center" style="width: 75px">Status</th>
 						<th style="width: 60px"></th>
 					</tr>
 				</thead>
 				<tbody v-for="invoice in invoicesCollection.body">
 					<tr>
 						<td>{{ invoice.id }}</td>
-						<td>{{ invoice.last_name }}, {{ invoice.first_name }}</td>
-						<td>{{ invoice.created_at }}</td>
-						<td>
-							<i class="fa fa-file-text"></i>
-							<i class="fa fa-credit-card"></i>
-							<i class="fa fa-truck"></i>
+						<td><a v-link="{ path: '/invoice/'+invoice.id }">{{ invoice.last_name }}, {{ invoice.first_name }}</a></td>
+						<td class="text-right">{{ invoice.subtotal / 100 | currency }}</td>
+						<td class="text-center">
+							<i class="fa fa-file-text u-active" :class="invoice.billed?'u-green':'u-gray'"></i>
+							<i class="fa fa-credit-card u-active" :class="invoice.paid?'u-green':'u-gray'"></i>
+							<i class="fa fa-truck u-active" :class="invoice.shipped?'u-green':'u-gray'"></i>
 						</td>
 						<td>
 							<button type="button" class="btn btn-block btn-xs u-no-margin" 
@@ -132,11 +150,25 @@ module.exports = {
 				var sort = this.sortToArray(this.sort)
 			}
 
+			if (this.status == 'active') {
+				var mustNot = {
+					status: 'complete'
+				}
+				var must = {}
+			} else {
+				var mustNot = {}
+				var must = {
+					status: this.status
+				}
+			}
+
 			var request = {
 				_query: this.query,
 				_page: this.page,
 				_limit: this.limit,
-				_sort: JSON.stringify(sort)
+				_sort: JSON.stringify(sort),
+				_must: JSON.stringify(must),
+				_must_not: JSON.stringify(mustNot)
 			}
 
 			this.$http.get('invoices', request).then(function(response) {
@@ -177,6 +209,11 @@ module.exports = {
 		limitAndGet (e) {
 			this.setLimit(e.target.value)
 			this.getInvoices()
+		},
+
+		statusAndGet (status) {
+			this.setStatus(status)
+			this.getInvoices()
 		}
 	},
 
@@ -188,7 +225,8 @@ module.exports = {
 			ascending: state => state.invoices.ascending,
 			page: state => state.invoices.page,
 			limit: state => state.invoices.limit,
-			expandedIndex: state => state.invoices.expandedIndex
+			expandedIndex: state => state.invoices.expandedIndex,
+			status: state => state.invoices.status
 		},
 
 		actions: require('../vuex/actions/invoices.js')
