@@ -17,5 +17,9 @@ module.exports = {
 
 	setLimit({ dispatch }, limit) {
 		dispatch('SET_INVOICE_LIMIT', limit)
+	},
+
+	setStatus({ dispatch }, status) {
+		dispatch('SET_INVOICE_STATUS', status)
 	}
 }

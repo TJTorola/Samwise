@@ -16652,14 +16652,6 @@ html {
   color: #373838;
 }
 
-.dt-complete {
-  color: #3C763D;
-}
-
-.dt-incomplete {
-  color: #D6D6D6;
-}
-
 .inventory tbody tr,
 .invoices tbody tr {
   cursor: pointer;
@@ -16990,6 +16982,14 @@ ul.dropdown-menu li.footer:hover a {
 
 .u-translucent {
   opacity: .2;
+}
+
+.u-green {
+  color: #3C763D;
+}
+
+.u-gray {
+  color: #D6D6D6;
 }
 /*
  * Skin: Blue
