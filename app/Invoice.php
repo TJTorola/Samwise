@@ -19,7 +19,7 @@ class Invoice extends Model
    *
    * @var array
    */
-  protected $appends = [];
+  protected $appends = ['subtotal', 'next', 'prev', 'status'];
   /**
    * The attributes that should be casted to native types.
    *
@@ -32,7 +32,7 @@ class Invoice extends Model
    *
    * @var array
    */
-  protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next'];
+  protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next', 'subtotal', 'status'];
 
   /*
   |--------------------------------------------------------------------------
@@ -41,12 +41,20 @@ class Invoice extends Model
   */
 
   /**
-   * An item can have many items
+   * An invoice can have many items
    */
   public function items()
   {
-      return $this->hasMany('App\InvoiceItem');
+    return $this->hasMany('App\InvoiceItem');
   }
+
+  /**
+   * An invoice can have many payments
+   */
+  // public function payments()
+  // {
+  //   return $this->hasMany('App\Payment');
+  // }
 
   /*
   |--------------------------------------------------------------------------
@@ -78,6 +86,35 @@ class Invoice extends Model
     return "/invoice/$next_id";
   }
 
+  /**
+   * Return the status of the invoice
+   */
+  public function getStatusAttribute()
+  {
+    if ($this->billed && $this->paid && $this->shipped) {
+      return 'complete';
+    } else if ($this->billed && $this->paid) {
+      return 'paid';
+    } else if ($this->billed) {
+      return 'billed';
+    } else {
+      return 'new';
+    }
+  }
+
+  /**
+   * Calculate the subtotal of the invoice
+   */
+  public function getSubtotalAttribute()
+  {
+    $subtotal = 0;
+    foreach ($this->items as $item) {
+      $subtotal += $item['price'] * $item['count'];
+    }
+
+    return $subtotal;
+  }
+
   /*
   |--------------------------------------------------------------------------
   | Elastiquent Configuration
@@ -93,8 +130,8 @@ class Invoice extends Model
   /**
    * Modify index model as it goes into ES
    */
-  // function getIndexDocumentData()
-  // {
-  //
-  // }
+  function getIndexDocumentData()
+  {
+    return $this->toArray();
+  }
 }
