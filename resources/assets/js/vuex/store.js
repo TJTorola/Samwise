@@ -4,6 +4,7 @@ var Vuex = require('vuex')
 var authentication = 	require('./modules/authentication.js')
 var cart = 						require('./modules/cart.js')
 var inventory = 			require('./modules/inventory.js')
+var invoices = 				require('./modules/invoices.js')
 var notifications = 	require('./modules/notifications.js')
 var page = 						require('./modules/page.js')
 var status = 					require('./modules/status.js')
@@ -16,6 +17,7 @@ module.exports = new Vuex.Store({
 		authentication,
 		cart,
 		inventory,
+		invoices,
 		notifications,
 		page,
 		status,
