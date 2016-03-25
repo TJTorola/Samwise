@@ -1,15 +1,15 @@
 <template>
-<input type="text" v-mask="(###) ###-####" placeholder="(000) 000-0000">
-<input type="text" v-mask="#### #### #### ####" placeholder="0000 0000 0000 0000">
-<input type="text" v-mask:rtl="#,###,###,###.##" style="text-align: right;" placeholder="0.00">
+<div class="row">
+	<div class="col-xs-12">
+		<invoices-table></invoices-table>
+	</div>
+</div>
 </template>
 
 <script>
 module.exports = {
-	data () {
-		return {
-			test: ""
-		}
+	components: {
+		invoicesTable: require('../components/invoicesTable.vue')
 	}
 }
 </script>
