@@ -9,11 +9,12 @@ Vue.use(VueResource)
 
 Vue.http.options.root = '/api';
 
+Vue.directive('mask', require('./directives/mask.js'))
+
 // Vue-filters
-// var nl2br = 				require('./filters/nl2br.js')
-// var displayFormat = require('./filters/display-format.js')
-// Vue.filter('nl2br', nl2br)
-// Vue.filter('displayFormat', displayFormat)
+Vue.filter('displayFormat', require('./filters/displayFormat.js'))
+// Vue.filter('mask', require('./filters/mask.js'))
+Vue.filter('nl2br', require('./filters/nl2br.js'))
 
 // preloaded stores
 // var page = require('./store/page.js')
