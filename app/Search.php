@@ -22,6 +22,11 @@ class Search
 {
 	/**
 	 * Index all the models that are set to be indexed.
+	 *
+	 * Only to be ran once, initally, when there is no existing elasticsearch index
+	 * this will initalize the index and then add all documents to it.
+	 *
+	 * @return void
 	 */
 	static public function index()
 	{
@@ -58,10 +63,24 @@ class Search
 
 	/**
 	 * Refresh the index of all the models that are set to be indexed.
+	 *
+	 * @return void
 	 */
 	static public function reindex()
 	{}
 
+	/**
+	 * Query the state for a collection of resources.
+	 *
+	 * This will take a query request, and index to query, decide which engine
+	 * to use (laravel-db/elasticsearch), dispatch that request, then build the
+	 * response with the collection.
+	 *
+	 * @param string $index the index to query
+	 * @param Request $request the client provided request
+	 *
+	 * @return array 
+	 */
 	public function query($index, Request $request)
 	{
 		// validate the request
@@ -85,8 +104,8 @@ class Search
 
 		// determine if we will use ES or laravel
 		// get the collection
-			// functions should return the total items for the query
-			// and the particular chunk asked for
+		// functions should return the total items for the query
+		// and the particular chunk asked for
 		$searchable = ['customers', 'invoices', 'items', 'item-variants'];
 		if (in_array($index, $searchable)) {
 			$response = $this->search($index, $request);
@@ -177,6 +196,14 @@ class Search
 		];
 	}
 
+	/**
+	 * Collect the requested collection using elasticsearch.
+	 *
+	 * @param string $index the index to query
+	 * @param Request $request the client provided request
+	 *
+	 * @return array 
+	 */
 	public function search($index, Request $request)
 	{
 		// Build the must query
@@ -284,6 +311,14 @@ class Search
 		];
 	}
 
+	/**
+	 * Collect the request collection using Laravel.
+	 *
+	 * @param string $index the index to query
+	 * @param Request $request the client provided request
+	 *
+	 * @return array 
+	 */
 	public function collect($index, Request $request)
 	{
 		// set defaults
