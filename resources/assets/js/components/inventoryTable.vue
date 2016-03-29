@@ -42,9 +42,7 @@
 						<th class="u-active text-right" style="width: 75px;" @click="sortAndGet('stock')">
 							<sort-icon key="stock"></sort-icon> Stock
 						</th>
-						<th style="width: 60px" class="text-right">
-							Cart
-						</th>
+						<th style="width: 60px"></th>
 					</tr>
 				</thead>
 				<tbody v-for="item in itemCollection.body">

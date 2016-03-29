@@ -1145,8 +1145,6 @@ img {
   border-radius: 50%;
 }
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
   border: 0;
   border-top: 1px solid #eee;
 }
@@ -6730,7 +6728,17 @@ button.close {
     display: inline-block !important;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 320px) {
+  .hidden-xxxs {
+    display: none !important;
+  }
+}
+@media (max-width: 425px) { /* (min-width: 321px) and  */
+  .hidden-xxs {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) { /* (min-width: 426px) and  */
   .hidden-xs {
     display: none !important;
   }
