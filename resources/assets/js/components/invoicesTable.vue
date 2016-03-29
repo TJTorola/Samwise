@@ -2,8 +2,8 @@
 	<div class='box box-success'>
 		<div class='box-header'>
 			<h3 class='box-title'>
-				<status-icon icon="fa-credit-card" v-ref:status></status-icon> Invoice Table
-				<small>({{ invoicesCollection.length }} Invoices found)</small>
+				<status-icon icon="fa-credit-card" v-ref:status></status-icon> <span class="hidden-xxs">Invoice Table</span>
+				<small class="hidden-xs">({{ invoicesCollection.length }} Invoices found)</small>
 			</h3>
 
 			<div class="box-tools">
@@ -25,25 +25,29 @@
 
 		<div class="box-body no-padding">
 			<ul class="nav nav-tabs">
+				<li :class="(status == 'all')?'active':'u-pointer'" 
+					@click="statusAndGet('all')" style="margin-left: 10px;">
+					<a>All</a>
+				</li>
 				<li :class="(status == 'active')?'active':'u-pointer'" 
-					@click="statusAndGet('active')" style="margin-left: 10px;">
+					@click="statusAndGet('active')">
 					<a>Active</a>
 				</li>
-				<li :class="(status == 'new')?'active':'u-pointer'" 
+				<li class="hidden-xs" :class="(status == 'new')?'active':'u-pointer'" 
 					@click="statusAndGet('new')">
 					<a>New</a>
 				</li>
-				<li :class="(status == 'billed')?'active':'u-pointer'" 
+				<li class="hidden-xs" :class="(status == 'billed')?'active':'u-pointer'" 
 					@click="statusAndGet('billed')">
 					<a>Billed</a>
 				</li>
-				<li :class="(status == 'paid')?'active':'u-pointer'" 
+				<li class="hidden-xs" :class="(status == 'paid')?'active':'u-pointer'" 
 					@click="statusAndGet('paid')">
 					<a>Paid</a>
 				</li>
-				<li :class="(status == 'complete')?'active':'u-pointer'" 
-					@click="statusAndGet('complete')">
-					<a>Complete</a>
+				<li class="hidden-xxxs" :class="(status == 'completed')?'active':'u-pointer'" 
+					@click="statusAndGet('completed')">
+					<a>Completed</a>
 				</li>
 				<li :class="(status == 'cancelled')?'active':'u-pointer'" 
 					@click="statusAndGet('cancelled')">
@@ -60,29 +64,43 @@
 						<th class="u-active" @click="sortAndGet('name')">
 							Name <sort-icon key="name"></sort-icon>
 						</th>
-						<th class="u-active text-right" style="width: 75px" @click="sortAndGet('subtotal')">
-							Subtotal <sort-icon key="subtotal"></sort-icon>
+						<th class="u-active text-right hidden-xxxs" style="width: 95px" @click="sortAndGet('subtotal')">
+							<sort-icon key="subtotal"></sort-icon> Subtotal
 						</th>
-						<th class="text-center" style="width: 75px">Status</th>
-						<th style="width: 60px"></th>
+						<th class="text-center hidden-xxxs" style="width: 75px">Status</th>
+						<th style="width: 60px" class="hidden-xxs"></th>
 					</tr>
 				</thead>
 				<tbody v-for="invoice in invoicesCollection.body">
 					<tr>
 						<td>{{ invoice.id }}</td>
 						<td><a v-link="{ path: '/invoice/'+invoice.id }">{{ invoice.last_name }}, {{ invoice.first_name }}</a></td>
-						<td class="text-right">{{ invoice.subtotal / 100 | currency }}</td>
-						<td class="text-center">
+						<td class="text-right hidden-xxxs">{{ invoice.subtotal / 100 | currency }}</td>
+						<td class="text-center hidden-xxxs">
 							<i class="fa fa-file-text u-active" :class="invoice.billed?'u-green':'u-gray'"></i>
 							<i class="fa fa-credit-card u-active" :class="invoice.paid?'u-green':'u-gray'"></i>
 							<i class="fa fa-truck u-active" :class="invoice.shipped?'u-green':'u-gray'"></i>
 						</td>
-						<td>
+						<td class="hidden-xxs">
 							<button type="button" class="btn btn-block btn-xs u-no-margin" 
 								@click="(expandedIndex != invoice.id)?expandIndex(invoice.id):expandIndex(-1)">
 								<i class="fa fa-plus" v-if="expandedIndex != invoice.id"></i>
-								<i class="fa fa-minus" v-else></i>
+								<i class="fa fa-minus" v-else></i> <i class="fa fa-search"></i>
 							</button>
+						</td>
+					</tr>
+					<tr v-if="expandedIndex == invoice.id" class="hidden-xxs" style="background: white;">
+						<td colspan="7">
+							<invoice-summary :invoice="invoice"></invoice-summary>
+
+							<div class="row">
+								<div class="col-xs-6 col-xs-offset-3">
+									<button type="button" class="btn btn-block btn-sm btn-default">
+										View/Edit Full Invoice <i class="fa fa-search"></i>
+									</button>
+								</div>
+							</div>
+							
 						</td>
 					</tr>
 				</tbody>
@@ -127,7 +145,58 @@ module.exports = {
 	components: {
 		statusIcon: require('./statusIcon.vue'),
 		pagination: require('./pagination.vue'),
-		sortIcon: require('./sortIcon.vue')
+		sortIcon: require('./sortIcon.vue'),
+		invoiceSummary: require('./invoiceSummary.vue')
+	},
+
+	computed: {
+		sortQuery () {
+			if (this.sortSecond) {
+				var sort = Object.assign(
+					this.sortArray(this.sort),
+					this.sortArray(this.sortSecond)
+				)
+			} else {
+				var sort = this.sortArray(this.sort)
+			}
+
+			return JSON.stringify(sort)
+		},
+
+		must () {
+			if (this.status == 'active' || this.status == 'all') {
+				var must = {}
+			} else {
+				var must = {
+					status: this.status
+				}
+			}
+
+			return JSON.stringify(must)
+		},
+
+		mustNot () {
+			if (this.status == 'active') {
+				var mustNot = {
+					status: 'completed'
+				}
+			} else {
+				var mustNot = {}
+			}
+
+			return JSON.stringify(mustNot)
+		},
+
+		request () {
+			return {
+				_query: this.query,
+				_page: this.page,
+				_limit: this.limit,
+				_sort: this.sortQuery,
+				_must: this.must,
+				_must_not: this.mustNot
+			}
+		}
 	},
 
 	events: {
@@ -141,43 +210,13 @@ module.exports = {
 		getInvoices () {
 			this.$refs.status.working()
 
-			if (this.sortSecond) {
-				var sort = Object.assign(
-					this.sortToArray(this.sort),
-					this.sortToArray(this.sortSecond)
-				)
-			} else {
-				var sort = this.sortToArray(this.sort)
-			}
-
-			if (this.status == 'active') {
-				var mustNot = {
-					status: 'complete'
-				}
-				var must = {}
-			} else {
-				var mustNot = {}
-				var must = {
-					status: this.status
-				}
-			}
-
-			var request = {
-				_query: this.query,
-				_page: this.page,
-				_limit: this.limit,
-				_sort: JSON.stringify(sort),
-				_must: JSON.stringify(must),
-				_must_not: JSON.stringify(mustNot)
-			}
-
-			this.$http.get('invoices', request).then(function(response) {
+			this.$http.get('invoices', this.request).then(function(response) {
 				this.$refs.status.check()
 				this.invoicesCollection = response.data
 			})
 		},
 
-		sortToArray (sort) {
+		sortArray (sort) {
 			if (sort.ascending) {
 				var sortArray = {}
 				sortArray[sort.key] = 'asc'
@@ -212,6 +251,7 @@ module.exports = {
 		},
 
 		statusAndGet (status) {
+			this.changePage(0)
 			this.setStatus(status)
 			this.getInvoices()
 		}
