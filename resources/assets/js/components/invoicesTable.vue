@@ -217,6 +217,22 @@ module.exports = {
 		},
 
 		sortArray (sort) {
+			if (sort.key == 'name') {
+				if (sort.ascending) {
+					var sortArray = {
+						'last_name': 'asc',
+						'first_name': 'asc'
+					}
+				} else {
+					var sortArray = {
+						'last_name': 'desc',
+						'first_name': 'desc'
+					}
+				}
+
+				return sortArray
+			}
+			
 			if (sort.ascending) {
 				var sortArray = {}
 				sortArray[sort.key] = 'asc'

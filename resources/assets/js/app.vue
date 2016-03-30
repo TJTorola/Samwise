@@ -128,8 +128,8 @@
 				</li>
 
 				<li class="js-link" v-if="user.inventory">
-					<a v-link="{ path: '/inventory' }">
-						<i class="fa fa-archive"></i> <span>Inventory</span>
+					<a v-link="{ path: '/offers' }">
+						<i class="fa fa-archive"></i> <span>Offers</span>
 					</a>
 				</li>
 

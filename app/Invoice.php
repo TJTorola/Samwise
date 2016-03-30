@@ -19,7 +19,7 @@ class Invoice extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = ['next', 'prev', 'status', 'billing_address', 'shipping_address', 'cart'];
+	protected $appends = ['next', 'prev', 'status', 'billing_address', 'shipping_address', 'cart', 'subtotal'];
 
 	/**
 	 * The attributes excluded from the model's array form.
@@ -243,13 +243,13 @@ class Invoice extends Model
 	/**
 	 * Set mapping properties
 	 */
-	protected $mappingProperties = array();
+	// protected $mappingProperties = array();
 
 	/**
 	 * Modify index model as it goes into ES
 	 */
-	function getIndexDocumentData()
-	{
-		return $this->toArray();
-	}
+	// function getIndexDocumentData()
+	// {
+	// 	return $this->toArray();
+	// }
 }

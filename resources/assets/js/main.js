@@ -29,7 +29,7 @@ var Invoices = 			require('./pages/invoices.vue')
 var Invoice = 			require('./pages/invoice.vue')
 var NewInvoice = 		require('./pages/newinvoice.vue')
 var PrintInvoice = 	require('./pages/printinvoice.vue')
-var Inventory = 		require('./pages/inventory.vue')
+var Offers = 				require('./pages/offers.vue')
 var Item = 					require('./pages/item.vue')
 var Pages = 				require('./pages/pages.vue')
 // var Page = 					require('./pages/page.vue')
@@ -82,10 +82,10 @@ router.map({
 		description: 'Print the Invoice',
 		component: PrintInvoice
 	},
-	'/inventory': {
-		name: 'Inventory',
-		description: 'Search your Items',
-		component: Inventory
+	'/offers': {
+		name: 'Offers',
+		description: 'Search your Inventory',
+		component: Offers
 	},
 	'/item/:id': {
 		name: 'Item',
