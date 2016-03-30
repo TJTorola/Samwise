@@ -15,7 +15,7 @@ class CreateInvoiceItemsTable extends Migration
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invoice_id')->unsigned();
-            $table->integer('item_variant_id')->unsigned()->nullable()->default(null);
+            $table->integer('item_id')->unsigned()->nullable()->default(null);
             $table->string('name');
             $table->integer('count');
             $table->integer('price');
@@ -27,9 +27,9 @@ class CreateInvoiceItemsTable extends Migration
                   ->on('invoices')
                   ->onDelete('cascade');
 
-            $table->foreign('item_variant_id')
+            $table->foreign('item_id')
                   ->references('id')
-                  ->on('item_variants')
+                  ->on('items')
                   ->onDelete('set null');
         });
     }

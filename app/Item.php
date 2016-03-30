@@ -19,23 +19,21 @@ class Item extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = [];
-
-	/**
-	 * The attributes that aren't mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next'];
+	protected $appends = ['next', 'prev'];
 
 	/**
 	 * The attributes that should be casted to native types.
 	 *
 	 * @var array
 	 */
-	protected $casts = [
-			'type_info' => 'array',
-	];
+	protected $casts = [];
+
+	/**
+	 * The attributes that aren't mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next', 'offer', 'full_name'];
 
 	/*
 	|--------------------------------------------------------------------------
@@ -44,11 +42,11 @@ class Item extends Model
 	*/
 
 	/**
-	 * An item can have many variants
+	 * An item belongs to one offer
 	 */
-	public function variants()
+	public function offer()
 	{
-		return $this->hasMany('App\ItemVariant');
+			return $this->belongsTo('App\Offer');
 	}
 
 	/*
@@ -81,94 +79,17 @@ class Item extends Model
 		return "/item/$next_id";
 	}
 
-	/*
-	|--------------------------------------------------------------------------
-	| Return Arrays
-	|--------------------------------------------------------------------------
-	*/
-	public function publicArray()
+	/**
+	 * Retrieve the full name, including parent offer name
+	 */
+	public function getFullNameAttribute()
 	{
-		$variants = $this->variants;
-
-		$stock = 0;
-		$infinite = false;
-		$sold = 0;
-
-		$price_low = $variants[0]['price'];
-		$price_high = $price_low;
-
-		foreach ($variants as $variant) {
-			$variant['stock'] = $variant['stock'] - $variant['store_reserve'];
-			if ($variant['stock'] < 0) {
-				$variant['stock'] = 0;
-			}
-
-			if ($variant['infinite']) {
-				$infinite = true;
-			}
-			$stock += $variant['stock'];
-
-			if ($variant['price'] < $price_low) {
-				$price_low = $variant['price'];
-			}
-
-			if ($variant['price'] > $price_high) {
-				$price_high = $variant['price'];
-			}
-
-			$sold += $variant['sold'];
-
-			unset($variant['store_reserve']);
-			unset($variant['created_at']);
-			unset($variant['updated_at']);
-		}
-
-		$return = $this->toArray();
-
-		unset($return['type_info']);
-		$return['tags'] = explode(',', $return['tags']);
-		$return['price_high'] = $price_high;
-		$return['price_low'] = $price_low;
-		if ($infinite) {
-			$return['stock'] = PHP_INT_MAX;
+		if ($this->name) {
+			return $this->offer->name." - ".$this->name;
 		} else {
-			$return['stock'] = $stock; 
+			return $this->offer->name;
 		}
-		$return['infinite'] = $infinite;
-		$return['sold'] = $sold;
-
-		$type_info = json_decode($this->type_info);
-		foreach ($type_info as $type_field => $value) {
-			$return[$type_field] = $value;
-		}
-
-		return $return;
 	}
-
-	public function privateArray()
-	{
-		$in_stock = false;
-
-		$variants = $this->variants;
-		foreach ($variants as $variant) {
-			if ($variant['infinite'] || $variant['stock'] > 0) {
-				$in_stock = true;
-			}
-		}
-
-		$return = $this->toArray();
-
-		unset($return['type_info']);
-		$return['tags'] = explode(',', $return['tags']);
-
-		$type_info = json_decode($this->type_info);
-		foreach ($type_info as $type_field => $value) {
-			$return[$type_field] = $value;
-		}
-
-		return $return;
-	}
-
 
 	/*
 	|--------------------------------------------------------------------------
@@ -180,22 +101,13 @@ class Item extends Model
 	/**
 	 * Set mapping properties
 	 */
-	protected $mappingProperties = array(
-		'tags' => [
-			'type' => 'string',
-			'index' => 'not_analyzed',
-		],
-		'name' => [
-			'type' => 'string',
-			'index' => 'not_analyzed'
-		]
-	);
+	// protected $mappingProperties = array();
 
 	/**
 	 * Modify index model as it goes into ES
 	 */
-	function getIndexDocumentData()
-	{
-		return $this->publicArray();
-	}
+	// function getIndexDocumentData()
+	// {
+	//   return $this->publicArray();
+	// }
 }

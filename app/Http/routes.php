@@ -134,37 +134,36 @@ Route::group(['prefix' => 'api'], function() {
 	| Items Group (Control the inventory)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('inventory', 'ItemsController@index');
 	Route::get('items', 'ItemsController@index');
 	Route::group(['prefix' => 'item'], function() {
 
-		Route::post('/', 'ItemsController@store');
 		Route::get('{item}', 'ItemsController@show');
-		Route::get('{item}/admin', 'ItemsController@showAdmin'); // ->middleware('auth:inventory')
 		Route::patch('{item}', 'ItemsController@update');
 		Route::delete('{item}', 'ItemsController@destroy');
-
-		Route::get('{item}/variants', 'ItemsController@indexVariants');
-		Route::post('{item}/variant', 'ItemsController@storeVariant');
-
-		Route::get('{item}/images', 'ItemsController@indexImages');
-		Route::post('{item}/image', 'ItemsController@storeImage');
-		Route::patch('{item}/image', 'ItemsController@updateImage');
-		Route::delete('{item}/image', 'ItemsController@destroyImage');
 
 	});
 
 	/*
 	|--------------------------------------------------------------------------
-	| Item Variants Group (Control the inventory stock)
+	| Offers Group (Control the offers)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('item-variants', 'ItemVariantsController@index');
-	Route::group(['prefix' => 'item-variant'], function() {
+	Route::get('offers', 'OffersController@index');
+	Route::group(['prefix' => 'offer'], function() {
 
-		Route::get('{itemVariant}', 'ItemVariantsController@show');
-		Route::patch('{itemVariant}', 'ItemVariantsController@update');
-		Route::delete('{itemVariant}', 'ItemVariantsController@destroy');
+		Route::post('/', 'OffersController@store');
+		Route::get('{offer}', 'OffersController@show');
+		Route::get('{offer}/admin', 'OffersController@showAdmin'); // ->middleware('auth:inventory')
+		Route::patch('{offer}', 'OffersController@update');
+		Route::delete('{offer}', 'OffersController@destroy');
+
+		Route::get('{offer}/items', 'OffersController@indexItems');
+		Route::post('{offer}/item', 'OffersController@storeItem');
+
+		Route::get('{offer}/images', 'OffersController@indexImages');
+		Route::post('{offer}/image', 'OffersController@storeImage');
+		Route::patch('{offer}/image', 'OffersController@updateImage');
+		Route::delete('{offer}/image', 'OffersController@destroyImage');
 
 	});
 

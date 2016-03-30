@@ -75,7 +75,7 @@ class Customer extends Model
   /**
    * Set mapping properties
    */
-  protected $mappingProperties = array();
+  // protected $mappingProperties = array();
 
   /**
    * Modify index model as it goes into ES

@@ -14,7 +14,7 @@ use App\Customer;
 use App\Invoice;
 use App\InvoiceItem;
 use App\Item;
-use App\ItemVariant;
+use App\Offer;
 use App\Page;
 use App\User;
 
@@ -30,34 +30,34 @@ class Search
 	 */
 	static public function index()
 	{
-		Customer::createIndex($shards = null, $replicas = null);
+		Offer::createIndex($shards = null, $replicas = null);
 
 		// Customer index
-		Customer::putMapping($ignoreConflicts = true);
+		// Customer::putMapping($ignoreConflicts = true);
 		$customer_chunks = Customer::all()->chunk(50);
 		foreach ($customer_chunks as $customers) {
 			$customers->addToIndex();
 		}
 
 		// Invoice index
-		Invoice::putMapping($ignoreConflicts = true);
+		// Invoice::putMapping($ignoreConflicts = true);
 		$invoice_chunks = Invoice::all()->chunk(50);
 		foreach ($invoice_chunks as $invoices) {
 			$invoices->addToIndex();
 		}
 
+		// offer index
+		Offer::putMapping($ignoreConflicts = true);
+		$offer_chunks = Offer::all()->chunk(50);
+		foreach ($offer_chunks as $offers) {
+			$offers->addToIndex();
+		}
+
 		// Item index
-		Item::putMapping($ignoreConflicts = true);
+		// Item::putMapping($ignoreConflicts = true);
 		$item_chunks = Item::all()->chunk(50);
 		foreach ($item_chunks as $items) {
 			$items->addToIndex();
-		}
-
-		// Item Variant index
-		ItemVariant::putMapping($ignoreConflicts = true);
-		$item_variant_chunks = ItemVariant::all()->chunk(50);
-		foreach ($item_variant_chunks as $item_variants) {
-			$item_variants->addToIndex();
 		}
 	}
 
@@ -85,7 +85,7 @@ class Search
 	{
 		// validate the request
 		// Set index specific variables
-		$indices = ['catalogs','customers','invoices','invoice-items','items','item-variants','pages','users'];
+		$indices = ['catalogs','customers','invoices','invoice-items','items','offers','pages','users'];
 		if (in_array($index, $indices)) {
 			$base_href = "/$index";
 		} else {
@@ -106,7 +106,7 @@ class Search
 		// get the collection
 		// functions should return the total items for the query
 		// and the particular chunk asked for
-		$searchable = ['customers', 'invoices', 'items', 'item-variants'];
+		$searchable = ['customers', 'invoices', 'items', 'offers'];
 		if (in_array($index, $searchable)) {
 			$response = $this->search($index, $request);
 		} else {
@@ -291,8 +291,8 @@ class Search
 			$results = Invoice::searchByQuery($query, $limit, $offset, $sort);
 		} else if ($index == 'items') {
 			$results = Item::searchByQuery($query, $limit, $offset, $sort);
-		} else if ($index == 'item-variants') {
-			$results = ItemVariant::searchByQuery($query, $limit, $offset, $sort);
+		} else if ($index == 'offers') {
+			$results = Offer::searchByQuery($query, $limit, $offset, $sort);
 		} else {
 			return response()->json(['$index' => ['Chunking index was not found.']], 500);
 		}
@@ -344,8 +344,8 @@ class Search
 			$collection = InvoiceItem::all();
 		} else if ($index == 'items') {
 			$collection = Item::all();
-		} else if ($index == 'item-variants') {
-			$collection = ItemVariant::all();
+		} else if ($index == 'offers') {
+			$collection = Offer::all();
 		} else if ($index == 'pages') {
 			$collection = Page::all();
 		} else if ($index == 'users') {
