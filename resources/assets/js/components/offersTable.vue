@@ -2,8 +2,8 @@
 	<div class='box box-warning'>
 		<div class='box-header'>
 			<h3 class='box-title'>
-				<status-icon icon="fa-archive" v-ref:status></status-icon> Inventory Table
-				<small>({{ itemCollection.length }} items found)</small>
+				<status-icon icon="fa-archive" v-ref:status></status-icon> <span class="hidden-xxs">Offers Table</span>
+				<small class="hidden-xs">({{ offersCollection.length }} Offers found)</small>
 			</h3>
 
 			<div class="box-tools">
@@ -45,41 +45,41 @@
 						<th style="width: 60px"></th>
 					</tr>
 				</thead>
-				<tbody v-for="item in itemCollection.body">
-					<tr> <!--  -->
-						<td>{{ item.id }}</td>
+				<tbody v-for="offer in offersCollection.body">
+					<tr>
+						<td>{{ offer.id }}</td>
 						<td>
-							<a v-link="{ path: '/item/'+item.id }">{{ item.name }}</a>
+							<a v-link="{ path: '/offer/'+offer.id }">{{ offer.name }}</a>
 						</td>
-						<td class="text-right" v-if="item.price_high == item.price_low">
-							{{ item.price_high / 100 | currency }}
+						<td class="text-right" v-if="offer.price_high == offer.price_low">
+							{{ offer.price_high / 100 | currency }}
 						</td>
 						<td class="text-right" v-else>
-							{{ item.price_low / 100 | currency }} - {{ item.price_high / 100 | currency }}
+							{{ offer.price_low / 100 | currency }} - {{ offer.price_high / 100 | currency }}
 						</td>
-						<td class="text-right">{{ item.sold }}</td>
-						<td class="text-right" v-if="item.infinite">∞</td>
-						<td class="text-right" v-else>{{ item.stock }}</td>
-						<td v-if="item.variants.length == 1">
-							<add-to-cart :id="item.variants[0].id"></add-to-cart>
+						<td class="text-right">{{ offer.sold }}</td>
+						<td class="text-right" v-if="offer.infinite">∞</td>
+						<td class="text-right" v-else>{{ offer.stock }}</td>
+						<td v-if="offer.items.length == 1">
+							<add-to-cart :id="offer.items[0].id"></add-to-cart>
 						</td>
 						<td v-else>
 							<button type="button" class="btn btn-block btn-xs u-no-margin" 
-								@click="(expandedIndex != item.id)?expandIndex(item.id):expandIndex(-1)">
-								<i class="fa fa-plus" v-if="expandedIndex != item.id"></i>
+								@click="(expandedIndex != offer.id)?expandIndex(offer.id):expandIndex(-1)">
+								<i class="fa fa-plus" v-if="expandedIndex != offer.id"></i>
 								<i class="fa fa-minus" v-else></i>
 							</button>
 						</td>
 					</tr>
-					<tr v-if="expandedIndex == item.id" v-for="variant in item.variants" style="background: #F7F7F7;">
+					<tr v-if="expandedIndex == offer.id" v-for="item in offer.items" style="background: #F7F7F7;">
 						<td></td>
-						<td> - {{ variant.name }}</td>
-						<td class="text-right">{{ variant.price / 100 | currency }}</td>
-						<td class="text-right">{{ variant.sold }}</td>
-						<td class="text-right" v-if="variant.infinite">∞</td>
-						<td class="text-right" v-else>{{ variant.stock }}</td>
+						<td> - {{ item.name }}</td>
+						<td class="text-right">{{ item.price / 100 | currency }}</td>
+						<td class="text-right">{{ item.sold }}</td>
+						<td class="text-right" v-if="item.infinite">∞</td>
+						<td class="text-right" v-else>{{ item.stock }}</td>
 						<td>
-							<add-to-cart :id="variant.id"></add-to-cart>
+							<add-to-cart :id="item.id"></add-to-cart>
 						</td>
 					</tr>
 				</tbody>
@@ -87,7 +87,7 @@
 		</div>
 
 		<div class="box-footer">
-			<pagination :pages="itemCollection.pages" :page="page" class="pull-left"></pagination>
+			<pagination :pages="offersCollection.pages" :page="page" class="pull-left"></pagination>
 
 			<span class="form-inline pull-right">
 				Show
@@ -99,7 +99,6 @@
 				</select> 
 				entries
 			</span>
-			<!-- <a href="#!/item/new" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add New Item</a> -->
 		</div>
 	</div>
 </template>
@@ -108,11 +107,13 @@
 module.exports = {
 	data () {
 		return {
-			itemCollection: {
+			offersCollection: {
 				pages: 1
 			},
 
-			searchValue: ""
+			searchValue: "",
+
+			loaded: false
 		}
 	},
 
@@ -127,6 +128,30 @@ module.exports = {
 		addToCart: require('./addToCart.vue')
 	},
 
+	computed: {
+		sortQuery () {
+			if (this.sortSecond) {
+				var sort = Object.assign(
+					this.sortArray(this.sort),
+					this.sortArray(this.sortSecond)
+				)
+			} else {
+				var sort = this.sortArray(this.sort)
+			}
+
+			return JSON.stringify(sort)
+		},
+
+		request () {
+			return {
+				_query: this.query,
+				_page: this.page,
+				_limit: this.limit,
+				_sort: this.sortQuery
+			}
+		}
+	},
+
 	events: {
 		CHANGE_PAGE (page) {
 			this.changePage(page)
@@ -138,29 +163,14 @@ module.exports = {
 		getOffers () {
 			this.$refs.status.working()
 
-			if (this.sortSecond) {
-				var sort = Object.assign(
-					this.sortToArray(this.sort),
-					this.sortToArray(this.sortSecond)
-				)
-			} else {
-				var sort = this.sortToArray(this.sort)
-			}
-
-			var request = {
-				_query: this.query,
-				_page: this.page,
-				_limit: this.limit,
-				_sort: JSON.stringify(sort)
-			}
-
-			this.$http.get('offers', request).then(function(response) {
+			this.$http.get('offers', this.request).then(function(response) {
+				console.log()
 				this.$refs.status.check()
-				this.itemCollection = response.data
+				this.offersCollection = response.data
 			})
 		},
 
-		sortToArray (sort) {
+		sortArray (sort) {
 			if (sort.key == 'price' && sort.ascending) {
 				// price gets sorted by price_high or price_low keys
 				var sortArray = {
@@ -212,7 +222,8 @@ module.exports = {
 			ascending: state => state.offers.ascending,
 			page: state => state.offers.page,
 			limit: state => state.offers.limit,
-			expandedIndex: state => state.offers.expandedIndex
+			expandedIndex: state => state.offers.expandedIndex,
+			status: state => state.offers.status
 		},
 
 		actions: require('../vuex/actions/offers.js')

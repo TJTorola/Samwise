@@ -3020,7 +3020,7 @@ class ImportInvoiceItems extends Command
         }
       }
 
-      $new_model['item_variant_id'] = $model['inventory_stock_id'];
+      $new_model['item_id'] = $model['inventory_stock_id'];
       $new_model['price'] = $model['price'] * 100;
 
       InvoiceItem::create($new_model);

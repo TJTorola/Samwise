@@ -7,24 +7,24 @@ const state = {
 	sortSecond: null,
 	page: 0,
 	limit: 10,
-	items: [],
+	offers: [],
 	expandedIndex: -1
 }
 
 const mutations = {
-	UPDATE_ITEM_QUERY (state, query) {
+	UPDATE_OFFER_QUERY (state, query) {
 		state.query = query
 	},
 
-	CHANGE_ITEM_PAGE (state, page) {
+	CHANGE_OFFER_PAGE (state, page) {
 		state.page = page
 	},
 
-	EXPAND_ITEM_INDEX (state, index) {
+	EXPAND_OFFER_INDEX (state, index) {
 		state.expandedIndex = index
 	},
 
-	SET_ITEM_SORT (state, key) {
+	SET_OFFER_SORT (state, key) {
 		if (state.sort.key == key) {
 			state.sort.ascending = !state.sort.ascending
 		} else {
@@ -38,7 +38,7 @@ const mutations = {
 		}
 	},
 
-	SET_ITEM_LIMIT (state, limit) {
+	SET_OFFER_LIMIT (state, limit) {
 		state.limit = limit
 	}
 }

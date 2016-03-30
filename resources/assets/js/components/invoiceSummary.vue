@@ -8,13 +8,19 @@
 				</button>
 			</div>
 			<div class="col-sm-6"> <!-- DELETE -->
-				<confirmed-button icon="fa-trash" text="Delete" :action="delete"></confirmed-button>
+				<confirmed-button icon="fa-trash" text="Delete" 
+					:action="delete" 
+					v-ref:delete>
+				</confirmed-button>
 			</div>
 		</div>
 
 		<div class="row"> <!-- MORE BUTTONS -->
 			<div class="col-sm-6"> <!-- EMAIL -->
-				<confirmed-button icon="fa-paper-plane" text="Email" :action="email"></confirmed-button>
+				<confirmed-button icon="fa-paper-plane" text="Email" 
+					:action="email" 
+					v-ref:email>
+				</confirmed-button>
 			</div>
 			<div class="col-sm-6"> <!-- CHARGE -->
 				<button class="btn btn-sm btn-block btn-default">
@@ -45,7 +51,11 @@
 
 		<div class="form-group">
       <label>Store Notes:</label> <small><status-icon icon="" v-ref:note-status></status-icon></small>
-      <textarea class="form-control" rows="6" placeholder="Enter ..." v-model="invoice.store_notes" debounce="500" id="store_notes" @keyup="storeNotesChanged"></textarea>
+      <textarea class="form-control" rows="6" placeholder="Enter ..." 
+      	v-model="invoice.store_notes" 
+      	debounce="500" 
+      	@keyup="notesChanged">
+      </textarea>
     </div>
 	</div>
 	
@@ -73,6 +83,10 @@ module.exports = {
 
 		email () {
 			console.log('EMAIL')
+		},
+
+		notesChanged () {
+			console.log('NOTES')
 		}
 	}
 }

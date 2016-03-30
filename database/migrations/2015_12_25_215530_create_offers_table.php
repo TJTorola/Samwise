@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemsTable extends Migration
+class CreateOffersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('offers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('type');
@@ -21,13 +21,6 @@ class CreateItemsTable extends Migration
             $table->string('description', 2047)->default("");
             $table->text('long_description')->default("");
             $table->string('tags', 511)->default("");
-            $table->float('x')->default(0);
-            $table->float('y')->default(0);
-            $table->float('z')->default(0);
-            $table->float('weight')->default(0);
-            $table->boolean('oversized')->unsigned()->default(0);
-            $table->integer('shipping_cost')->default(0);
-            $table->string('location')->default("");
             $table->timestamps();
         });
     }
@@ -39,6 +32,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('items');
+        Schema::drop('offers');
     }
 }
