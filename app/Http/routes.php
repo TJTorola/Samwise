@@ -173,6 +173,7 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('pages', 'PagesController@index');
+	Route::post('pages', 'PagesController@updateCollection');
 	Route::group(['prefix' => 'page'], function() {
 
 		Route::post('/', 'PagesController@store');

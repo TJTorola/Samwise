@@ -7,6 +7,7 @@ var offers = 					require('./modules/offers.js')
 var invoices = 				require('./modules/invoices.js')
 var notifications = 	require('./modules/notifications.js')
 var page = 						require('./modules/page.js')
+var pages = 					require('./modules/pages.js')
 var status = 					require('./modules/status.js')
 var user = 						require('./modules/user.js')
 
@@ -20,6 +21,7 @@ module.exports = new Vuex.Store({
 		invoices,
 		notifications,
 		page,
+		pages,
 		status,
 		user
 	}
