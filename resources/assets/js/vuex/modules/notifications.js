@@ -10,6 +10,7 @@ const mutations = {
 
 		state.push({
 			type: type,
+			title: title,
 			name: name,
 			message: message,
 			expires: expires
