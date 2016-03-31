@@ -176,9 +176,15 @@ router.beforeEach(function (transition) {
 
 Vue.http.interceptors.push({
 	response (response) {
-	if (response.data.note) {
+		if (response.data.note) {
 			var note = response.data.note
 			this.notify(note.type, note.title, note.body, note.timeout)
+		}
+
+		if (response.status == 422) {
+			for(var title in response.data) {
+				this.$root.notify('danger', title, response.data[title])
+			}
 		}
 
 		// if (response.status == 200) {
