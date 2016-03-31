@@ -3,7 +3,9 @@
 	<div class="col-xs-12">
 		<div class='box box-primary' v-for="(key, section) in linearPages">
 			<div class='box-header'>
-				<h3 class='box-title'>{{ key | capitalize }}</h3>
+				<status-icon v-ref:status
+					:icon="(key == 'header')?'fa-arrow-up':(key == 'footer')?'fa-arrow-down':'fa-eye-slash'"></status-icon>
+				<h3 class='box-title'> {{ key | capitalize }}</h3>
 
 				<div class="box-tools pull-right">
 					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
