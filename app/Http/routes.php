@@ -44,6 +44,7 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('catalogs', 'CatalogsController@index');
+	Route::post('catalogs', 'CatalogsController@updateCollection');
 	Route::group(['prefix' => 'catalog'], function() {
 
 		Route::post('/', 'CatalogsController@store');
