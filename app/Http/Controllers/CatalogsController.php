@@ -44,7 +44,7 @@ class CatalogsController extends Controller
 	 */
 	public function show($id)
 	{
-		//
+		return Catalog::findOrFail($id);
 	}
 
 	/**

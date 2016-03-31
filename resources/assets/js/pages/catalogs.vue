@@ -26,7 +26,7 @@
                 <input type="text" class="form-control" v-model="catalog.name" :class="testName($index)?'has-error':''">
 								
 								<span class="input-group-btn" v-if="catalog.id">
-                  <a class="btn btn-primary btn-flat" :disabled="catalog.label" :href="'#!/catalog/'+catalog.id">
+                  <a class="btn btn-primary btn-flat" :disabled="catalog.label" v-link="{ path: '/catalog/' + catalog.id }">
 										<i class="fa fa-pencil"></i> Edit
                   </a>
                 </span>
