@@ -40,15 +40,7 @@
 							<i class="fa fa-shopping-cart"></i>
 							<span class="label label-warning" v-if="cart.count">{{ cart.count }}</span>
 						</a>
-						<ul class="dropdown-menu" v-if="!cart.working">
-							<li class="header">You have {{ cart.count }} item in your cart.</li>
-							<li>
-								<!-- <cart></cart> -->
-							</li>
-							<li>
-								<li class="footer"><a href="#/newinvoice">Subtotal: {{ cart.subtotal | currency }} - Add Invoice</a></li>
-							</li>
-						</ul>
+						<cart-summary />
 					</li><!-- /cart-menu -->
 
 					<!-- User Account Menu -->
@@ -309,7 +301,8 @@ module.exports = {
 	},
 
 	components: {
-		loginForm: require('./components/loginForm.vue')
+		loginForm: require('./components/loginForm.vue'),
+		cartSummary: require('./components/cartSummary.vue')
 	},
 
 	methods: {

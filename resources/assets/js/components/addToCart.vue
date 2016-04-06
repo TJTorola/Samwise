@@ -8,29 +8,35 @@
 
 <script>
 module.exports = {
-	data () {
-		return {
-			count: this.cart[this.id]
+	computed: {
+		count () {
+			if (this.cart.offers[this.offerId]) {
+				if (this.cart.offers[this.offerId][this.itemId]) {
+					return this.cart.offers[this.offerId][this.itemId]
+				} else {
+					return 0
+				}
+			} else {
+				return 0
+			}
 		}
 	},
 
-	props: ['id'],
+	props: ['offerId', 'itemId'],
 
 	methods: {
 		incrament() {
-			this.addToCart(this.id)
-			this.count = this.cart[this.id]
+			this.addToCart(this.offerId, this.itemId)
 		},
 
 		decrament() {
-			this.removeFromCart(this.id)
-			this.count = this.cart[this.id]
+			this.removeFromCart(this.offerId, this.itemId)
 		}
 	},
 
 	vuex: {
 		getters: {
-			cart: state => state.cart.items
+			cart: state => state.cart
 		},
 
 		actions: require('../vuex/actions/cart.js')

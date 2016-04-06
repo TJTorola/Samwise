@@ -61,7 +61,7 @@
 						<td class="text-right" v-if="offer.infinite">∞</td>
 						<td class="text-right" v-else>{{ offer.stock }}</td>
 						<td v-if="offer.items.length == 1">
-							<add-to-cart :id="offer.items[0].id"></add-to-cart>
+							<add-to-cart :item-id="offer.items[0].id" :offer-id="offer.id"></add-to-cart>
 						</td>
 						<td v-else>
 							<button type="button" class="btn btn-block btn-xs u-no-margin" 
@@ -79,7 +79,7 @@
 						<td class="text-right" v-if="item.infinite">∞</td>
 						<td class="text-right" v-else>{{ item.stock }}</td>
 						<td>
-							<add-to-cart :id="item.id"></add-to-cart>
+							<add-to-cart :item-id="item.id" :offer-id="offer.id"></add-to-cart>
 						</td>
 					</tr>
 				</tbody>

@@ -145,7 +145,7 @@ class Offer extends Model
 	| Return Arrays
 	|--------------------------------------------------------------------------
 	*/
-	public function toCustomArray($manager = false)
+	public function toPrivateArray($manager = false)
 	{
 		$offer = $this->toArray();
 
@@ -160,29 +160,13 @@ class Offer extends Model
 		return $offer;
 	}
 
-	// public function privateArray()
-	// {
-	// 	$in_stock = false;
+	public function toPublicArray()
+	{
+		$offer = $this->toPrivateArray();
+		// TODO, strip private attributes
 
-	// 	$variants = $this->variants;
-	// 	foreach ($variants as $variant) {
-	// 		if ($variant['infinite'] || $variant['stock'] > 0) {
-	// 			$in_stock = true;
-	// 		}
-	// 	}
-
-	// 	$return = $this->toArray();
-
-	// 	unset($return['type_info']);
-	// 	$return['tags'] = explode(',', $return['tags']);
-
-	// 	$type_info = json_decode($this->type_info);
-	// 	foreach ($type_info as $type_field => $value) {
-	// 		$return[$type_field] = $value;
-	// 	}
-
-	// 	return $return;
-	// }
+		return $offer;
+	}
 
 	/*
 	|--------------------------------------------------------------------------

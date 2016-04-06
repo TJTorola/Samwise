@@ -17010,6 +17010,10 @@ ul.dropdown-menu li.footer:hover a {
   background: none;
   padding: 12px 22px;
 }
+
+.messages-menu img {
+  width: 75px;
+}
 /*
  * Skin: Blue
  * ----------

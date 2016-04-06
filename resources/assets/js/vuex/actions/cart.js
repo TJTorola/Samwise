@@ -1,13 +1,9 @@
 module.exports = {
-	addToCart({ dispatch }, variantId) {
-		dispatch('ADD_TO_CART', variantId)
-		// this.$http.get('variant/'+variantId).then(function(response) {
-		// 	console.log(response)
-		// 	dispatch('ADD_VARIANT_TO_CART', response.data)
-		// })
+	addToCart({ dispatch }, offerId, itemId) {
+		dispatch('INCRAMENT_CART_ITEM', offerId, itemId)
 	},
 
-	removeFromCart({ dispatch }, variantId) {
-		dispatch('REMOVE_FROM_CART', variantId)
-	}
+	removeFromCart({ dispatch }, offerId, itemId) {
+		dispatch('DECRAMENT_CART_ITEM', offerId, itemId)
+	},
 }
