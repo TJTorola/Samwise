@@ -3,12 +3,13 @@
 	<div class="col-md-6"> <!-- LEFT COLUMN -->
 		<div class="row"> <!-- BUTTONS -->
 			<div class="col-sm-6"> <!-- PRINT -->
-				<button class="btn btn-sm btn-block btn-default" v-link="{ name: 'PrintInvoice', params: { id: invoice.id }}">
+				<button class="btn btn-sm btn-block btn-primary" v-link="{ name: 'PrintInvoice', params: { id: invoice.id }}">
 					<i class="fa fa-print"></i> Print
 				</button>
 			</div>
 			<div class="col-sm-6"> <!-- DELETE -->
-				<confirmed-button icon="fa-trash" text="Delete" 
+				<confirmed-button icon="fa-trash" text="Cancel" 
+					color="btn-danger"
 					:action="delete" 
 					v-ref:delete>
 				</confirmed-button>
@@ -18,12 +19,13 @@
 		<div class="row"> <!-- MORE BUTTONS -->
 			<div class="col-sm-6"> <!-- EMAIL -->
 				<confirmed-button icon="fa-paper-plane" text="Email" 
+					color="btn-primary"
 					:action="email" 
 					v-ref:email>
 				</confirmed-button>
 			</div>
 			<div class="col-sm-6"> <!-- CHARGE -->
-				<button class="btn btn-sm btn-block btn-default">
+				<button class="btn btn-sm btn-block btn-primary">
 					<i class="fa fa-credit-card"></i> Charge
 				</button>
 			</div>
@@ -60,7 +62,7 @@
 	</div>
 	
 	<div class="col-md-6"> <!-- RIGHT COLUMN -->
-		<cart-table :cart="invoice.cart"></cart-table>
+		<invoice-items-table :cart="invoice.cart"></invoice-items-table>
 	</div>
 </div>
 </template>
@@ -72,7 +74,7 @@ module.exports = {
 	components: {
 		addressBlock: require('./addressBlock.vue'),
 		confirmedButton: require('./confirmedButton.vue'),
-		cartTable: require('./cartTable.vue'),
+		InvoiceItemsTable: require('./InvoiceItemsTable.vue'),
 		statusIcon: require('./statusIcon.vue')
 	},
 

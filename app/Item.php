@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use Elasticquent\ElasticquentTrait;
+use DB;
 
 class Item extends Model
 {
@@ -19,7 +20,7 @@ class Item extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = ['next', 'prev'];
+	protected $appends = ['next', 'prev','full_name'];
 
 	/**
 	 * The attributes that should be casted to native types.
@@ -84,10 +85,11 @@ class Item extends Model
 	 */
 	public function getFullNameAttribute()
 	{
+		$name = DB::table('offers')->where('id', $this->offer_id)->pluck('name')[0];
 		if ($this->name) {
-			return $this->offer->name." - ".$this->name;
+			return $name." - ".$this->name;
 		} else {
-			return $this->offer->name;
+			return $name;
 		}
 	}
 

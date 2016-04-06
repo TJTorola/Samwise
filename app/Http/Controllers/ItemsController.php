@@ -47,7 +47,7 @@ class ItemsController extends Controller
    */
   public function show($id)
   {
-    return Item::findOrFail($id)->publicArray();
+    return Item::findOrFail($id)->toArray();
   }
 
   /**

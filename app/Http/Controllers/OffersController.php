@@ -47,7 +47,7 @@ class OffersController extends Controller
    */
   public function show($id)
   {
-    return Offer::findOrFail($id)->publicArray();
+    return Offer::findOrFail($id)->toPublicArray();
   }
 
   /**
@@ -58,7 +58,7 @@ class OffersController extends Controller
    */
   public function showAdmin($id)
   {
-    return Offer::findOrFail($id)->privateArray();
+    return Offer::findOrFail($id)->toPrivateArray();
   }
 
   /**
