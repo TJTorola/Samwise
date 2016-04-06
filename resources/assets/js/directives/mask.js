@@ -1,13 +1,14 @@
 module.exports = {
 	// construct the object
 	bind () {
-		this.rtl = (this.arg == 'rtl')
-		this.mask = this.expression.split('')
-
 		this.el.addEventListener('keydown', this.keydown.bind(this))
 		this.el.addEventListener('keypress', this.keypress.bind(this))
 		this.el.addEventListener('keyup', this.keyup.bind(this))
 		this.el.addEventListener('paste', this.paste.bind(this))
+
+		this.rtl = (this.arg == 'rtl')
+		this.mask = this.expression.split('')
+		this.initHint()
 	},
 
 	// deconstruct the object
@@ -18,6 +19,8 @@ module.exports = {
 		this.el.removeEventListener('paste', this.paste)
 	},
 
+	params: ['hint'],
+
 	// record the state, and handle backspace
 	keydown (e) {
 		this.recordState(e)
@@ -26,14 +29,18 @@ module.exports = {
 
 			if (this.start != this.end) {
 				this.collapseSelection()
+				this.removeHint()
 				this.removeMask()
 				this.applyMask()
+				this.applyHint()
 				this.applyState()
 			} else {
 				this.collapseSelection()
+				this.removeHint()
 				this.removeMask()
 				this.backspace()
 				this.applyMask()
+				this.applyHint()
 				this.applyState()
 			}
 		}
@@ -50,9 +57,11 @@ module.exports = {
 
 		if (this.is_numeric) {
 			this.collapseSelection()
+			this.removeHint()
 			if (this.value.length > this.mask.length) {
 				this.removeMask()
 				this.applyMask()
+				this.applyHint()
 				this.applyState()
 				return
 			}
@@ -60,6 +69,7 @@ module.exports = {
 			this.removeMask()
 			this.addChar()
 			this.applyMask()
+			this.applyHint()
 			this.applyState()
 		}
 	},
@@ -69,6 +79,7 @@ module.exports = {
 			this.recordState(e)
 			this.removeMask()
 			this.applyMask()
+			this.applyHint()
 			this.applyState()
 		}.bind(this))
 	},
@@ -135,6 +146,77 @@ module.exports = {
 				this.value.splice(i, 1)
 			}
 		}
+	},
+
+	initHint() {
+		if (this.rtl) {
+			var hint = this.params.hint.split("").reverse().join("")
+			var value = this.el.value.split("").reverse().join("")
+		} else {
+			var hint = this.params.hint
+			var value = this.el.value
+		}
+
+		if (value.length < hint.length) {
+			value += hint.slice(value.length)
+		}
+
+		if (this.rtl) {
+			value = value.split("").reverse().join("")
+		}
+
+		this.el.value = value
+	},
+
+	applyHint() {
+		if (this.rtl) {
+			var hint = this.params.hint.split("").reverse() // ['.','0','0']
+			var value = this.value.reverse() // ['1','caret','0']
+		} else {
+			var hint = this.params.hint.split("")
+			var value = this.value
+		}
+
+		if (value.length - 1 < hint.length) {
+			value = value.concat(hint.slice(value.length - 1))
+		}
+
+		if (this.rtl) {
+			value = value.reverse()
+		}
+
+		this.value = value
+
+	},
+
+	removeHint() {
+		if (this.rtl) {
+			var hint = this.params.hint.split("") // ['.','0','0']
+			var value = this.value // ['.','0','caret','0']
+		} else {
+			var hint = this.params.hint.split("").reverse()
+			var value = this.value.reverse()
+		}
+
+		var i = 0
+		while (value.length > 0 && i < hint.length) {
+			if (value[0] == 'caret') {
+				break
+			}
+
+			if (value[0] != hint[i]) {
+				break
+			}
+
+			value.shift()
+			i++
+		}
+
+		if (!this.rtl) {
+			value = value.reverse()
+		}
+
+		this.value = value
 	},
 
 	applyMask() {

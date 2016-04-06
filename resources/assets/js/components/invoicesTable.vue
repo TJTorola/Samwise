@@ -95,7 +95,7 @@
 
 							<div class="row">
 								<div class="col-xs-6 col-xs-offset-3">
-									<button type="button" class="btn btn-block btn-sm btn-default">
+									<button type="button" class="btn btn-block btn-sm btn-primary">
 										View/Edit Full Invoice <i class="fa fa-search"></i>
 									</button>
 								</div>

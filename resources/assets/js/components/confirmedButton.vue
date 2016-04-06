@@ -4,12 +4,12 @@
   	<i class="fa fa-check"></i>
   </div>
   <span class="input-group-addon" v-if="confirming" style="width: 3%">
-  	Are you sure?
+  	<i class="fa" :class="icon"></i> Are you sure?
   </span>
   <div class="btn btn-default" v-if="confirming" @click="confirming = false">
   	<i class="fa fa-times"></i>
   </div>
-  <div class="btn btn-sm btn-default" v-if="!confirming" @click="confirming = true">
+  <div class="btn btn-sm" :class="(color)?color:'btn-default'" v-if="!confirming" @click="confirm">
 		<status-icon :icon="icon" v-ref:status></status-icon> {{ text }}
 	</div>
 </div>
@@ -23,7 +23,7 @@ module.exports = {
 		}
 	},
 
-	props: ['icon', 'text', 'action'],
+	props: ['icon', 'text', 'action', 'color'],
 
 	components: {
 		statusIcon: require('./statusIcon.vue')
@@ -33,6 +33,13 @@ module.exports = {
 		confirmed () {
 			this.confirming = false
 			this.action()
+		},
+
+		confirm () {
+			this.confirming = true
+			// setTimeout(function() {
+			// 	this.confirming = false
+			// }.bind(this),10000)
 		},
 
 		working () {
