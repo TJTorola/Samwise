@@ -243,7 +243,45 @@ class Invoice extends Model
 	/**
 	 * Set mapping properties
 	 */
-	// protected $mappingProperties = array();
+	protected $mappingProperties = [
+		'email' => [
+			'type' => 'string',
+			'analyzer' => 'email',
+		]
+	];
+
+	/**
+	 * The elasticsearch settings.
+	 *
+	 * @var array
+	 */
+	protected $indexSettings = [
+		"analysis" => [
+			"filter" => [
+				"email" => [
+					"type" => "pattern_capture",
+					"preserve_original" => 1,
+					"patterns" => [
+						"([^@]+)",
+						"(\\p[L}+)",
+						"(\\d+)",
+						"@(.+)",
+						"([^-@]+)"
+					]
+				]
+			],
+			"analyzer" => [
+				"email" => [
+					"tokenizer" => "uax_url_email",
+					"filter" => [
+						"email",
+						"lowercase",
+						"unique"
+					]
+				]
+			]
+		]
+	];
 
 	/**
 	 * Modify index model as it goes into ES

@@ -8,6 +8,16 @@ module.exports = {
 
 		this.rtl = (this.arg == 'rtl')
 		this.mask = this.expression.split('')
+		if (this.params.hint) {
+			this.hint = this.params.hint
+		} else {
+			this.hint = ''
+		}
+		if (this.params.action) {
+			this.action = true
+		} else {
+			this.action = false
+		}
 		this.initHint()
 	},
 
@@ -106,6 +116,10 @@ module.exports = {
 		this.el.value = this.value.join('')
 		this.el.selectionStart = caret
 		this.el.selectionEnd = caret
+
+		if (this.action) {
+			this.param.action
+		}
 	},
 
 	// merge selectionStart & selectionEnd, destroying all chars in between them
@@ -150,10 +164,10 @@ module.exports = {
 
 	initHint() {
 		if (this.rtl) {
-			var hint = this.params.hint.split("").reverse().join("")
+			var hint = this.hint.split("").reverse().join("")
 			var value = this.el.value.split("").reverse().join("")
 		} else {
-			var hint = this.params.hint
+			var hint = this.hint
 			var value = this.el.value
 		}
 
@@ -170,10 +184,10 @@ module.exports = {
 
 	applyHint() {
 		if (this.rtl) {
-			var hint = this.params.hint.split("").reverse() // ['.','0','0']
+			var hint = this.hint.split("").reverse() // ['.','0','0']
 			var value = this.value.reverse() // ['1','caret','0']
 		} else {
-			var hint = this.params.hint.split("")
+			var hint = this.hint.split("")
 			var value = this.value
 		}
 
@@ -191,10 +205,10 @@ module.exports = {
 
 	removeHint() {
 		if (this.rtl) {
-			var hint = this.params.hint.split("") // ['.','0','0']
+			var hint = this.hint.split("") // ['.','0','0']
 			var value = this.value // ['.','0','caret','0']
 		} else {
-			var hint = this.params.hint.split("").reverse()
+			var hint = this.hint.split("").reverse()
 			var value = this.value.reverse()
 		}
 
