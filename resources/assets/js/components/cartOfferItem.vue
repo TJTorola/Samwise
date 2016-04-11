@@ -4,6 +4,7 @@
 	<i class="fa fa-chevron-down" :class="(count)?'active':''" @click.stop="decrament"></i>
 	{{ count }}
 	<i class="fa fa-chevron-up active" @click.stop="incrament"></i> 
+	(Stock: {{ (item.infinite)?'∞':item.stock }})
 	<span class="pull-right">
 		{{ subTotal / 100 | currency }}
 	</span>

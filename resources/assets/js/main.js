@@ -30,7 +30,7 @@ var Invoice = 			require('./pages/invoice.vue')
 var NewInvoice = 		require('./pages/newinvoice.vue')
 var PrintInvoice = 	require('./pages/printinvoice.vue')
 var Offers = 				require('./pages/offers.vue')
-var Item = 					require('./pages/item.vue')
+var Offer = 				require('./pages/offer.vue')
 var Pages = 				require('./pages/pages.vue')
 // var Page = 					require('./pages/page.vue')
 var Catalogs = 			require('./pages/catalogs.vue')
@@ -64,37 +64,37 @@ router.map({
 	// Resources
 	'/invoices': {
 		name: 'Invoices',
-		description: 'Browse Customer Invoices',
+		description: 'Browse/Search customer invoices.',
 		component: Invoices
 	},
-	'/newinvoice': {
-		name: 'NewInvoice',
-		description: 'Create an Invoice',
+	'/new-invoice': {
+		name: 'New Invoice',
+		description: 'Create a new Invoice (Customer won\'t get emailed automatically).',
 		component: NewInvoice
 	},
 	'/invoice/:id': {
 		name: 'Invoice',
-		description: '',
+		description: 'Invoices are orders made by customers or control panel users.',
 		component: Invoice
 	},
-	'/printInvoice/:id': {
-		name: 'PrintInvoice',
+	'/print-invoice/:id': {
+		name: 'Print Invoice',
 		description: 'Print the Invoice',
 		component: PrintInvoice
 	},
 	'/offers': {
 		name: 'Offers',
-		description: 'Search your Inventory',
+		description: 'Search your Inventory, or create new offers.',
 		component: Offers
 	},
-	'/item/:id': {
-		name: 'Item',
-		description: '',
-		component: Item
+	'/offer/:id': {
+		name: 'Offer',
+		description: 'An offer is comprised of an item or multiple similar items to be purchased.',
+		component: Offer
 	},
 	'/pages': {
 		name: 'Pages',
-		description: 'Sort your Pages',
+		description: 'Pages allow for static content on your website.',
 		component: Pages
 	},
 	// '/page/:id': {
@@ -103,12 +103,12 @@ router.map({
 	// },
 	'/catalogs': {
 		name: 'Catalogs',
-		description: 'Sort your Catalogs',
+		description: 'Catalogs collect many similar offers into one section of your storefront.',
 		component: Catalogs
 	},
 	'/catalog/:id': {
 		name: 'Catalog',
-		description: '',
+		description: 'A catalog collects offers based on their tags.',
 		component: Catalog
 	},
 	// '/customers': {
@@ -146,8 +146,8 @@ router.map({
 	// 	component: MySettings
 	// },
 	'/admin-settings': {
-		name: 'AdminSettings',
-		description: 'Adminstrate your Website',
+		name: 'Adminstrative Settings',
+		description: 'Set Global Control Panel Settings and Users.',
 		component: AdminSettings
 	},
 	// '/storesettings': {

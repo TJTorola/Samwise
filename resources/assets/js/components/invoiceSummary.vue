@@ -3,7 +3,7 @@
 	<div class="col-md-6"> <!-- LEFT COLUMN -->
 		<div class="row"> <!-- BUTTONS -->
 			<div class="col-sm-6"> <!-- PRINT -->
-				<button class="btn btn-sm btn-block btn-primary" v-link="{ name: 'PrintInvoice', params: { id: invoice.id }}">
+				<button class="btn btn-sm btn-block btn-primary" v-link="{ name: 'Print Invoice', params: { id: invoice.id }}">
 					<i class="fa fa-print"></i> Print
 				</button>
 			</div>

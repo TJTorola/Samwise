@@ -199,6 +199,6 @@ class Offer extends Model
 	 */
 	function getIndexDocumentData()
 	{
-		return $this->toCustomArray();
+		return $this->toPublicArray();
 	}
 }
