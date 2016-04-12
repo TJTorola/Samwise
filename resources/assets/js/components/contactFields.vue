@@ -84,8 +84,8 @@
 			Street Address
 		</label>
 		<div class="col-md-8">
-			<input type="text" maxlength="255" class="form-control" id="street_address_first"
-				v-model="info.street_address_first"
+			<input type="text" maxlength="255" class="form-control" id="street"
+				v-model="info.street"
 				:disabled="disabled">
 		</div>
 	</div>
@@ -94,8 +94,8 @@
 		<label class="col-md-4 control-label">
 		</label>
 		<div class="col-md-8">
-			<input type="text" maxlength="255" class="form-control" id="street_address_second"
-				v-model="info.street_address_second"
+			<input type="text" maxlength="255" class="form-control" id="street_second"
+				v-model="info.street_second"
 				:disabled="disabled">
 		</div>
 	</div>

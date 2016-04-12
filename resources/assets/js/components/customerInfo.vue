@@ -21,7 +21,7 @@
 								<input type="text" class="form-control" id="email" placeholder="*" 
 									debounce="500"
 									:value="email" 
-									@input="setEmail">
+									@input="emailInput">
 
 								<div class="input-group-btn">
 									<button type="submit" class="btn btn-default" 
@@ -50,7 +50,7 @@
 								<label>
 									<input type="checkbox" id="seperate_billing"
 										:value="seperate_billing"
-										@change="setSeperateBilling"> Seperate Billing/Shipping
+										@change="seperateBillingInput"> Seperate Billing/Shipping
 								</label>
 							</div>
 						</div>
@@ -84,6 +84,14 @@ module.exports = {
 	},
 
 	methods: {
+		emailInput(e) {
+			this.setEmail(e.target.value)
+		},
+
+		seperateBillingInput(e) {
+			this.setSeperateBilling(e.target.checked)
+		},
+
 		fillFromEmail() {
 			this.$refs.search.working()
 			var query = {
@@ -95,10 +103,12 @@ module.exports = {
 			this.$http.get('invoices', query).then(function(response) {
 				if (response.data.body.length) {
 					this.$refs.search.check()
-					console.log(response.data.body[0])
-					// var most_recent = response.data.body[0]
-					// this.$set('shipping_address', most_recent.shipping_address)
-					// this.$set('billing_address', most_recent.billing_address)
+					var most_recent = response.data.body[0]
+					console.log(most_recent)
+					this.setShippingAddress(most_recent.shipping_address)
+					this.setBillingAddress(most_recent.billing_address)
+					this.setPhone(most_recent.phone)
+					this.setSeperateBilling(most_recent.seperate_billing)
 				} else {
 					this.$refs.search.fail()
 					this.$root.notify('info', 'No Invoice Found', 'No invoices were found from that email.', 5000)

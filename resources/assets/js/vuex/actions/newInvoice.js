@@ -1,14 +1,14 @@
 module.exports = {
-	setEmail ({ dispatch }, e) {
-		dispatch('SET_EMAIL', e.target.value)
+	setEmail ({ dispatch }, email) {
+		dispatch('SET_EMAIL', email)
 	},
 
 	setPhone ({ dispatch }, phone) {
 		dispatch('SET_PHONE', phone)
 	},
 
-	setSeperateBilling ({ dispatch }, e) {
-		dispatch('SET_SEPERATE_BILLING', e.target.checked)
+	setSeperateBilling ({ dispatch }, seperate_billing) {
+		dispatch('SET_SEPERATE_BILLING', seperate_billing)
 	},
 
 	setShippingAddress ({ dispatch }, shipping_address) {

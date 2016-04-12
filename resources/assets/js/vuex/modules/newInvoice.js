@@ -6,8 +6,8 @@ const state = {
 		first_name: '',
 		last_name: '',
 		company: '',
-		street_address_first: '',
-		street_address_second: '',
+		street: '',
+		street_second: '',
 		apt: '',
 		zip: '',
 		city: '',
@@ -18,8 +18,8 @@ const state = {
 		first_name: '',
 		last_name: '',
 		company: '',
-		street_address_first: '',
-		street_address_second: '',
+		street: '',
+		street_second: '',
 		apt: '',
 		zip: '',
 		city: '',
@@ -41,11 +41,11 @@ const mutations = {
 		state.seperate_billing = seperate_billing
 	},
 
-	SET_SHIPPING (state, shipping_address) {
+	SET_SHIPPING_ADDRESS (state, shipping_address) {
 		state.shipping_address = shipping_address
 	},
 
-	SET_BILLING (state, billing_address) {
+	SET_BILLING_ADDRESS (state, billing_address) {
 		state.billing_address = billing_address
 	}
 }
