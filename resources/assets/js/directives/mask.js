@@ -13,7 +13,7 @@ module.exports = {
 		} else {
 			this.hint = ''
 		}
-		if (this.params.maskInput) {
+		if (typeof this.params.maskInput === "function") {
 			this.input = true
 		} else {
 			this.input = false

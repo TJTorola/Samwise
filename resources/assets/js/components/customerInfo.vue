@@ -38,7 +38,7 @@
 						<label for="phone" class="col-md-4 control-label">Phone Number</label>
 						<div class="col-md-8">
 							<input type="text" class="form-control" id="phone"
-								:mask-input="setPhone()"
+								:mask-input="setPhone"
 								v-mask="(###) ###-#### x#####"
 								:value="phone">
 						</div>
@@ -50,15 +50,21 @@
 								<label>
 									<input type="checkbox" id="seperate_billing"
 										:value="seperate_billing"
-										@input="setSeperateBilling"> Seperate Billing/Shipping
+										@change="setSeperateBilling"> Seperate Billing/Shipping
 								</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<contact-fields label="Shipping Info" :info="shipping_address" class="col-md-6"></contact-fields>
+				<contact-fields class="col-md-6" 
+					label="Shipping Info" 
+					:info="shipping_address"
+					:disabled="false"></contact-fields>
 
-				<contact-fields label="Billing Info" :info="billing_address" :disabled="seperate_billing" class="col-md-6"></contact-fields>
+				<contact-fields class="col-md-6" 
+					label="Billing Info" 
+					:info="billing_address" 
+					:disabled="!seperate_billing"></contact-fields>
 		</div>
 	</div>
 </div>

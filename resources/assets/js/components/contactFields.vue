@@ -8,7 +8,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="first_name" placeholder="*"
-				v-model="info.first_name">
+				v-model="info.first_name"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -18,7 +19,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="last_name" placeholder="*"
-				v-model="info.last_name">
+				v-model="info.last_name"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -28,7 +30,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="company"
-				v-model="info.company">
+				v-model="info.company"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -38,7 +41,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="country"
-				v-model="info.country">
+				v-model="info.country"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -48,7 +52,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="zip"
-				v-model="info.zip">
+				v-model="info.zip"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -58,7 +63,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="state"
-				v-model="info.state">
+				v-model="info.state"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -68,7 +74,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="city"
-				v-model="info.city">
+				v-model="info.city"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -78,7 +85,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="street_address_first"
-				v-model="info.street_address_first">
+				v-model="info.street_address_first"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -87,7 +95,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="street_address_second"
-				v-model="info.street_address_second">
+				v-model="info.street_address_second"
+				:disabled="disabled">
 		</div>
 	</div>
 
@@ -97,7 +106,8 @@
 		</label>
 		<div class="col-md-8">
 			<input type="text" maxlength="255" class="form-control" id="apt"
-				v-model="info.apt">
+				v-model="info.apt"
+				:disabled="disabled">
 		</div>
 	</div>
 </div>
@@ -105,6 +115,6 @@
 
 <script>
 module.exports = {
-	props: ['info', 'label']
+	props: ['info', 'label', 'disabled']
 }
 </script>

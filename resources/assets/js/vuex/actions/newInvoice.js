@@ -8,7 +8,7 @@ module.exports = {
 	},
 
 	setSeperateBilling ({ dispatch }, e) {
-		dispatch('SET_SEPERATE_BILLING', e.target.value)
+		dispatch('SET_SEPERATE_BILLING', e.target.checked)
 	},
 
 	setShippingAddress ({ dispatch }, shipping_address) {
