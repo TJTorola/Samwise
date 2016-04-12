@@ -13,10 +13,10 @@ module.exports = {
 		} else {
 			this.hint = ''
 		}
-		if (this.params.action) {
-			this.action = true
+		if (this.params.maskInput) {
+			this.input = true
 		} else {
-			this.action = false
+			this.input = false
 		}
 		this.initHint()
 	},
@@ -29,7 +29,7 @@ module.exports = {
 		this.el.removeEventListener('paste', this.paste)
 	},
 
-	params: ['hint'],
+	params: ['hint', 'maskInput'],
 
 	// record the state, and handle backspace
 	keydown (e) {
@@ -117,8 +117,8 @@ module.exports = {
 		this.el.selectionStart = caret
 		this.el.selectionEnd = caret
 
-		if (this.action) {
-			this.param.action
+		if (this.input) {
+			this.params.maskInput(this.el.value)
 		}
 	},
 

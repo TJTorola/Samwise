@@ -3,8 +3,8 @@ module.exports = {
 		dispatch('SET_EMAIL', e.target.value)
 	},
 
-	setPhone ({ dispatch }, e) {
-		dispatch('SET_PHONE', e.target.value)
+	setPhone ({ dispatch }, phone) {
+		dispatch('SET_PHONE', phone)
 	},
 
 	setSeperateBilling ({ dispatch }, e) {
