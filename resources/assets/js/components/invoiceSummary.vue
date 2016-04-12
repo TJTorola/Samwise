@@ -56,7 +56,7 @@
       <textarea class="form-control" rows="6" placeholder="Enter ..." 
       	v-model="invoice.store_notes" 
       	debounce="500" 
-      	@keyup="notesChanged">
+      	@keyup="notesKeyup">
       </textarea>
     </div>
 	</div>
@@ -78,17 +78,29 @@ module.exports = {
 		statusIcon: require('./statusIcon.vue')
 	},
 
+	watch: {
+		'invoice.store_notes': function() {
+			this.$http.patch(`/api/invoice/${this.invoice.id}`, { store_notes: this.invoice.store_notes }).then(response => {
+				this.$refs.noteStatus.check()
+			}, () => {
+				this.$refs.noteStatus.fail()
+			})
+		}
+	},
+
 	methods: {
 		delete () {
-			console.log('DELETE')
+			this.$http.delete(`/api/invoice/${this.invoice.id}`).then(response => {
+				this.$dispatch('REFRESH')
+			})
 		},
 
 		email () {
 			console.log('EMAIL')
 		},
 
-		notesChanged () {
-			console.log('NOTES')
+		notesKeyup () {
+			this.$refs.noteStatus.working()
 		}
 	}
 }

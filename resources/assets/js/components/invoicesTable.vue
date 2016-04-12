@@ -203,6 +203,11 @@ module.exports = {
 		CHANGE_PAGE (page) {
 			this.changePage(page)
 			this.getInvoices()
+		},
+
+		REFRESH () {
+			this.expandIndex(-1)
+			this.getInvoices()
 		}
 	},
 
