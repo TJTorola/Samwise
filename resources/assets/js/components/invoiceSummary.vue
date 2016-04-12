@@ -23,9 +23,7 @@
 				</confirmed-button>
 			</div>
 			<div class="col-sm-6"> <!-- CHARGE -->
-				<button class="btn btn-sm btn-block btn-primary">
-					<i class="fa fa-credit-card"></i> Charge
-				</button>
+				<charge-button :id="invoice.id"></charge-button>
 			</div>
 		</div>
 
@@ -74,7 +72,8 @@ module.exports = {
 		confirmedButton: require('./confirmedButton.vue'),
 		InvoiceItemsTable: require('./InvoiceItemsTable.vue'),
 		statusIcon: require('./statusIcon.vue'),
-		printButton: require('./printButton.vue')
+		printButton: require('./printButton.vue'),
+		chargeButton: require('./chargeButton.vue')
 	},
 
 	watch: {

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta id="key-recaptcha" content="{{ env('RECAPTCHA_PUBLIC') }}">
+    <meta id="stripe-key-public" content="{{ env('STRIPE_PUBLIC') }}">
 
     <!-- fake icon to stop requests -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -24,6 +25,7 @@
     <div id="app"></div>
 
     <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer'></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script src="/js/vendor.min.js"></script>
     <script src="/js/main.min.js"></script>
   </body>
