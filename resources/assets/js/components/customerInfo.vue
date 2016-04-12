@@ -49,7 +49,7 @@
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" id="seperate_billing"
-										:value="seperate_billing"
+										:checked="seperate_billing"
 										@change="seperateBillingInput"> Seperate Billing/Shipping
 								</label>
 							</div>
@@ -59,12 +59,16 @@
 				<contact-fields class="col-md-6" 
 					label="Shipping Info" 
 					:info="shipping_address"
-					:disabled="false"></contact-fields>
+					:disabled="false"
+					@input="shippingInput"
+					v-ref:shipping-input></contact-fields>
 
 				<contact-fields class="col-md-6" 
 					label="Billing Info" 
 					:info="billing_address" 
-					:disabled="!seperate_billing"></contact-fields>
+					:disabled="!seperate_billing"
+					@input="billingInput"
+					v-ref:billing-input></contact-fields>
 		</div>
 	</div>
 </div>
@@ -92,6 +96,14 @@ module.exports = {
 			this.setSeperateBilling(e.target.checked)
 		},
 
+		shippingInput() {
+			this.setShippingAddress(this.$refs.shippingInput.info)
+		},
+
+		billingInput() {
+			this.setShippingAddress(this.$refs.shippingInput.info)
+		},
+
 		fillFromEmail() {
 			this.$refs.search.working()
 			var query = {
@@ -104,7 +116,6 @@ module.exports = {
 				if (response.data.body.length) {
 					this.$refs.search.check()
 					var most_recent = response.data.body[0]
-					console.log(most_recent)
 					this.setShippingAddress(most_recent.shipping_address)
 					this.setBillingAddress(most_recent.billing_address)
 					this.setPhone(most_recent.phone)

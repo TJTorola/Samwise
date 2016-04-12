@@ -115,6 +115,15 @@
 
 <script>
 module.exports = {
-	props: ['info', 'label', 'disabled']
+	props: ['info', 'label', 'disabled'],
+
+	watch: {
+		info: {
+			handler () {
+				// this.dispatch('input')
+			},
+			deep: true
+		}
+	}
 }
 </script>
