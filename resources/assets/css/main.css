@@ -420,3 +420,9 @@ ul.dropdown-menu li.footer:hover a {
 .messages-menu img {
   width: 75px;
 }
+
+.u-hiddenNotHidden {
+  display: block;
+  position: fixed;
+  left: -10000px;
+}

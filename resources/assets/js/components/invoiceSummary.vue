@@ -3,9 +3,7 @@
 	<div class="col-md-6"> <!-- LEFT COLUMN -->
 		<div class="row"> <!-- BUTTONS -->
 			<div class="col-sm-6"> <!-- PRINT -->
-				<button class="btn btn-sm btn-block btn-primary" v-link="{ name: 'Print Invoice', params: { id: invoice.id }}">
-					<i class="fa fa-print"></i> Print
-				</button>
+				<print-button :invoice="invoice"></print-button>
 			</div>
 			<div class="col-sm-6"> <!-- DELETE -->
 				<confirmed-button icon="fa-trash" text="Cancel" 
@@ -75,7 +73,8 @@ module.exports = {
 		addressBlock: require('./addressBlock.vue'),
 		confirmedButton: require('./confirmedButton.vue'),
 		InvoiceItemsTable: require('./InvoiceItemsTable.vue'),
-		statusIcon: require('./statusIcon.vue')
+		statusIcon: require('./statusIcon.vue'),
+		printButton: require('./printButton.vue')
 	},
 
 	watch: {

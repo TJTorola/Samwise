@@ -6,8 +6,8 @@
   <span class="input-group-addon" v-if="confirming" style="width: 3%">
   	<i class="fa" :class="icon"></i> 
   	<span v-if="buttonWidth > 230">Are you sure?</span>
-  	<span v-if="buttonWidth > 150 && buttonWidth <= 230">You sure?</span>
-  	<span v-if="buttonWidth <= 150">Sure?</span>
+  	<span v-if="buttonWidth > 160 && buttonWidth <= 230">You sure?</span>
+  	<span v-if="buttonWidth <= 160">Sure?</span>
   </span>
   <div class="btn btn-default" v-if="confirming" @click="confirming = false">
   	<i class="fa fa-times"></i>
