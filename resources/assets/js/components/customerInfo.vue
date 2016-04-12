@@ -26,7 +26,7 @@
 								<div class="input-group-btn">
 									<button type="submit" class="btn btn-default" 
 										@click="fillFromEmail"
-										:disabled="(/\S+@\S+\.\S+/.test(email))">
+										:disabled="!validEmail">
 										<status-icon icon="fa-search" v-ref:search></status-icon>
 									</button>
 								</div>
@@ -69,6 +69,12 @@ module.exports = {
 	components: {
 		contactFields: require('./contactFields.vue'),
 		statusIcon: require('./statusIcon.vue')
+	},
+
+	computed: {
+		validEmail() {
+			return (/\S+@\S+\.\S+/.test(this.email))
+		}
 	},
 
 	methods: {
