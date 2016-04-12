@@ -17,10 +17,20 @@
 					<div class="form-group">
 						<label for="email" class="col-md-4 control-label">E-Mail</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" id="email" placeholder="*" 
-								debounce="500"
-								:value="email" 
-								@input="setEmail">
+							<div class="input-group input-group-sm">
+								<input type="text" class="form-control" id="email" placeholder="*" 
+									debounce="500"
+									:value="email" 
+									@input="setEmail">
+
+								<div class="input-group-btn">
+									<button type="submit" class="btn btn-default" 
+										@click="fillFromEmail"
+										:disabled="(/\S+@\S+\.\S+/.test(email))">
+										<status-icon icon="fa-search" v-ref:search></status-icon>
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -56,28 +66,33 @@
 
 <script>
 module.exports = {
-	watch: {
-		email () {
-			if (/\S+@\S+\.\S+/.test(this.email)) {
-				var query = {
-					_query: this.email.split('.').join(' '),
-					_limit: 1,
-					_sort: JSON.stringify({ id: 'desc' }) 
-				}
-
-				this.$http.get('invoices', query).then(function(response) {
-					if (response.data.body.length) {
-						// var most_recent = response.data.body[0]
-						// this.$set('shipping_address', most_recent.shipping_address)
-						// this.$set('billing_address', most_recent.billing_address)
-					}
-				})
-			}
-		}
+	components: {
+		contactFields: require('./contactFields.vue'),
+		statusIcon: require('./statusIcon.vue')
 	},
 
-	components: {
-		contactFields: require('./contactFields.vue')
+	methods: {
+		fillFromEmail() {
+			this.$refs.search.working()
+			var query = {
+				_query: this.email.split('.').join(' '),
+				_limit: 1,
+				_sort: JSON.stringify({ id: 'desc' }) 
+			}
+
+			this.$http.get('invoices', query).then(function(response) {
+				if (response.data.body.length) {
+					this.$refs.search.check()
+					console.log(response.data.body[0])
+					// var most_recent = response.data.body[0]
+					// this.$set('shipping_address', most_recent.shipping_address)
+					// this.$set('billing_address', most_recent.billing_address)
+				} else {
+					this.$refs.search.fail()
+					this.$root.notify('info', 'No Invoice Found', 'No invoices were found from that email.', 5000)
+				}
+			})
+		}
 	},
 
 	vuex: {
