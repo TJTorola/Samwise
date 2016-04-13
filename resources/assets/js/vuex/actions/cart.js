@@ -6,4 +6,8 @@ module.exports = {
 	removeFromCart({ dispatch }, offerId, itemId) {
 		dispatch('DECRAMENT_CART_ITEM', offerId, itemId)
 	},
+
+	clearCart({ dispatch }) {
+		dispatch('CLEAR_CART')
+	}
 }

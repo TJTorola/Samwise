@@ -47,6 +47,36 @@ const mutations = {
 
 	SET_BILLING_ADDRESS (state, billing_address) {
 		state.billing_address = billing_address
+	},
+
+	CLEAR_INVOICE (state) {
+		state.email = ''
+		state.phone = ''
+		state.seperate_billing = false
+		state.shipping_address = {
+			first_name: '',
+			last_name: '',
+			company: '',
+			street: '',
+			street_second: '',
+			apt: '',
+			zip: '',
+			city: '',
+			state: '',
+			country: ''
+		}
+		state.billing_address = {
+			first_name: '',
+			last_name: '',
+			company: '',
+			street: '',
+			street_second: '',
+			apt: '',
+			zip: '',
+			city: '',
+			state: '',
+			country: ''
+		}
 	}
 }
 

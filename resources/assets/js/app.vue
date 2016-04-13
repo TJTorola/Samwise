@@ -40,7 +40,7 @@
 							<i class="fa fa-shopping-cart"></i>
 							<span class="label label-warning" v-if="cart.count">{{ cart.count }}</span>
 						</a>
-						<cart-summary />
+						<cart-summary v-ref:cart />
 					</li><!-- /cart-menu -->
 
 					<!-- User Account Menu -->

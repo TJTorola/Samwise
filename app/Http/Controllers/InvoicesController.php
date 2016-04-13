@@ -12,7 +12,7 @@ use App\Http\Requests\Invoices\UpdateRequest;
 use App\Http\Requests\Invoices\StoreItemRequest;
 
 use App\Search;
-use App\Invoices;
+use App\Invoice;
 
 class InvoicesController extends Controller
 {
@@ -45,7 +45,7 @@ class InvoicesController extends Controller
 	 */
 	public function show($id)
 	{
-		//
+		return Invoice::findOrFail($id);
 	}
 
 	/**
@@ -57,7 +57,25 @@ class InvoicesController extends Controller
 	 */
 	public function update(UpdateRequest $request, $id)
 	{
-		return 'true';
+		$allowed_fields = [
+			'store_notes',
+			'email',
+			'phone',
+			'seperate_billing',
+			'billed',
+			'paid',
+			'shipped',
+			'shipping_cost'
+		];
+
+		$invoice = Invoice::findOrFail($id);
+		foreach ($request->all() as $key => $value) {
+			if (!in_array($key, $allowed_fields)) {
+				break;
+			}
+			$invoice[$key] = $value;
+		}
+		$invoice->save();
 	}
 
 	/**

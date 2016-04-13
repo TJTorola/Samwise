@@ -17,5 +17,9 @@ module.exports = {
 
 	setBillingAddress ({ dispatch }, billing_address) {
 		dispatch('SET_BILLING_ADDRESS', billing_address)
+	},
+
+	clearInvoice({ dispatch }) {
+		dispatch('CLEAR_INVOICE')
 	}
 }

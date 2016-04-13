@@ -35,6 +35,11 @@ const mutations = {
 				delete state.offers[offerId]
 			}
 		}
+	},
+
+	CLEAR_CART (state) {
+		state.offers = {}
+		state.count = 0
 	}
 }
 
