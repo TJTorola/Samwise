@@ -266,7 +266,10 @@ module.exports = {
 			}
 
 			this.$http.patch(`invoice/${id}`, request).then(response => {
-				this.getInvoices()
+				this.$refs.status.check()
+				for (var key in request) {
+					invoice[key] = request[key]
+				}
 			})
 		},
 

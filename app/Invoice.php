@@ -54,7 +54,11 @@ class Invoice extends Model
 	 *
 	 * @var array
 	 */
-	protected $casts = [];
+	protected $casts = [
+		'billed' => 'boolean',
+		'paid' => 'boolean',
+		'shipped' => 'boolean'
+	];
 
 	/**
 	 * The attributes that aren't mass assignable.

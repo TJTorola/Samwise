@@ -160,6 +160,7 @@ return [
          * Samwise specific providers added below...
          */
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        App\Providers\SearchManagementProvider::class,
 
     ],
 
