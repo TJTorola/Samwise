@@ -29,7 +29,9 @@
 		<td colspan="2">
 			<div class="input-group input-group-sm">
 			<span class="input-group-addon"><i class="fa fa-dollar" id="shipping-cost-status"></i></span>
-			<input v-mask:rtl="#,###,###.##" hint=".00" class="form-control input-sm text-right">
+			<input class="form-control input-sm text-right"
+				v-mask:rtl="#,###,###.##"
+				hint=".00">
 		</div>
 		</td>
 	</tr>

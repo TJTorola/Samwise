@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Elasticquent\ElasticquentTrait;
 
 class Invoice extends Model
 {
+	use SoftDeletes;
+
 	/*
 	|--------------------------------------------------------------------------
 	| Eloquent Configuration
@@ -20,6 +23,13 @@ class Invoice extends Model
 	 * @var array
 	 */
 	protected $appends = ['next', 'prev', 'status', 'billing_address', 'shipping_address', 'cart', 'subtotal'];
+
+	/**
+	 * The attributes that should be mutated to dates.
+	 *
+	 * @var array
+	 */
+	protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes excluded from the model's array form.
