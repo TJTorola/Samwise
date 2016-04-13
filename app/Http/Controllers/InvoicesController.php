@@ -86,7 +86,8 @@ class InvoicesController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		Invoice::findOrFail($id)->delete();
+		sleep(1);
 	}
 
 	public function indexItems()

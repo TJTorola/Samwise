@@ -12,7 +12,10 @@
   <div class="btn btn-default" v-if="confirming" @click="confirming = false">
   	<i class="fa fa-times"></i>
   </div>
-  <div class="btn btn-sm" :class="(color)?color:'btn-default'" v-if="!confirming" @click="confirm">
+  <div class="btn btn-sm" 
+  	:class="(color)?color:'btn-default'" 
+  	v-if="!confirming" @click="confirm"
+  	:disabled="disabled">
 		<status-icon :icon="icon" v-ref:status></status-icon> {{ text }}
 	</div>
 </div>
@@ -23,7 +26,8 @@ module.exports = {
 	data () {
 		return {
 			buttonWidth: 0,
-			confirming: false
+			confirming: false,
+			disabled: false
 		}
 	},
 
@@ -37,6 +41,9 @@ module.exports = {
 		confirmed () {
 			this.confirming = false
 			this.action()
+			this.$nextTick(() => {
+				this.working()
+			})
 		},
 
 		confirm () {
@@ -45,14 +52,17 @@ module.exports = {
 		},
 
 		working () {
+			this.disabled = true
 			this.$refs.status.working()
 		},
 
 		check () {
+			this.disabled = false
 			this.$refs.status.check()
 		},
 
 		fail () {
+			this.disabled = false
 			this.$refs.status.fail()
 		}
 	}

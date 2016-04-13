@@ -89,7 +89,10 @@ module.exports = {
 	methods: {
 		delete () {
 			this.$http.delete(`/api/invoice/${this.invoice.id}`).then(response => {
+				this.$refs.delete.check()
 				this.$dispatch('REFRESH')
+			}, () => {
+				this.$refs.delete.fail()
 			})
 		},
 
