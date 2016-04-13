@@ -76,6 +76,7 @@ class InvoicesController extends Controller
 			$invoice[$key] = $value;
 		}
 		$invoice->save();
+		sleep(1);
 	}
 
 	/**
