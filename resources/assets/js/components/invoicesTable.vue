@@ -2,19 +2,20 @@
 	<table class="table table-hover">
 		<thead class="u-unselectable">
 			<tr>
-				<th class="u-active" style="width: 50px" @click="sortAndGet('id')">
+				<th class="u-active" style="width: 50px" @click="sortInput('id')">
 					ID <sort-icon key="id"></sort-icon>
 				</th>
-				<th class="u-active" @click="sortAndGet('name')">
+				<th class="u-active" @click="sortInput('name')">
 					Name <sort-icon key="name"></sort-icon>
 				</th>
-				<th class="u-active text-right hidden-xxxs" style="width: 95px" @click="sortAndGet('subtotal')">
+				<th class="u-active text-right hidden-xxxs" style="width: 95px" @click="sortInput('subtotal')">
 					<sort-icon key="subtotal"></sort-icon> Subtotal
 				</th>
 				<th class="text-center hidden-xxxs" style="width: 75px">Status</th>
 				<th style="width: 60px" class="hidden-xxs"></th>
 			</tr>
 		</thead>
+
 		<tbody v-for="invoice in invoices">
 			<tr>
 				<td>{{ invoice.id }}</td>
@@ -67,6 +68,11 @@ module.exports = {
 	},
 
 	methods: {
+		sortInput(key) {
+			this.setSort('invoices', key)
+			this.$dispatch('GET')
+		},
+
 		findInvoiceById(id) {
 			for (var i = 0; i < this.invoicesCollection.body.length; i++) {
 				if (this.invoicesCollection.body[i]['id'] == id) {
@@ -108,6 +114,10 @@ module.exports = {
 			}, () => {
 				this.$refs.status.fail()
 			})
+		},
+
+		vuex: {
+			actions: require(`../vuex/actions/dataTables.js`)
 		}
 	}
 }

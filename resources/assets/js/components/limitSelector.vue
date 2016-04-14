@@ -13,19 +13,32 @@
 
 <script>
 module.exports = {
+	props: ['mode'],
+
+	computed: {
+		limit() {
+			if (this.mode == 'offers') {
+				return this.offersLimit
+			} else if (this.mode == 'invoices') {
+				return this.invoicesLimit
+			}
+		}
+	},
+
 	methods: {
 		limitInput (e) {
-			this.setLimit(e.target.value)
+			this.setLimit(this.mode, e.target.value)
 			this.$dispatch('GET')
 		}
 	},
 
 	vuex: {
 		getters: {
-			limit: state => state.invoices.limit
+			invoicesLimit: state => state.invoices.limit,
+			offersLimit: state => state.offers.limit
 		},
 
-		actions: require('../vuex/actions/invoices.js')
+		actions: require(`../vuex/actions/dataTables.js`)
 	}
 }
 </script>
