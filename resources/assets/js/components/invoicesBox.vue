@@ -14,6 +14,8 @@
 	<div class="box-body no-padding">
 		<invoice-tabs></invoice-tabs>
 
+		<cancelled-invoices-table v-if="state == 'cancelled'"
+			:invoices="invoicesCollection.body"></cancelled-invoices-table>
 		<invoices-table :invoices="invoicesCollection.body"></invoices-table>
 	</div>
 
@@ -75,8 +77,11 @@ module.exports = {
 
 	vuex: {
 		getters: {
-			request: state => state.invoices.request
-		}
+			request: state => state.invoices.request,
+			status: state => state.invoices.status
+		},
+
+		actions: require('../vuex/actions/dataTables.js')
 	}
 }
 </script>

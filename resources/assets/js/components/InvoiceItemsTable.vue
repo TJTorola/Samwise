@@ -28,8 +28,12 @@
 
 		<td colspan="2">
 			<div class="input-group input-group-sm">
-			<span class="input-group-addon"><i class="fa fa-dollar" id="shipping-cost-status"></i></span>
+			<span class="input-group-addon">
+				<status-icon icon="fa-dollar" v-ref:shipping-cost></status-icon>
+			</span>
 			<input class="form-control input-sm text-right"
+				:mask-value="cart.shipping_cost"
+				:mask-input="shippingCostInput | debounce 500"
 				v-mask:rtl="#,###,###.##"
 				hint=".00">
 		</div>
@@ -57,12 +61,25 @@
 
 <script>
 module.exports = {
-	props: ['cart'],
+	props: ['cart', 'id'],
+
+	components: {
+		statusIcon: require('./statusIcon.vue')
+	},
 	
 	methods: {
-		test () {
-			console.log('hi')
-			return 1
+		shippingCostInput (cost) {
+			this.$refs.shippingCost.working()
+			cost = parseInt(parseFloat(cost.split(',').join('')) * 100)
+			
+			this.$http.patch(`/api/invoice/${this.id}`, { shipping_cost: cost }).then(response => {
+				this.cart.due -= this.cart.shipping_cost
+				this.cart.shipping_cost = cost
+				this.cart.due += this.cart.shipping_cost
+				this.$refs.shippingCost.check()
+			}, () => {
+				this.$refs.shippingCost.fail()
+			})
 		}
 	}
 }

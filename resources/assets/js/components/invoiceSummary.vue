@@ -58,7 +58,7 @@
 	</div>
 	
 	<div class="col-md-6"> <!-- RIGHT COLUMN -->
-		<invoice-items-table :cart="invoice.cart"></invoice-items-table>
+		<invoice-items-table :cart="invoice.cart" :id="invoice.id"></invoice-items-table>
 	</div>
 </div>
 </template>

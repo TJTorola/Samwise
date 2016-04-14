@@ -6,6 +6,7 @@ module.exports = {
 		this.el.addEventListener('keyup', this.keyup.bind(this))
 		this.el.addEventListener('paste', this.paste.bind(this))
 
+		this.init = true
 		this.rtl = (this.arg == 'rtl')
 		this.mask = this.expression.split('')
 		if (this.params.hint) {
@@ -18,7 +19,19 @@ module.exports = {
 		} else {
 			this.input = false
 		}
-		this.initHint()
+
+		if (this.params.maskValue) {
+			this.el.value = this.params.maskValue
+		}
+
+		this.el.selectionStart = 0
+		this.el.selectionEnd = 0
+		var e = {
+			keyCode: 8,
+			preventDefault: () => {}
+		}
+		this.keydown(e)
+		this.keyup(e)
 	},
 
 	// deconstruct the object
@@ -29,7 +42,7 @@ module.exports = {
 		this.el.removeEventListener('paste', this.paste)
 	},
 
-	params: ['hint', 'maskInput'],
+	params: ['hint', 'maskInput', 'maskValue'],
 
 	// record the state, and handle backspace
 	keydown (e) {
@@ -118,7 +131,11 @@ module.exports = {
 		this.el.selectionEnd = caret
 
 		if (this.input) {
-			this.params.maskInput(this.el.value)
+			if (this.init) {
+				this.init = false
+			} else {
+				this.params.maskInput(this.el.value)
+			}
 		}
 	},
 
