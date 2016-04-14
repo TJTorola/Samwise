@@ -33,7 +33,9 @@ module.exports = {
 	},
 
 	vuex: {
-		
+		getters: {
+			expandedIndex: state => state.invoices.expandedIndex
+		}
 	}
 }
 </script>

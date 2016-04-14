@@ -16,7 +16,7 @@
 	</td>
 	<td class="hidden-xxs">
 		<button type="button" class="btn btn-block btn-xs u-no-margin" 
-			@click="(expandedIndex != invoice.id)?expandIndex(invoice.id):expandIndex(-1)">
+			@click="(expandedIndex != invoice.id)?expandIndex('invoices', invoice.id):expandIndex('invoices', -1)">
 			<i class="fa fa-plus" v-if="expandedIndex != invoice.id"></i>
 			<i class="fa fa-minus" v-else></i> <i class="fa fa-search"></i>
 		</button>
@@ -30,6 +30,14 @@ module.exports = {
 
 	components: {
 		invoiceStatus: require('./invoiceStatus.vue')
+	},
+
+	vuex: {
+		getters: {
+			expandedIndex: state => state.invoices.expandedIndex
+		},
+
+		actions: require(`../vuex/actions/dataTables.js`)
 	}
 }
 </script>
