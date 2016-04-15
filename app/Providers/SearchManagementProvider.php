@@ -18,8 +18,14 @@ class SearchManagementProvider extends ServiceProvider
             $invoice->addToIndex();
         });
 
+        Invoice::restored(function($invoice) {
+            $invoice->addToIndex();
+        });
+
         Invoice::deleted(function($invoice) {
-            $invoice->removeFromIndex();
+            if (!$invoice->trashed()) {
+                $invoice->removeFromIndex();
+            }
         });
     }
 

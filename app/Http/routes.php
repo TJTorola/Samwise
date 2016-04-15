@@ -99,13 +99,12 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('invoices', 'InvoicesController@index');
-	Route::get('invoices/cancelled', 'InvoicesController@indexCancelled');
 	Route::group(['prefix' => 'invoice'], function() {
 
 		Route::post('/', 'InvoicesController@store');
 		Route::get('{invoice}', 'InvoicesController@show');
 		Route::patch('{invoice}', 'InvoicesController@update');
-		Route::delete('{invoice}', 'InvoicesController@destroy');
+		Route::delete('{invoice}', 'InvoicesController@cancel');
 
 		Route::get('{invoice}/cart', 'InvoicesController@indexItems');
 		Route::get('{invoice}/items', 'InvoicesController@indexItems');
@@ -115,6 +114,14 @@ Route::group(['prefix' => 'api'], function() {
 		Route::post('{invoice}/payment', 'InvoicesController@storePayment');
 
 	});
+
+	Route::group(['prefix' => 'cancelled-invoice'], function() {
+
+		Route::delete('{invoice}', 'InvoicesController@destroy');
+		Route::patch('{invoice}', 'InvoicesController@restore');
+
+	});
+	Route::get('cancelled-invoices', 'InvoicesController@indexCancelled');
 
 	/*
 	|--------------------------------------------------------------------------

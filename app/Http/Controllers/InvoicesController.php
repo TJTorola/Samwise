@@ -96,7 +96,31 @@ class InvoicesController extends Controller
 	 */
 	public function destroy($id)
 	{
+		Invoice::withTrashed()->findOrFail($id)->forceDelete();
+		sleep(1);
+	}
+
+	/**
+	 * Soft delete specific resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function cancel($id)
+	{
 		Invoice::findOrFail($id)->delete();
+		sleep(1);
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function restore($id)
+	{
+		Invoice::withTrashed()->findOrFail($id)->restore();
 		sleep(1);
 	}
 

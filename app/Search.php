@@ -363,9 +363,14 @@ class Search
 
 		// Check if page exists, if not, throw error
 		if (!isset($collection[$page])) {
-			return response()->json(['_page' => ['Page does not exist for the set limit.']], 422);
+			$page = count($collection) - 1;
+		}
+
+		if ($page < 0) { 
+			$page = 0; 
+			$collection = [];
 		} else {
-			$collection = $collection[$page];
+			$collection = $collection[$page];			
 		}
 
 		return [

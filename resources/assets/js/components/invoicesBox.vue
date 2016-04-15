@@ -7,16 +7,16 @@
 		</h3>
 
 		<div class="box-tools">
-			<table-query mode="invoices"></table-query>
+			<table-query mode="invoices" v-if="status != 'cancelled'"></table-query>
 		</div>
 	</div>
 
 	<div class="box-body no-padding">
 		<invoice-tabs></invoice-tabs>
 
-		<cancelled-invoices-table v-if="state == 'cancelled'"
+		<cancelled-invoices-table v-if="status == 'cancelled'"
 			:invoices="invoicesCollection.body"></cancelled-invoices-table>
-		<invoices-table :invoices="invoicesCollection.body"></invoices-table>
+		<invoices-table :invoices="invoicesCollection.body" v-else></invoices-table>
 	</div>
 
 	<div class="box-footer">
@@ -44,6 +44,7 @@ module.exports = {
 
 	components: {
 		invoicesTable: require('./invoicesTable.vue'),
+		cancelledInvoicesTable: require('./cancelledInvoicesTable.vue'),
 		statusIcon: require('./statusIcon.vue'),
 		pagination: require('./pagination.vue'),
 		limitSelector: require('./limitSelector.vue'),
@@ -66,7 +67,7 @@ module.exports = {
 		getInvoices () {
 			this.$refs.status.working()
 
-			var route = (this.status == 'cancelled') ? 'invoices/cancelled' : 'invoices'
+			var route = (this.status == 'cancelled') ? 'cancelled-invoices' : 'invoices'
 			this.$http.get(route, this.request).then(response => {
 				this.$refs.status.check()
 				this.invoicesCollection = response.data
