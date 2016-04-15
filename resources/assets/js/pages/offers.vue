@@ -1,7 +1,7 @@
 <template>
 <div class="row">
 	<div class="col-xs-12">
-		<offers-table></offers-table>
+		<offers-box></offers-box>
 	</div>
 </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 module.exports = {
 	components: {
-		offersTable: require('../components/offersTable.vue')
+		offersBox: require('../components/offersBox.vue')
 	}
 }
 </script>
