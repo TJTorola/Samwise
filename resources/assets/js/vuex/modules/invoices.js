@@ -102,7 +102,6 @@ const mutations = {
 
 	EXPAND_INVOICE_INDEX (state, index) {
 		state.expandedIndex = index
-		state.request = helpers.returnRequest(state)
 	},
 
 	SET_INVOICE_SORT (state, key) {

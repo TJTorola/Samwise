@@ -27,7 +27,7 @@
 module.exports = {
 	data () {
 		return {
-			invoicesCollection: {
+			offersCollection: {
 				pages: 1
 			},
 			loaded: false
@@ -35,7 +35,7 @@ module.exports = {
 	},
 
 	ready () {
-		this.getInvoices()
+		this.getOffers()
 	},
 
 	components: {
