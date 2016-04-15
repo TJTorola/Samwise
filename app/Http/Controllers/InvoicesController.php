@@ -27,6 +27,16 @@ class InvoicesController extends Controller
 	}
 
 	/**
+	 * Display a listing of the deleted resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function indexCancelled(Request $request, Search $search)
+	{
+		return $search->query('cancelled-invoices', $request);
+	}
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request

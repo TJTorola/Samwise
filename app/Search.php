@@ -85,7 +85,7 @@ class Search
 	{
 		// validate the request
 		// Set index specific variables
-		$indices = ['catalogs','customers','invoices','invoice-items','items','offers','pages','users'];
+		$indices = ['catalogs','customers','invoices','cancelled-invoices','invoice-items','items','offers','pages','users'];
 		if (in_array($index, $indices)) {
 			$base_href = "/$index";
 		} else {
@@ -340,6 +340,8 @@ class Search
 			$collection = Customer::all();
 		} else if ($index == 'invoices') {
 			$collection = Invoice::all();
+		} else if ($index == 'cancelled-invoices') {
+			$collection = Invoice::onlyTrashed()->get();
 		} else if ($index == 'invoice-items') {
 			$collection = InvoiceItem::all();
 		} else if ($index == 'items') {

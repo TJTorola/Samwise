@@ -50,7 +50,7 @@ const helpers = {
 	},
 
 	returnMustArray(state) {
-		if (state.status == 'active' || state.status == 'all') {
+		if (state.status == 'active' || state.status == 'all' || state.status == 'cancelled') {
 			var must = {}
 		} else {
 			var must = {

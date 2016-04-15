@@ -99,6 +99,7 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('invoices', 'InvoicesController@index');
+	Route::get('invoices/cancelled', 'InvoicesController@indexCancelled');
 	Route::group(['prefix' => 'invoice'], function() {
 
 		Route::post('/', 'InvoicesController@store');

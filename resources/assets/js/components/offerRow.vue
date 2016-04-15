@@ -21,7 +21,7 @@
 			<button type="button" class="btn btn-block btn-xs u-no-margin" 
 				@click="(expandedIndex != offer.id)?expandIndex('offers', offer.id):expandIndex('offers', -1)">
 				<i class="fa fa-plus" v-if="expandedIndex != offer.id"></i>
-				<i class="fa fa-minus" v-else></i>
+				<i class="fa fa-minus" v-else></i> <i class="fa fa-search"></i>
 			</button>
 		</td>
 	</tr>

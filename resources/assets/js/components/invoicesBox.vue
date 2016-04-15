@@ -66,6 +66,16 @@ module.exports = {
 		getInvoices () {
 			this.$refs.status.working()
 
+			if (this.status == 'cancelled') {
+				this.$http.get('invoices/cancelled', this.request).then(response => {
+					this.$refs.status.check()
+					this.invoicesCollection = response.data
+				}, () => {
+					this.$refs.status.fail()
+				})
+				return
+			}
+
 			this.$http.get('invoices', this.request).then(response => {
 				this.$refs.status.check()
 				this.invoicesCollection = response.data
