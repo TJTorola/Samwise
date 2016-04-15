@@ -1,6 +1,7 @@
 module.exports = {
 	// construct the object
 	bind () {
+		// debugger
 		this.el.addEventListener('keydown', this.keydown.bind(this))
 		this.el.addEventListener('keypress', this.keypress.bind(this))
 		this.el.addEventListener('keyup', this.keyup.bind(this))
@@ -8,7 +9,7 @@ module.exports = {
 
 		this.init = true
 		this.rtl = (this.arg == 'rtl')
-		this.mask = this.expression.split('')
+		this.mask = this.params.mask.split('')
 		if (this.params.hint) {
 			this.hint = this.params.hint
 		} else {
@@ -42,7 +43,13 @@ module.exports = {
 		this.el.removeEventListener('paste', this.paste)
 	},
 
-	params: ['hint', 'maskInput', 'maskValue'],
+	params: ['hint', 'mask', 'maskInput', 'maskValue'],
+	
+	paramWatchers: {
+		mask: function (newMask) {
+			this.mask = newMask.split('')
+		}
+	},
 
 	// record the state, and handle backspace
 	keydown (e) {

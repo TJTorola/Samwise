@@ -181,6 +181,10 @@ Vue.http.interceptors.push({
 			this.notify(note.type, note.title, note.body, note.timeout)
 		}
 
+		if (response.status == 404) {
+			this.$root.notify('danger', 'Not Found', 'The requested resource was not found.')
+		}
+
 		if (response.status == 422) {
 			for(var title in response.data) {
 				this.$root.notify('danger', title, response.data[title])

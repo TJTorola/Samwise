@@ -12,7 +12,7 @@
 						<div class="form-group">
 							<label for="card-number" class="col-sm-4 control-label">Card Number:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="card-number" v-model="cardNumber">
+								<card-input></card-input>
 							</div>
 						</div>
 
@@ -103,7 +103,8 @@ module.exports = {
 	},
 
 	components: {
-		statusIcon: require('./statusIcon.vue')
+		statusIcon: require('./statusIcon.vue'),
+		cardInput: require('./cardInput.vue')
 	},
 
 	watch: {

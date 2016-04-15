@@ -22,7 +22,7 @@ class SearchManagementProvider extends ServiceProvider
             $invoice->addToIndex();
         });
 
-        Invoice::deleted(function($invoice) {
+        Invoice::deleting(function($invoice) {
             if (!$invoice->trashed()) {
                 $invoice->removeFromIndex();
             }

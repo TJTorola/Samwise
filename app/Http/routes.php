@@ -115,13 +115,13 @@ Route::group(['prefix' => 'api'], function() {
 
 	});
 
+	Route::get('cancelled-invoices', 'InvoicesController@indexCancelled');
 	Route::group(['prefix' => 'cancelled-invoice'], function() {
 
 		Route::delete('{invoice}', 'InvoicesController@destroy');
 		Route::patch('{invoice}', 'InvoicesController@restore');
 
 	});
-	Route::get('cancelled-invoices', 'InvoicesController@indexCancelled');
 
 	/*
 	|--------------------------------------------------------------------------
