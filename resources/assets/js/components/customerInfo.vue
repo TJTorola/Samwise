@@ -38,8 +38,8 @@
 						<label for="phone" class="col-md-4 control-label">Phone Number</label>
 						<div class="col-md-8">
 							<input type="text" class="form-control" id="phone"
+								v-mask mask="(###) ###-#### x#####"
 								:mask-input="setPhone"
-								v-mask="(###) ###-#### x#####"
 								:value="phone">
 						</div>
 					</div>
