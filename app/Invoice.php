@@ -22,7 +22,17 @@ class Invoice extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = ['next', 'prev', 'status', 'billing_address', 'shipping_address', 'cart', 'subtotal'];
+	protected $appends = [
+		'next',
+		'prev',
+		'status',
+		'billing_address',
+		'shipping_address',
+		'cart',
+		'subtotal',
+		'amount_paid',
+		'due'
+	];
 
 	/**
 	 * The attributes that should be mutated to dates.

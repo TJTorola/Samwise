@@ -180,7 +180,7 @@ module.exports = {
 		},
 
 		getInvoice () {
-			this.$http.get(`/invoice/${this.id}`).then(function(response) {
+			this.$http.get(`/api/invoice/${this.id}`).then(function(response) {
 				console.log(response)
 				// this.total = response.data
 			})

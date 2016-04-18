@@ -133,4 +133,14 @@ class InvoicesController extends Controller
 	{
 
 	}
+
+	public function indexPayments()
+	{
+
+	}
+
+	public function storePayment(StorePaymentRequest $request)
+	{
+
+	}
 }
