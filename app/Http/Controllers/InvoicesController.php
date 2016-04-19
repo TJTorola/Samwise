@@ -10,9 +10,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoices\StoreRequest;
 use App\Http\Requests\Invoices\UpdateRequest;
 use App\Http\Requests\Invoices\StoreItemRequest;
+use App\Http\Requests\Invoices\StorePaymentRequest;
 
 use App\Search;
 use App\Invoice;
+use App\Payment;
+use JWTAuth;
+
+use Stripe\Stripe;
+use Stripe\Charge;
 
 class InvoicesController extends Controller
 {
@@ -44,7 +50,7 @@ class InvoicesController extends Controller
 	 */
 	public function store(StoreRequest $request)
 	{
-		//
+		return 'here';
 	}
 
 	/**
@@ -129,7 +135,7 @@ class InvoicesController extends Controller
 
 	}
 
-	public function storeItem(StoreItemRequest $request)
+	public function storeItem($id, StoreItemRequest $request)
 	{
 
 	}
@@ -139,8 +145,71 @@ class InvoicesController extends Controller
 
 	}
 
-	public function storePayment(StorePaymentRequest $request)
+	public function storePayment($id, StorePaymentRequest $request)
 	{
+		Stripe::setApiKey(env('STRIPE_SECRET'));
 
+		$invoice = Invoice::findOrFail($id);
+		$token = $request->token;
+
+		if ($request->amount != $invoice->due) {
+			return 'hererrere';
+			// THROW ERROR
+			// AMT User thought they were paying has changed
+			// OR something more seedy is going on with them
+		}
+
+		try
+		{
+			$charge = Charge::create([
+				'amount' => $invoice->due,
+				'currency' => 'usd',
+				'description' => "INV$id",
+				'card' => $token['id']
+			]);
+
+			$user = JWTAuth::parseToken()->authenticate();
+
+			$payment = [
+				'user_id' => $user->id,
+				'stripe_id' => $charge['id'],
+				'amount' => $charge['amount'],
+				'currency' => $charge['currency'],
+				'card_brand' => $charge['source']['brand'],
+				'last_four' => $charge['source']['last4']
+			];
+
+			$payment = $invoice->payments()->save(new Payment($payment));
+			$payment['user'] = $payment->user->name;
+
+			return $payment;
+
+		} catch(\Stripe\Error\Card $e) {
+
+			return response()->json(['Card Declined' => [$e->getStripeCode()]], 422);
+
+		} catch (Stripe_InvalidRequestError $e) {
+			// Invalid parameters were supplied to Stripe's API
+			return response()->json('Stripe_InvalidRequestError.', 422);
+
+		} catch (Stripe_AuthenticationError $e) {
+			// Authentication with Stripe's API failed
+			// (maybe you changed API keys recently)
+			return response()->json('Stripe_AuthenticationError.', 422);
+
+		} catch (Stripe_ApiConnectionError $e) {
+			// Network communication with Stripe failed
+			return response()->json('Stripe_ApiConnectionError.', 422);
+
+		} catch (Stripe_Error $e) {
+			// Display a very generic error to the user, and maybe send
+			// yourself an email
+			return response()->json('Stripe_Error.', 422);
+
+		} catch (Exception $e) {
+			// Something else happened, completely unrelated to Stripe
+			return response()->json('Exception.', 422);
+
+		}
 	}
 }

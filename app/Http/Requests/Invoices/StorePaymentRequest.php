@@ -24,7 +24,8 @@ class StorePaymentRequest extends Request
 	public function rules()
 	{
 		return [
-			
+			'token'		=> 'required',
+			'amount'	=> 'integer|required'
 		];
 	}
 }

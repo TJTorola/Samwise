@@ -12,7 +12,7 @@
 						<div class="form-group">
 							<label for="card-number" class="col-sm-4 control-label">Card Number:</label>
 							<div class="col-sm-8">
-								<card-input></card-input>
+								<card-input :number.sync="cardNumber"></card-input>
 							</div>
 						</div>
 
@@ -148,7 +148,7 @@ module.exports = {
 
 			var token = Stripe.card.createToken(cardInfo, function(status, response) {
 				if (response.error) {
-					this.$dispatch('notification', {type: 'danger', title: 'Error', message: response.error.message, timeout: 0})
+					this.$root.notify('danger', 'Error', response.error.message)
 
 					this.charging = false
 					this.$refs.status.fail()
@@ -156,15 +156,18 @@ module.exports = {
 				}
 
 				var request = {
-					token: response
+					token: response,
+					amount: this.total
 				}
+
+				console.log(request)
 
 				this.$http.post(`/api/invoice/${this.id}/payment`, request).then(function(response) {
 					this.charging = false
+					this.$root.notify('info', 'Charged', 'The invoice was successfully charged.', 3)
 					this.$dispatch('notification', {type: 'info', title: 'Charged', message: 'The invoice was successfully charged.', timeout: 3})
 					this.number = ""
 					this.cvc = ""
-					this.zip = this.$parent.invoice.zip
 					this.exp_month = 1
 					this.exp_year = this.thisYear
 					this.show = false
@@ -181,8 +184,9 @@ module.exports = {
 
 		getInvoice () {
 			this.$http.get(`/api/invoice/${this.id}`).then(function(response) {
-				console.log(response)
-				// this.total = response.data
+				var data = response.data
+				this.total = data.due
+				this.zip = (data.seperate_billing) ? data.billing_address.zip : data.shipping_address.zip
 			})
 		}
 	},

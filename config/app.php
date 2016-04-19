@@ -161,6 +161,7 @@ return [
          */
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         App\Providers\SearchManagementProvider::class,
+        App\Providers\CustomValidationProvider::class,
 
     ],
 

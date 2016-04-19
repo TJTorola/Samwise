@@ -21,12 +21,22 @@ module.exports = {
 
 	methods: {
 		submit () {
-			this.clearInvoice()
-			this.$root.$refs.cart.clearCart()
+			var request = {
+				cart: this.offers
+			}
+
+			this.$http.post('invoice', request).then(response => {
+				// this.clearInvoice()
+				// this.$root.$refs.cart.clearCart()
+			})
 		}
 	},
 
 	vuex: {
+		getters: {
+			offers: state => state.cart.offers
+		},
+
 		actions: require('../vuex/actions/newInvoice.js')
 	}
 }

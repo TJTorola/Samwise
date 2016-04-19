@@ -12,7 +12,6 @@
 module.exports = {
 	data() {
 		return {
-			number: '',
 			cardTypes: {
 				amex: {
 					displayName: "American Express",
@@ -72,6 +71,8 @@ module.exports = {
 			}
 		}
 	},
+
+	props: ['number'],
 
 	computed: {
 		type () {

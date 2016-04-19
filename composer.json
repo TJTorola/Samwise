@@ -14,7 +14,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "tymon/jwt-auth": "0.5.*",
-        "elasticquent/elasticquent": "dev-master"
+        "elasticquent/elasticquent": "dev-master",
+        "stripe/stripe-php": "^3.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
