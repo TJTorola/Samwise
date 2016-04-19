@@ -93,6 +93,19 @@ class Item extends Model
 		}
 	}
 
+	/**
+	 * Retrieve the full name, including parent offer name
+	 */
+	public function getFullNewlineNameAttribute()
+	{
+		$name = DB::table('offers')->where('id', $this->offer_id)->pluck('name')[0];
+		if ($this->name) {
+			return $name."\n&nbsp;&nbsp;&nbsp;&nbsp;- ".$this->name;
+		} else {
+			return $name;
+		}
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Elastiquent Configuration

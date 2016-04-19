@@ -24,7 +24,13 @@ class StoreRequest extends Request
 	public function rules()
 	{
 		return [
-			'cart' => 'valid_cart'
+			'cart' 												=> 'valid_cart',
+			'email' 											=> 'required|email',
+			'seperate_billing' 						=> 'required|boolean',
+			'shipping_address.first_name' => 'required',
+			'shipping_address.last_name' 	=> 'required',
+			'shipping_address.first_name' => 'required_if:seperate_billing,true',
+			'shipping_address.last_name' 	=> 'required_if:seperate_billing,true',
 		];
 	}
 }

@@ -75,6 +75,7 @@ class Invoice extends Model
 	 * @var array
 	 */
 	protected $casts = [
+		'seperate_billing' => 'boolean',
 		'billed' => 'boolean',
 		'paid' => 'boolean',
 		'shipped' => 'boolean'
@@ -95,8 +96,6 @@ class Invoice extends Model
 		'status', 
 		'amount_paid', 
 		'due', 
-		'billing_address', 
-		'shipping_address',
 		'cart'
 	];
 
@@ -181,6 +180,20 @@ class Invoice extends Model
 		];
 	}
 
+	public function setShippingAddressAttribute($address)
+	{
+		$this->first_name = $address['first_name'];
+		$this->last_name = $address['last_name'];
+		$this->company = $address['company'];
+		$this->country = $address['country'];
+		$this->state = $address['state'];
+		$this->zip = $address['zip'];
+		$this->city = $address['city'];
+		$this->street_address_first = $address['street'];
+		$this->street_address_second = $address['street_second'];
+		$this->apt = $address['apt'];
+	}
+
 	/**
 	 * Bundle the billing address into one hash table
 	 */
@@ -198,6 +211,20 @@ class Invoice extends Model
 			'street_second' => $this->billing_street_address_second,
 			'apt' => $this->billing_apt
 		];
+	}
+
+	public function setBillingAddressAttribute($address)
+	{
+		$this->billing_first_name = $address['first_name'];
+		$this->billing_last_name = $address['last_name'];
+		$this->billing_company = $address['company'];
+		$this->billing_country = $address['country'];
+		$this->billing_state = $address['state'];
+		$this->billing_zip = $address['zip'];
+		$this->billing_city = $address['city'];
+		$this->billing_street_address_first = $address['street'];
+		$this->billing_street_address_second = $address['street_second'];
+		$this->billing_apt = $address['apt'];
 	}
 
 	/**

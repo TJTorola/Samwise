@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Invoice;
+use App\InvoiceItem;
 
 class SearchManagementProvider extends ServiceProvider
 {
@@ -26,6 +27,11 @@ class SearchManagementProvider extends ServiceProvider
             if (!$invoice->trashed()) {
                 $invoice->removeFromIndex();
             }
+        });
+
+        InvoiceItem::saved(function($invoiceItem) {
+            $invoice = $invoiceItem->invoice;
+            $invoice->addToIndex();
         });
     }
 

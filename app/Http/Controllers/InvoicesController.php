@@ -14,7 +14,9 @@ use App\Http\Requests\Invoices\StorePaymentRequest;
 
 use App\Search;
 use App\Invoice;
+use App\InvoiceItem;
 use App\Payment;
+use App\Item;
 use JWTAuth;
 
 use Stripe\Stripe;
@@ -50,7 +52,32 @@ class InvoicesController extends Controller
 	 */
 	public function store(StoreRequest $request)
 	{
-		return 'here';
+		$invoice = Invoice::create([
+			'email' => $request->email,
+			'phone' => $request->phone,
+			'seperate_billing' => $request->seperate_billing,
+			'billing_address' => $request->billing_address,
+			'shipping_address' => $request->shipping_address
+		]);
+
+		$invoice_items = [];
+		foreach ($request->cart as $offer_id => $items) {
+			foreach ($items as $item_id => $count) {
+				$item = Item::find($item_id);
+
+				$invoice_items[] = new InvoiceItem([
+					'item_id' => $item_id,
+					'name' => $item->full_newline_name,
+					'count' => $count,
+					'price' => $item->price,
+					'unit' => $item->unit
+				]);
+			}
+		}
+
+		$invoice->items()->saveMany($invoice_items);
+
+		return $invoice;
 	}
 
 	/**
