@@ -26,9 +26,7 @@ var App = 					require('./app.vue')
 // var FileNotFound =	require('./pages/404.vue')
 // var ServerError =		require('./pages/500.vue')
 var Invoices = 			require('./pages/invoices.vue')
-var Invoice = 			require('./pages/invoice.vue')
-var NewInvoice = 		require('./pages/newinvoice.vue')
-var PrintInvoice = 	require('./pages/printinvoice.vue')
+var NewInvoice = 		require('./pages/newInvoice.vue')
 var Offers = 				require('./pages/offers.vue')
 var Offer = 				require('./pages/offer.vue')
 var Pages = 				require('./pages/pages.vue')
@@ -43,7 +41,7 @@ var Catalog = 			require('./pages/catalog.vue')
 // var Users = 				require('./pages/users.vue')
 // var User = 					require('./pages/user.vue')
 // var MySettings = 		require('./pages/mysettings.vue')
-var AdminSettings = require('./pages/adminsettings.vue')
+var AdminSettings = require('./pages/adminSettings.vue')
 // var StoreSettings = require('./pages/storesettings.vue')
 // var Log = 					require('./pages/log.vue')
 
@@ -71,16 +69,6 @@ router.map({
 		name: 'New Invoice',
 		description: 'Create a new Invoice (Customer won\'t get emailed automatically).',
 		component: NewInvoice
-	},
-	'/invoice/:id': {
-		name: 'Invoice',
-		description: 'Invoices are orders made by customers or control panel users.',
-		component: Invoice
-	},
-	'/print-invoice/:id': {
-		name: 'Print Invoice',
-		description: 'Print the Invoice',
-		component: PrintInvoice
 	},
 	'/offers': {
 		name: 'Offers',
