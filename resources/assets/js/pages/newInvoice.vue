@@ -15,8 +15,8 @@
 <script>
 module.exports = {
 	components: {
-		modifyCart: require('../components/modifyCart.vue'),
-		customerInfo: require('../components/customerInfo.vue')
+		modifyCart: require('app/components/cart/modifyCart.vue'),
+		customerInfo: require('app/components/invoices/customerInfo.vue')
 	},
 
 	methods: {
@@ -47,7 +47,7 @@ module.exports = {
 			billing_address: state => state.newInvoice.billing_address,
 		},
 
-		actions: require('../vuex/actions/newInvoice.js')
+		actions: require('app/vuex/actions/newInvoice.js')
 	}
 }
 </script>

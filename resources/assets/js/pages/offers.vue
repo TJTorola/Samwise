@@ -9,7 +9,7 @@
 <script>
 module.exports = {
 	components: {
-		offersBox: require('../components/offersBox.vue')
+		offersBox: require('app/components/offers/box.vue')
 	}
 }
 </script>

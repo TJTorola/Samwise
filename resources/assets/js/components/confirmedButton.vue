@@ -1,5 +1,5 @@
 <template>
-<div class="btn-group btn-group-sm btn-group-justified" role="group">
+<div class="btn-group btn-group-sm btn-group-justified btn-block" role="group">
   <div class="btn btn-default" v-if="confirming" @click="confirmed">
   	<i class="fa fa-check"></i>
   </div>

@@ -5,43 +5,76 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Invoice;
 use App\InvoiceItem;
+use App\Item;
+use App\Offer;
 
 class SearchManagementProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        Invoice::saved(function($invoice) {
-            $invoice->addToIndex();
-        });
+	/**
+	 * Bootstrap the application services.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		Invoice::saved(function($invoice) {
+			$invoice->addToIndex();
+		});
 
-        Invoice::restored(function($invoice) {
-            $invoice->addToIndex();
-        });
+		Invoice::restored(function($invoice) {
+			$invoice->addToIndex();
+		});
 
-        Invoice::deleting(function($invoice) {
-            if (!$invoice->trashed()) {
-                $invoice->removeFromIndex();
-            }
-        });
+		Invoice::deleting(function($invoice) {
+			if (!$invoice->trashed()) {
+				$invoice->removeFromIndex();
+			}
+		});
 
-        InvoiceItem::saved(function($invoiceItem) {
-            $invoice = $invoiceItem->invoice;
-            $invoice->addToIndex();
-        });
-    }
+		InvoiceItem::saved(function($invoiceItem) {
+			$invoice = $invoiceItem->invoice;
+			$invoice->addToIndex();
+		});
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
+		Item::saved(function($item) {
+			dd($item);
+			// $item->addToIndex();
+
+			$offer = Offer::find($item->offer_id);
+			if ($offer->public) {
+				$offer->addToIndex();
+			}
+		});
+
+		Item::deleted(function($item) {
+			$item->removeFromIndex();
+
+			$offer = Offer::find($item->offer_id);
+			if ($offer->public) {
+				$offer->addToIndex();
+			}
+		});
+
+		Offer::saved(function($offer) {
+			if ($offer->public) {
+				$offer->addToIndex();
+			} else {
+				$offer->removeFromIndex();
+			}
+		});
+
+		Offer::deleted(function($offer) {
+			$offer->removeFromIndex();
+		});
+	}
+
+	/**
+	 * Register the application services.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		//
+	}
 }

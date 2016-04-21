@@ -278,8 +278,8 @@
 </template>
 
 <script>
-var store = require('./vuex/store.js')
-var actions = require('./vuex/actions.js')
+var store = require('app/vuex/store.js')
+var actions = require('app/vuex/actions.js')
 
 module.exports = {
 	computed: {
@@ -301,8 +301,8 @@ module.exports = {
 	},
 
 	components: {
-		loginForm: require('./components/loginForm.vue'),
-		cartSummary: require('./components/cartSummary.vue')
+		loginForm: require('app/components/loginForm.vue'),
+		cartSummary: require('app/components/cart/summary.vue')
 	},
 
 	methods: {

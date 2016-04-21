@@ -27,7 +27,9 @@ class Item extends Model
 	 *
 	 * @var array
 	 */
-	protected $casts = [];
+	protected $casts = [
+		'infinite' => 'boolean'
+	];
 
 	/**
 	 * The attributes that aren't mass assignable.

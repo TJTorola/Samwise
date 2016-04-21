@@ -105,7 +105,7 @@ module.exports = {
 	},
 
 	components: {
-		statusIcon: require('../components/statusIcon.vue')
+		statusIcon: require('app/components/statusIcon.vue')
 	},
 
 	methods: {

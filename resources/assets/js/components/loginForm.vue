@@ -111,7 +111,7 @@ module.exports = {
 			user: state => state.user
 		},
 
-		actions: require('../vuex/actions/user.js')
+		actions: require('app/vuex/actions/user.js')
 	}
 }
 </script>
