@@ -16,7 +16,7 @@
 module.exports = {
 	components: {
 		modifyCart: require('app/components/cart/modifyCart.vue'),
-		customerInfo: require('app/components/invoices/customerInfo.vue')
+		customerInfo: require('app/components/invoice/customerInfo.vue')
 	},
 
 	methods: {

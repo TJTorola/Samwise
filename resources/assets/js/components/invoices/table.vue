@@ -18,7 +18,7 @@ module.exports = {
 	props: ['invoices'],
 
 	components: {
-		summary: require('./summary.vue'),
+		summary: require('app/components/invoice/summary.vue'),
 		sorters: require('./sorters.vue'),
 		row: require('./row.vue')
 	},

@@ -19,6 +19,7 @@ Vue.filter('nl2br', require('./filters/nl2br.js'))
 var App = 					require('./app.vue')
 // var FileNotFound =	require('./pages/404.vue')
 // var ServerError =		require('./pages/500.vue')
+var Invoice = 			require('./pages/invoice.vue')
 var Invoices = 			require('./pages/invoices.vue')
 var NewInvoice = 		require('./pages/newInvoice.vue')
 var Offers = 				require('./pages/offers.vue')
@@ -47,6 +48,11 @@ router.map({
 	// 	component: ServerError
 	// },
 	// Resources
+	'/invoice/:id': {
+		name: 'Invoice',
+		description: 'Modify existing customer invoices.',
+		component: Invoice
+	},
 	'/invoices': {
 		name: 'Invoices',
 		description: 'Browse/Search customer invoices.',
