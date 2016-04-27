@@ -108,7 +108,9 @@ class InvoicesController extends Controller
 			'billed',
 			'paid',
 			'shipped',
-			'shipping_cost'
+			'shipping_cost',
+			'billing_address',
+			'shipping_address'
 		];
 
 		$invoice = Invoice::findOrFail($id);
@@ -119,6 +121,7 @@ class InvoicesController extends Controller
 			$invoice[$key] = $value;
 		}
 		$invoice->save();
+		sleep(1);
 	}
 
 	/**

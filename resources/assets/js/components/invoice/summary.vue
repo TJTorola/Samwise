@@ -29,38 +29,22 @@
 			</div>
 		</div>
 
-		<h4 v-if="!invoice.sepearate_billing">Shipping/Billing Address</h4>
-		<h4 v-else>Shipping Address</h4>
-		<hr>
-		<address-block :address="invoice.shipping_address"></address-block>
-
-		<span v-if="invoice.seperate_billing">
-			<h4>Billing Address</h4>
-			<hr>
-			<address-block :address="invoice.billing_address"></address-block>
-		</span>
-
-		<hr>
-
-		<section v-if="invoice.notes">
-			<b>Customer Notes:</b>
-			<div class="attachment-block clearfix">
-				{{{ invoice.notes | nl2br }}}
-			</div>
-		</section>
-
-		<div class="form-group">
-      <label>Store Notes:</label> <small><status-icon icon="" v-ref:note-status></status-icon></small>
-      <textarea class="form-control" rows="6" placeholder="Enter ..." 
-      	v-model="invoice.store_notes" 
-      	debounce="500" 
-      	@keyup="notesKeyup">
-      </textarea>
-    </div>
+		<customer-info :invoice="invoice"></customer-info>
 	</div>
 	
 	<div class="col-md-6"> <!-- RIGHT COLUMN -->
+		<h4>Cart</h4>
+		<hr>
 		<invoice-items-table :cart="invoice.cart" :id="invoice.id"></invoice-items-table>
+
+		<h4>Payments</h4>
+		<hr>
+		<invoice-payments :cart="invoice.cart" :payments="invoice.payments"></invoice-payments>
+	</div>
+
+	<div class="col-xs-12">
+		<modify-info-button class="col-xs-6" :invoice="invoice"></modify-info-button>
+		<modify-cart-button class="col-xs-6" :invoice="invoice"></modify-cart-button>
 	</div>
 </div>
 </template>
@@ -70,21 +54,21 @@ module.exports = {
 	props: ['invoice'],
 
 	components: {
-		addressBlock: require('./addressBlock.vue'),
 		InvoiceItemsTable: require('./itemsTable.vue'),
+		InvoicePayments: require('./invoicePayments.vue'),
 		printButton: require('./printButton.vue'),
 		chargeButton: require('./charge/button.vue'),
+		modifyInfoButton: require('./modifyInfo/button.vue'),
+		modifyCartButton: require('./modifyCart/button.vue'),
+		customerInfo: require('./customerInfo.vue'),
 		confirmedButton: require('app/components/confirmedButton.vue'),
 		statusIcon: require('app/components/statusIcon.vue'),
 	},
 
-	watch: {
-		'invoice.store_notes': function() {
-			this.$http.patch(`/api/invoice/${this.invoice.id}`, { store_notes: this.invoice.store_notes }).then(response => {
-				this.$refs.noteStatus.check()
-			}, () => {
-				this.$refs.noteStatus.fail()
-			})
+	events: {
+		PAID (amount) {
+			this.invoice.cart.paid += amount
+			this.invoice.cart.due -= amount
 		}
 	},
 
@@ -102,9 +86,7 @@ module.exports = {
 			console.log('EMAIL')
 		},
 
-		notesKeyup () {
-			this.$refs.noteStatus.working()
-		}
+		
 	}
 }
 </script>

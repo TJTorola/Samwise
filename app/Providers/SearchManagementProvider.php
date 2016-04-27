@@ -7,6 +7,7 @@ use App\Invoice;
 use App\InvoiceItem;
 use App\Item;
 use App\Offer;
+use App\Payment;
 
 class SearchManagementProvider extends ServiceProvider
 {
@@ -33,6 +34,11 @@ class SearchManagementProvider extends ServiceProvider
 
 		InvoiceItem::saved(function($invoiceItem) {
 			$invoice = $invoiceItem->invoice;
+			$invoice->addToIndex();
+		});
+
+		Payment::saved(function($payment) {
+			$invoice = $payment->invoice;
 			$invoice->addToIndex();
 		});
 

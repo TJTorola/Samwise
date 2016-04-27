@@ -426,3 +426,113 @@ ul.dropdown-menu li.footer:hover a {
   position: fixed;
   left: -10000px;
 }
+
+.lightbox-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.lightbox-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.lightbox-container {
+  width: 600px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all .3s ease;
+}
+
+.lightbox-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.lightbox-body {
+  margin: 20px 0;
+  overflow-y: scroll;
+  height: 500px;
+}
+
+.lightbox-default-button {
+  float: right;
+}
+
+.grow-enter,
+.grow-leave {
+  height: 0;
+}
+
+.grow-transition {
+  transition: all .3s ease;
+}
+
+.lightbox-enter,
+.lightbox-leave {
+  opacity: 0;
+}
+
+.lightbox-enter .lightbox-container,
+.lightbox-leave .lightbox-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.u-full-width {
+  width: 100%;
+}
+
+.u-width-xs {
+  width: 20px;
+}
+
+.u-width-md {
+  width: 100px;
+}
+
+.u-input-sm-height {
+  line-height: 30px;
+}
+
+.u-active {
+  cursor: pointer;
+}
+
+.u-active:hover {
+  color: #3C8DBC;
+}
+
+.u-inactive {
+  color: #AAA;
+}
+
+.u-tooltip {
+  color: black;
+  display: inline;
+  position: relative;
+}
+
+.u-tooltip:hover:after {
+  background: #333;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  bottom: -12px;
+  color: #fff;
+  content: attr(tip);
+  left: 25px;
+  padding: 5px 15px;
+  position: absolute;
+  z-index: 98;
+  width: 385px;
+}

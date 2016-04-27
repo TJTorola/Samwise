@@ -1,9 +1,7 @@
 <template>
-<status-icon class="u-active"
-	v-ref:icon
-	:icon="(mode == 'billed')?'fa-file-text':(mode == 'paid')?'fa-credit-card':'fa-truck'"
-	@click="toggleState"
-	:class="state?'u-green':'u-gray'"></status-icon>
+<div class="btn btn-sm" @click="toggleState" :class="state?'bg-olive':'btn-default'">
+	{{ mode | capitalize }} <status-icon v-ref:icon :icon="icon">
+</div>
 </template>
 
 <script>
@@ -14,10 +12,27 @@ module.exports = {
 		}
 	},
 
-	props: ['mode', 'state', 'id', 'size'],
+	props: ['mode', 'state', 'id'],
 
 	components: {
 		statusIcon: require('app/components/statusIcon.vue')
+	},
+
+	computed: {
+		icon () {
+			if (!this.state) {
+				return 'fa-times'
+			}
+
+			switch (this.mode) {
+				case 'billed':
+					return 'fa-file-text'
+				case 'paid':
+					return 'fa-credit-card'
+				case 'shipped':
+					return 'fa-truck'
+			}
+		}
 	},
 
 	methods: {

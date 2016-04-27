@@ -8,53 +8,43 @@
 		</tr>
 	</thead>
 	<tbody>
-	<tr v-for="item in cart.items">
-		<td>{{{ item.name | nl2br }}}</td>
-		<td>{{ item.price / 100 | currency }}</td>
-			<td>{{ item.count }}</td>
-	</tr>
+		<tr v-for="item in cart.items">
+			<td>{{{ item.name | nl2br }}}</td>
+			<td>{{ item.price / 100 | currency }}</td>
+				<td>{{ item.count }}</td>
+		</tr>
 
-	<tr> <!-- subtotal -->
-		<td class="text-right">
-			<b>Subtotal:</b>
-		</td>
-		<td colspan="2">{{ cart.subtotal / 100 | currency }}</td>
-	</tr>
+		<tr> <!-- subtotal -->
+			<td class="text-right">
+				<b>Subtotal:</b>
+			</td>
+			<td colspan="2">{{ cart.subtotal / 100 | currency }}</td>
+		</tr>
 
-	<tr> <!-- shipping -->
-		<td class="text-right">
-			<b>Shipping:</b>
-		</td>
+		<tr> <!-- shipping -->
+			<td class="text-right">
+				<b>Shipping:</b>
+			</td>
 
-		<td colspan="2">
-			<div class="input-group input-group-sm">
-			<span class="input-group-addon">
-				<status-icon icon="fa-dollar" v-ref:shipping-cost></status-icon>
-			</span>
-			<input class="form-control input-sm text-right"
-				:mask-value="cart.shipping_cost"
-				:mask-input="shippingCostInput | debounce 500"
-				v-mask:rtl
-				mask="#,###,###.##"
-				hint=".00">
-		</div>
-		</td>
-	</tr>
-
-	<tr> <!-- paid -->
-		<td class="text-right">
-			<b>Paid:</b>
-		</td>
-
-		<td colspan="2">
-			{{ cart.paid / 100 | currency }}
-		</td>
-	</tr>
+			<td colspan="2">
+				<div class="input-group input-group-sm">
+				<span class="input-group-addon">
+					<status-icon icon="fa-dollar" v-ref:shipping-cost></status-icon>
+				</span>
+				<input class="form-control input-sm text-right"
+					:mask-value="cart.shipping_cost"
+					:mask-input="shippingCostInput | debounce 500"
+					v-mask:rtl
+					mask="#,###,###.##"
+					hint=".00">
+			</div>
+			</td>
+		</tr>
 	</tbody>
 	<tfoot>
 		<tr>
-			<th class="text-right">Due:</th>
-			<td colspan="2">{{ cart.due / 100 | currency }}</td>
+			<th class="text-right">Total:</th>
+			<td colspan="2">{{ (cart.subtotal + cart.shipping_cost) / 100 | currency }}</td>
 		</tr>
 	</tfoot>
 </table>

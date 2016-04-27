@@ -24,15 +24,19 @@ class UpdateRequest extends Request
 	public function rules()
 	{
 		return [
-			'store_notes' 			=> 'max:255',
-			'email' 						=> 'email|max:255',
-			'phone' 						=> 'max:255',
-			'seperate_billing' 	=> 'boolean',
-			'billed' 						=> 'boolean',
-			'paid' 							=> 'boolean',
-			'shipped' 					=> 'boolean',
-			'shipping_cost' 		=> 'integer',
-			'subtotal' 					=> 'integer'
+			'store_notes' 								=> 'max:255',
+			'email' 											=> 'email|max:255',
+			'phone' 											=> 'max:255',
+			'seperate_billing' 						=> 'boolean',
+			'shipping_address.first_name' => 'required',
+			'shipping_address.last_name' 	=> 'required',
+			'shipping_address.first_name' => 'required_if:seperate_billing,true',
+			'shipping_address.last_name' 	=> 'required_if:seperate_billing,true',
+			'billed' 											=> 'boolean',
+			'paid' 												=> 'boolean',
+			'shipped' 										=> 'boolean',
+			'shipping_cost' 							=> 'integer',
+			'subtotal' 										=> 'integer'
 		];
 	}
 }
