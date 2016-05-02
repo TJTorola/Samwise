@@ -108,6 +108,8 @@ Route::group(['prefix' => 'api'], function() {
 
 		Route::get('{invoice}/cart', 'InvoicesController@indexItems');
 		Route::get('{invoice}/items', 'InvoicesController@indexItems');
+		Route::post('{invoice}/cart', 'InvoiceController@storeItems');
+		Route::post('{invoice}/items', 'InvoiceController@storeItems');
 		Route::post('{invoice}/item', 'InvoicesController@storeItem');
 
 		Route::get('{invoice}/payments', 'InvoicesController@indexPayments');

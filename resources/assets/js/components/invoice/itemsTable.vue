@@ -28,16 +28,16 @@
 
 			<td colspan="2">
 				<div class="input-group input-group-sm">
-				<span class="input-group-addon">
-					<status-icon icon="fa-dollar" v-ref:shipping-cost></status-icon>
-				</span>
-				<input class="form-control input-sm text-right"
-					:mask-value="cart.shipping_cost"
-					:mask-input="shippingCostInput | debounce 500"
-					v-mask:rtl
-					mask="#,###,###.##"
-					hint=".00">
-			</div>
+					<span class="input-group-addon">
+						<status-icon icon="fa-dollar" v-ref:shipping-cost></status-icon>
+					</span>
+					<input class="form-control input-sm text-right"
+						:mask-value="cart.shipping_cost"
+						:mask-input="shippingCostInput | debounce 500"
+						v-mask:rtl
+						mask="#,###,###.##"
+						hint=".00">
+				</div>
 			</td>
 		</tr>
 	</tbody>

@@ -39,7 +39,8 @@
 
 		<h4>Payments</h4>
 		<hr>
-		<invoice-payments :cart="invoice.cart" :payments="invoice.payments"></invoice-payments>
+		<invoice-payments :cart="invoice.cart" :payments="invoice.payments" v-if="invoice.payments.length > 0"></invoice-payments>
+		<span v-else>No payments have been made.</span>
 	</div>
 
 	<div class="col-xs-12">

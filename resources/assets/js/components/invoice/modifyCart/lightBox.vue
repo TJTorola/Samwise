@@ -8,13 +8,15 @@
 			</div>
 
 			<div class="lightbox-body" v-if='loaded'>
-				<cart-table :cart="cart"></cart-table>
+				<cart-table :cart="cart" v-ref:table></cart-table>
 
-				<search-items :cart="cart"></search-items>
+				<search-query :cart="cart"></search-query>
 			</div>
 
+			<div class="lightbox-body" v-else></div>
+
 			<div class="lightbox-footer">
-				<button class="btn btn-sm btn-primary">
+				<button class="btn btn-sm btn-primary" @click="save">
 					<i class="fa fa-floppy-o"></i> Save Changes
 				</button>
 
@@ -32,7 +34,8 @@ module.exports = {
 	data () {
 		return {
 			loaded: false,
-			cart: {}
+			cart: {},
+			deleted: []
 		}
 	},
 
@@ -40,7 +43,7 @@ module.exports = {
 
 	components: {
 		cartTable: require('./table.vue'),
-		searchItems: require('./searchItems.vue')
+		searchQuery: require('./search/query.vue')
 	},
 
 	watch: {
@@ -53,12 +56,30 @@ module.exports = {
 		}
 	},
 
+	events: {
+		DELETE_ITEM_BY_INDEX (index) {
+			if (this.cart.items[index].id) {
+				this.deleted.push(this.cart.items[index].id)
+			}
+
+			this.cart.items.splice(index, 1)
+		}
+	},
+
 	methods: {
 		getCart () {
 			this.$http.get(`invoice/${this.id}`).then(response => {
 				this.loaded = true
 				this.$set('cart', response.data.cart)
 			})
+		},
+
+		save () {
+			if (this.$refs.table.hasErrors) {
+				this.$root.notify('danger', 'Invalid Cart', 'Fix errors on cart before submitting.')
+			}
+
+			this.$http.post(`invoice/${this.id}`)
 		}
 	}
 }

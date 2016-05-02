@@ -1,9 +1,9 @@
 <template>
-	<button type="button" class="btn btn-block btn-warning btn-xs u-no-margin" 
-		@click="incrament" 
-		@contextmenu.prevent="decrament">
-		{{ (count)?count:'+' }} <i class="fa fa-shopping-cart"></i>
-	</button>	
+<button type="button" class="btn btn-block btn-warning btn-xs u-no-margin" 
+	@click="incrament" 
+	@contextmenu.prevent="decrament">
+	{{ (count)?count:'+' }} <i class="fa fa-shopping-cart"></i>
+</button>
 </template>
 
 <script>
