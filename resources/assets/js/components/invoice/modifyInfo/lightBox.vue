@@ -6,7 +6,7 @@
 				<i class="fa fa-user"></i> Modify Customer Info <br>
 				<i class="u-thin">Modify the invoice customer information.</i>
 			</div>
-			<div class="lightbox-body">
+			<div class="lightbox-body" v-if="loaded">
 				<info-form
 					:phone.sync="invoice.phone"
 					:email.sync="invoice.email"
@@ -32,14 +32,37 @@
 
 <script>
 module.exports = {
-	props: ['show', 'invoice'],
+	data () {
+		return {
+			loaded: false,
+			invoice: {}
+		}
+	},
+
+	props: ['show', 'id'],
 
 	components: {
 		infoForm: require('./infoForm.vue'),
 		statusIcon: require('app/components/statusIcon.vue')
 	},
 
+	watch: {
+		show () {
+			if (this.show) {
+				this.loaded = false
+				this.get()
+			}
+		}
+	},
+
 	methods: {
+		get () {
+			this.$http.get(`invoice/${this.id}`).then(response => {
+				this.loaded = true
+				this.$set('invoice', response.data)
+			})
+		},
+
 		save () {
 			this.$refs.save.working()
 

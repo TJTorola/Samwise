@@ -17,7 +17,7 @@
 
 			<div class="lightbox-footer">
 				<button class="btn btn-sm btn-primary" @click="save">
-					<i class="fa fa-floppy-o"></i> Save Changes
+					<status-icon icon="fa-floppy-o" v-ref:save></status-icon> Save Changes
 				</button>
 
 				<button class="btn btn-sm pull-right" @click="show = false">
@@ -42,6 +42,7 @@ module.exports = {
 	props: ['show', 'id'],
 
 	components: {
+		statusIcon: require('app/components/statusIcon.vue'),
 		cartTable: require('./table.vue'),
 		searchQuery: require('./search/query.vue')
 	},
@@ -50,7 +51,6 @@ module.exports = {
 		show () {
 			if (this.show) {
 				this.loaded = false
-				this.total = 0
 				this.getCart()
 			}
 		}
@@ -78,8 +78,19 @@ module.exports = {
 			if (this.$refs.table.hasErrors) {
 				this.$root.notify('danger', 'Invalid Cart', 'Fix errors on cart before submitting.')
 			}
+			this.$refs.save.working()
+			var request = {
+				deleted: this.deleted,
+				items: this.cart.items
+			}
 
-			this.$http.post(`invoice/${this.id}`)
+			this.$http.post(`invoice/${this.id}/cart`, request).then(response => {
+				this.$refs.save.check()
+				this.$dispatch('GET')
+				this.show = false
+			}, () => {
+				this.$refs.save.fail()
+			})
 		}
 	}
 }

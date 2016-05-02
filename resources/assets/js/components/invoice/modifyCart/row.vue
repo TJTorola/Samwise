@@ -79,20 +79,6 @@ module.exports = {
 		}
 	},
 
-	watch: {
-		maskedCount () {
-			this.item.count = parseInt(this.maskedCount.split(',').join(''))
-		},
-
-		'item.count': function() {
-			this.maskedCount = this.item.count.toLocaleString()
-		}
-	},
-
-	created () {
-		this.maskedCount = this.item.count.toLocaleString()
-	},
-
 	props: ['item', 'index'],
 
 	methods: {

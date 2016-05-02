@@ -37,14 +37,18 @@ class SearchManagementProvider extends ServiceProvider
 			$invoice->addToIndex();
 		});
 
+		InvoiceItem::deleted(function($invoiceItem) {
+			$invoice = $invoiceItem->invoice;
+			$invoice->addToIndex();
+		});
+
 		Payment::saved(function($payment) {
 			$invoice = $payment->invoice;
 			$invoice->addToIndex();
 		});
 
 		Item::saved(function($item) {
-			dd($item);
-			// $item->addToIndex();
+			$item->addToIndex();
 
 			$offer = Offer::find($item->offer_id);
 			if ($offer->public) {

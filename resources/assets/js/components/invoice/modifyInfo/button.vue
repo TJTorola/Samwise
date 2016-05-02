@@ -4,7 +4,7 @@
 		<i class="fa fa-user"></i> Modify Info
 	</div>
 
-	<light-box :show.sync="working" :invoice="invoice"></light-box>
+	<light-box :show.sync="working" :id="invoice.id"></light-box>
 </span>
 </template>
 

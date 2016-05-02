@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoices\StoreRequest;
 use App\Http\Requests\Invoices\UpdateRequest;
 use App\Http\Requests\Invoices\StoreItemRequest;
+use App\Http\Requests\Invoices\StoreItemsRequest;
 use App\Http\Requests\Invoices\StorePaymentRequest;
 
 use App\Search;
@@ -121,7 +122,7 @@ class InvoicesController extends Controller
 			$invoice[$key] = $value;
 		}
 		$invoice->save();
-		sleep(.5);
+		sleep(1);
 	}
 
 	/**
@@ -167,7 +168,62 @@ class InvoicesController extends Controller
 
 	public function storeItem($id, StoreItemRequest $request)
 	{
+	}
 
+	public function storeItems($id, StoreItemsRequest $request) {
+		$invoice = Invoice::findOrFail($id);
+
+		foreach ($request->deleted as $deleted_id) {
+			InvoiceItem::find($deleted_id)->delete();
+		}
+
+		$invoice_items = [];
+		foreach ($request->items as $item) {
+			if ($item['id'] != null) {
+				// update existing item
+				$old_item = InvoiceItem::find($item['id']);
+
+				if ($item['item_id'] != null) {
+					$old_item->count = $item['count'];
+				} else {
+					$old_item->item_id = null;
+					$old_item->name = $item['name'];
+					$old_item->count = $item['count'];
+					$old_item->price = $item['price'];
+					$old_item->unit = $item['unit'];
+				}
+
+				$old_item->save();
+				continue;
+			}
+
+			// add new item
+			if ($item['item_id'] != null) {
+				// add from inventory stock
+				$inv_item = Item::find($item['item_id']);
+
+				$invoice_items[] = new InvoiceItem([
+					'item_id' => $item['item_id'],
+					'name' => $inv_item->full_newline_name,
+					'count' => $item['count'],
+					'price' => $inv_item->price,
+					'unit' => $inv_item->unit
+				]);
+			} else {
+				// add as unstocked item
+				$invoice_items[] = new InvoiceItem([
+					'item_id' => null,
+					'name' => $item['name'],
+					'count' => $item['count'],
+					'price' => $item['price'],
+					'unit' => $item['unit']
+				]);
+			}
+		}
+		$invoice->items()->saveMany($invoice_items);
+
+		sleep(1);
+		return $request->all();
 	}
 
 	public function indexPayments()
@@ -211,6 +267,7 @@ class InvoicesController extends Controller
 
 			$payment = $invoice->payments()->save(new Payment($payment));
 			$payment['user'] = $payment->user->name;
+			sleep(1);
 
 			return $payment;
 
