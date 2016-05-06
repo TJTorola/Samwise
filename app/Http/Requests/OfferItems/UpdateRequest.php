@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\ItemVariants;
+namespace App\Http\Requests\OfferItems;
 
 use App\Http\Requests\Request;
 

@@ -19,18 +19,7 @@ class SettingsController extends Controller
    */
   public function index()
   {
-    //
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(StoreRequest $request)
-  {
-    //
+    return config('samwise');
   }
 
   /**
@@ -39,31 +28,9 @@ class SettingsController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show($setting)
   {
-    //
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function update(UpdateRequest $request, $id)
-  {
-    //
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy($id)
-  {
-    //
+    $setting = implode('.', explode('/', $setting));
+    return config("samwise.$setting");
   }
 }

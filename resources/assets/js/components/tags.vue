@@ -1,7 +1,7 @@
 <template>
 <div class='box box-warning'>
 	<div class='box-header'>
-		<h3 class='box-title'>Tags</h3>
+		<h3 class='box-title'><i class="fa fa-tags"></i> Tags</h3>
 
 		<div class="box-tools pull-right">
 			<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -37,7 +37,7 @@ module.exports = {
 			 var tags = []
 		}
 
-		this.$http.get('/info/tags').then(function(response) {
+		this.$http.get('tags').then(function(response) {
 			this.$set('tagList', response.data)
 		})
 

@@ -168,13 +168,9 @@ Route::group(['prefix' => 'api'], function() {
 		Route::patch('{offer}', 'OffersController@update');
 		Route::delete('{offer}', 'OffersController@destroy');
 
-		Route::get('{offer}/items', 'OffersController@indexItems');
 		Route::post('{offer}/item', 'OffersController@storeItem');
-
-		Route::get('{offer}/images', 'OffersController@indexImages');
 		Route::post('{offer}/image', 'OffersController@storeImage');
-		Route::patch('{offer}/image', 'OffersController@updateImage');
-		Route::delete('{offer}/image', 'OffersController@destroyImage');
+		Route::patch('{offer}/images', 'OffersController@updateImages');
 
 	});
 
@@ -228,10 +224,7 @@ Route::group(['prefix' => 'api'], function() {
 	Route::get('settings', 'SettingsController@index');
 	Route::group(['prefix' => 'setting'], function() {
 
-		Route::post('/', 'SettingsController@store');
-		Route::get('{setting}', 'SettingsController@show');
-		Route::patch('{setting}', 'SettingsController@update');
-		Route::delete('{setting}', 'SettingsController@destroy');
+		Route::get('{setting}', 'SettingsController@show')->where(['setting' => '[a-z_/]+']);
 
 	});
 

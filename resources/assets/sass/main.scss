@@ -165,15 +165,6 @@ small {
     content: "\f057";
 }
 
-.v-uploader input {
-    display: none;
-}
-
-.v-uploader .progress-bar {
-    height: 10px;
-    float: none;
-}
-
 .btn-overflow {
     overflow: hidden;
 }
@@ -419,6 +410,10 @@ ul.dropdown-menu li.footer:hover a {
   width: 75px;
 }
 
+.u-hide {
+  display: none;
+}
+
 .u-hiddenNotHidden {
   display: block;
   position: fixed;
@@ -507,6 +502,14 @@ ul.dropdown-menu li.footer:hover a {
 
 .u-active:hover {
   color: #3C8DBC;
+}
+
+.u-active.u-danger {
+  color: #dd4b39;
+}
+
+.u-active.u-danger:hover {
+  color: #A22313;
 }
 
 .u-inactive {

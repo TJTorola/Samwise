@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Items;
+namespace App\Http\Requests\Offers;
 
 use App\Http\Requests\Request;
 
-class StoreImageRequest extends Request
+class UpdateRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
