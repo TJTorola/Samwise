@@ -71,9 +71,6 @@ module.exports = {
 			this.uploadedCount = 0
 
 			if (this.selectedCount > 0) {
-				this.$nextTick(() => {
-					this.$refs.progress.simulate()
-				})
 				this.upload()
 			} else {
 				this.end()
@@ -81,12 +78,21 @@ module.exports = {
 		},
 
 		upload () {
-			var request = new FormData()
-			request.append('uploader', this.files[this.uploadedCount])
+			var options = {
+				upload: {
+					onprogress: (e) => {
+						var percent = parseInt(e.loaded / e.total * 100)
+						this.$refs.progress.percent = percent
+					}
+				}
+			}
 
-			this.$http.post(`offer/${this.offerId}/image`, request).then(response => {
+			var request = new FormData()
+			request.append('picture', this.files[this.uploadedCount])
+
+			this.$http.post(`offer/${this.offerId}/image`, request, options).then(response => {
 				this.$refs.progress.next()
-				// TODO: DISPATCH PIC
+				this.$dispatch('NEW_PICTURE', response.data)
 
 				this.uploadedCount++
 				if (this.uploadedCount < this.selectedCount) {

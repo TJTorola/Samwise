@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use Elasticquent\ElasticquentTrait;
 
+use App\OfferPicture;
+
 class Offer extends Model
 {
 	/*
@@ -19,14 +21,24 @@ class Offer extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = ['next', 'prev', 'infinite', 'price_high', 'price_low', 'sold', 'stock'];
+	protected $appends = [
+		'next',
+		'prev',
+		'infinite',
+		'price_high',
+		'price_low',
+		'sold',
+		'stock',
+		'pictures',
+		'timestamp'
+	];
 
 	/**
 	 * The attributes that aren't mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next'];
+	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next', 'pictures', 'timestamp'];
 
 	/**
 	 * The attributes that should be casted to native types.
@@ -138,6 +150,16 @@ class Offer extends Model
 		}
 
 		return $stock;
+	}
+
+	public function getPicturesAttribute()
+	{
+		return OfferPicture::find($this['id']);
+	}
+
+	public function getTimestampAttribute()
+	{
+		return $this->created_at->timestamp;
 	}
 
 	/*

@@ -3,25 +3,27 @@
 	<thead>
 		<tr>
 			<th>Card</th>
+			<th>Charged On</th>
 			<th>Amount</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr v-for="payment in payments">
 			<td>{{ payment.card_brand }} '{{ payment.last_four }}'</td>
+			<td>{{ payment.charged }}</td>
 			<td>{{ payment.amount / 100 | currency }}</td>
 		</tr>
 	</tbody>
 	<tfoot>
 		<tr> <!-- paid -->
-			<th class="text-right">Total Paid:</th>
+			<th class="text-right" colspan="2">Total Paid:</th>
 			<td>
 				{{ cart.paid / 100 | currency }}
 			</td>
 		</tr>
 
 		<tr>
-			<th class="text-right">Due:</th>
+			<th class="text-right" colspan="2">Due:</th>
 			<td>
 				{{ cart.due / 100 | currency }}
 			</td>

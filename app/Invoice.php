@@ -31,7 +31,8 @@ class Invoice extends Model
 		'cart',
 		'subtotal',
 		'amount_paid',
-		'due'
+		'due',
+		'created'
 	];
 
 	/**
@@ -96,7 +97,8 @@ class Invoice extends Model
 		'status', 
 		'amount_paid', 
 		'due', 
-		'cart'
+		'cart',
+		'created'
 	];
 
 	/*
@@ -282,6 +284,11 @@ class Invoice extends Model
 		}
 
 		return $subtotal;
+	}
+
+	public function getCreatedAttribute()
+	{
+		return $this->created_at->format('M j, Y');
 	}
 
 	/*

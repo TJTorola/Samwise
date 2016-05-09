@@ -8,11 +8,26 @@
 		</div>
 	</div>
 	<div class="box-body">
-		Pictures Body
+		<div class="col-xs-4" 
+			v-for="picture in pictures"
+			:class="($index % 3 == 0)?'clear-row':''">
+			<picture 
+				:picture="picture"
+				:index="$index"
+				:pictures="pictures"
+				:offer-id="offerId">
+			</picture>
+		</div>
 	</div>
 </div>
 </template>
 
 <script>
-module.exports = {}
+module.exports = {
+	props: ['pictures', 'offerId'],
+
+	components: {
+		picture: require('./picture.vue')
+	}
+}
 </script>

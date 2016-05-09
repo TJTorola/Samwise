@@ -10,6 +10,9 @@
 		<th class="u-active text-right hidden-xxxs" style="width: 95px" @click="sortInput('subtotal')">
 			<sort-icon key="subtotal" mode="invoices"></sort-icon> Subtotal
 		</th>
+		<th class="u-active text-right" style="width: 90px;" @click="sortInput('created_at')">
+			<sort-icon key="created_at" mode="invoices"></sort-icon> Ordered
+		</th>
 		<th class="text-center hidden-xxxs" style="width: 75px">Status</th>
 		<th style="width: 60px" class="hidden-xxs"></th>
 	</tr>

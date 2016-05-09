@@ -3,6 +3,7 @@
 	<td>{{ invoice.id }}</td>
 	<td><a v-link="{ path: '/invoice/'+invoice.id }">{{ invoice.last_name }}, {{ invoice.first_name }}</a></td>
 	<td class="text-right hidden-xxxs">{{ invoice.subtotal / 100 | currency }}</td>
+	<td class="text-right">{{ invoice.created }}</td>
 	<td class="text-center hidden-xxxs">
 		<status-toggle mode="billed" 
 			:state="invoice.billed"

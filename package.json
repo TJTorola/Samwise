@@ -21,7 +21,7 @@
     "redis": "^2.4.2",
     "vue": "^1.0.7",
     "vuex": "^0.6.2",
-    "vue-resource": "^0.6.0",
+    "vue-resource": "^0.7.0",
     "vue-router": "^0.7.5"
   }
 }

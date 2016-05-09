@@ -15,6 +15,7 @@ use App\Http\Requests\Offers\UpdateImagesRequest;
 
 use App\Search;
 use App\Offer;
+use App\OfferPicture;
 
 class OffersController extends Controller
 {
@@ -91,8 +92,11 @@ class OffersController extends Controller
 
 	public function storeImage(StoreImageRequest $request)
 	{
-		sleep(10);
-		return 'here';
+		$file = $request->file('picture');
+		$file_name = uniqid().'.'.$file->getClientOriginalExtension();
+		$file->move(base_path()."/storage/app/tmp", "$file_name");
+
+		return $file_name;
 	}
 
 	public function updateImages(UpdateImagesRequest $request)

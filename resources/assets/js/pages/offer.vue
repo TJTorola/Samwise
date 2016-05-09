@@ -13,7 +13,10 @@
 
 		<picture-upload :offer-id="offer.id"></picture-upload>
 
-		<pictures></pictures>
+		<pictures v-if="offer.pictures.length > 0"
+			:pictures="offer.pictures" 
+			:offer-id="offer.id">
+		</pictures>
 	</div>
 	<div class="col-xs-12 col-md-6">
 		<type-info :offer="offer"></type-info>
@@ -75,6 +78,16 @@ module.exports = {
 		typeInfo: require('app/components/offer/typeInfo.vue'),
 		confirmedButton: require('app/components/confirmedButton.vue'),
 		statusIcon: require('app/components/statusIcon.vue')
+	},
+
+	events: {
+		NEW_PICTURE (fileName) {
+			this.offer.pictures.push({
+				source: `tmp/${fileName}`,
+				original_index: null,
+				saved: false
+			})
+		}
 	},
 
 	methods: {

@@ -26,6 +26,11 @@ function makeSlug($input) {
 	return $input;
 }
 
+function strStartsWith($haystack, $needle) {
+  // search backwards starting from haystack length characters from the end
+  return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+}
+
 function strEndsWith($haystack, $needle) {
   // search forward starting from end minus needle length characters
   return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
@@ -39,4 +44,14 @@ function humanFileSize($size,$unit="") {
   if( (!$unit && $size >= 1<<10) || $unit == "KB")
     return number_format($size/(1<<10),2)."KB";
   return number_format($size)." bytes";
+}
+
+function anyStartsWith($needle, $haystack) {
+  for ($i=0; $i < count($haystack); $i++) { 
+    if (strStartsWith($haystack[$i], $needle)) {
+      return true;
+    }
+  }
+
+  return false;
 }
