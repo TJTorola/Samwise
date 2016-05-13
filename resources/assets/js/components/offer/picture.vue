@@ -1,6 +1,6 @@
 <template>
-<div class="thumbnail" :class="(picture.original_index !== null)?'':'not-saved'">
-	<img class="img-responsive img-rounded" :src="`/img/${picture.source}`">
+<div class="thumbnail" :class="(picture.id !== null)?'':'not-saved'">
+	<img class="img-responsive img-rounded" :src="`/img/${picture.source.lg}`">
 	<div class="btn-group btn-group-xs btn-group-justified margin-top" role="group">
 		<a type="button" class="btn btn-default" role="button"
 			@click="imgShift(-1)"

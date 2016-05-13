@@ -203,7 +203,8 @@ class Offer extends Model
 			$offer[$type_field] = $value;
 		}
 
-		$offer['items'] = $this->items;
+		$offer['items'] = $this->items->toArray();
+		$offer['pictures'] = $this->pictures->toArray();
 
 		return $offer;
 	}

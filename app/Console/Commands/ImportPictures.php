@@ -61,7 +61,7 @@ class ImportPictures extends Command
 			$sm = preg_replace('/lg/', 'sm', $lg);
 
 			$offer = Offer::find($offer_id);
-			$picture = new OfferPicture(['sorting' => $sorting ]);
+			$picture = new OfferPicture(['sorting' => $sorting, 'ext' => $ext]);
 			$offer->pictures()->save($picture);
 
 			Storage::move($lg, "inventory/$picture[id]lg.$ext");

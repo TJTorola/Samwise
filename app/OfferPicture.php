@@ -19,14 +19,14 @@ class OfferPicture extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = [];
+	protected $appends = ['source'];
 
 	/**
 	 * The attributes that aren't mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $guarded = ['id', 'created_at', 'updated_at'];
+	protected $guarded = ['id', 'created_at', 'updated_at', 'source'];
 
 	/**
 	 * The attributes that should be casted to native types.
@@ -54,6 +54,15 @@ class OfferPicture extends Model
 	| Computed Properties
 	|--------------------------------------------------------------------------
 	*/
+
+	public function getSourceAttribute()
+	{
+		return [
+			'lg' => "inventory/$this[id]lg.$this[ext]",
+			'md' => "inventory/$this[id]md.$this[ext]",
+			'sm' => "inventory/$this[id]sm.$this[ext]"
+		];
+	}
 
 	/*
 	|--------------------------------------------------------------------------
