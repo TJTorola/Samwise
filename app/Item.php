@@ -11,7 +11,11 @@ class Item extends Model
 {
 	public static function saveMany($items, $offer_id)
 	{
-		
+		foreach ($items as $item_array) {
+			$item = self::findOrFail($item_array['id']);
+			$item_array['type_info'] = self::extractTypeInfo($item_array);
+			$item->update($item_array);
+		}
 	}
 
 	/*
@@ -33,15 +37,29 @@ class Item extends Model
 	 * @var array
 	 */
 	protected $casts = [
-		'infinite' => 'boolean'
+		'infinite' => 'boolean',
+		'type_info' => 'array',
 	];
 
 	/**
-	 * The attributes that aren't mass assignable.
+	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next', 'offer', 'full_name'];
+	protected $fillable = [
+		'name',
+		'price',
+		'unit',
+		'stock',
+		'infinite',
+		'store_reserve',
+		'weight',
+		'x',
+		'y',
+		'z',
+		'location',
+		'type_info'
+	];
 
 	/*
 	|--------------------------------------------------------------------------
@@ -119,17 +137,49 @@ class Item extends Model
 	|--------------------------------------------------------------------------
 	*/
 
-	static public function extractTypeInfo($item, $type) 
+	static public function extractTypeInfo($item) 
 	{
 		$type = $item['type'];
 		$schema = config("samwise.type_schema.item.$type");
 
 		$type_info = [];
-		foreach ($schema_merged as $field) {
-			$type_info[$field['name']] = $item[$field['name']];
+		foreach ($schema as $field) {
+			if (isset($item[$field['name']])) {
+				$type_info[$field['name']] = $item[$field['name']];
+			} else {
+				$type_info[$field['name']] = '';
+			}
 		}
 
 		return json_encode($type_info);
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Return Arrays
+	|--------------------------------------------------------------------------
+	*/
+	public function toPrivateArray()
+	{
+		$item = $this->toArray();
+
+		// place type info fields directly under root
+		if ($this->type_info != '') {
+			$type_info = json_decode($this->type_info);
+			foreach ($type_info as $type_field => $value) {
+				$item[$type_field] = $value;
+			}
+		}
+
+		return $item;
+	}
+
+	public function toPublicArray()
+	{
+		$item = $this->toPrivateArray();
+		// TODO, strip private attributes
+
+		return $item;
 	}
 
 	/*

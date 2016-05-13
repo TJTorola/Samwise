@@ -209,7 +209,9 @@ class Offer extends Model
 			$offer[$type_field] = $value;
 		}
 
-		$offer['items'] = $this->items->toArray();
+		$offer['items'] = $this->items->transform(function ($item, $key) {
+			return $item->toPrivateArray();
+		});
 		$offer['pictures'] = $this->pictures->toArray();
 
 		return $offer;
