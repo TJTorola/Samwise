@@ -15,7 +15,7 @@ use App\Http\Requests\Offers\UpdateImagesRequest;
 
 use App\Search;
 use App\Offer;
-use App\OfferPictures;
+use App\OfferPicture;
 
 class OffersController extends Controller
 {
@@ -71,8 +71,11 @@ class OffersController extends Controller
 	 */
 	public function update(UpdateRequest $request, $id)
 	{
-		$pictures = new OfferPictures($id);
-		$pictures->save($request['pictures']);
+		foreach ($request['pictures'] as $index => $picture) {
+			if ($picture['id'] === null) {
+				OfferPicture::processImage($picture['source']['lg'], $id, $index);
+			}
+		}
 
 		$allowed_fields = [
 			'name',
