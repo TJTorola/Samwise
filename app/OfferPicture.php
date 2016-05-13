@@ -40,6 +40,19 @@ class OfferPicture extends Model
 		return $picture;
 	}
 
+	public static function saveMany($pictures, $offer_id)
+	{
+		foreach ($pictures as $index => $picture) {
+			if ($picture['id'] === null) {
+				self::processImage($picture['source']['lg'], $offer_id, $index);
+			} else {
+				$picture = self::find($picture['id']);
+				$picture->sorting = $index;
+				$picture->save();
+			}
+		}
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Eloquent Configuration

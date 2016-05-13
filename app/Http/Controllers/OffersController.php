@@ -71,20 +71,8 @@ class OffersController extends Controller
 	 */
 	public function update(UpdateRequest $request, $id)
 	{
-		foreach ($request['pictures'] as $index => $picture) {
-			if ($picture['id'] === null) {
-				OfferPicture::processImage($picture['source']['lg'], $id, $index);
-			} else {
-				$picture = OfferPicture::find($picture['id']);
-				$picture->sorting = $index;
-				$picture->save();
-			}
-		}
-
-		foreach ($request['deleted_pictures'] as $picture_id) {
-			$picture = OfferPicture::find($picture_id);
-			$picture->delete();
-		}
+		OfferPicture::saveMany($request['pictures'], $id);
+		OfferPicture::destroy($request['deleted_pictures']);
 
 		$allowed_fields = [
 			'name',
