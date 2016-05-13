@@ -117,8 +117,9 @@ module.exports = {
 
 		update () {
 			this.$http.patch(`offer/${this.offer.id}`, this.offer).then(response => {
+				response.data['deleted_pictures'] = []
+				this.$set('offer', response.data)
 				this.$refs.store.check()
-				console.log(response)
 			})
 		},
 

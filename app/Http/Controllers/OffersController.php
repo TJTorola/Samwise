@@ -106,7 +106,9 @@ class OffersController extends Controller
 
 		$offer->save();
 
-		// Items
+		// items
+
+		return $offer->toPrivateArray();
 	}
 
 	/**
