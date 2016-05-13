@@ -239,7 +239,6 @@ class InvoicesController extends Controller
 		$token = $request->token;
 
 		if ($request->amount != $invoice->due) {
-			return 'hererrere';
 			// THROW ERROR
 			// AMT User thought they were paying has changed
 			// OR something more seedy is going on with them

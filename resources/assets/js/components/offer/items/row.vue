@@ -9,7 +9,7 @@
 		</td>
 		<td style="white-space:nowrap;">{{ offer.name }} -</td>
 		<td class="input-cell">
-			<input type="text" v-model="item.name">
+			<input type="text" v-model="item.name" :placeholder="(offer.items.length > 1)?'*':''">
 		</td>
 		<td class="input-cell">
 			<input type="text" class="text-right"

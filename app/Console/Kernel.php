@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\ImportItems::class,
         Commands\ImportVariants::class,
         Commands\ImportInvoices::class,
-        Commands\ImportInvoiceItems::class
+        Commands\ImportInvoiceItems::class,
+        Commands\ImportPictures::class
         // Commands\Inspire::class,
     ];
 

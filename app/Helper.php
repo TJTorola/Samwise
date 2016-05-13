@@ -49,9 +49,9 @@ function humanFileSize($size,$unit="") {
 function anyStartsWith($needle, $haystack) {
   for ($i=0; $i < count($haystack); $i++) { 
     if (strStartsWith($haystack[$i], $needle)) {
-      return true;
+      return $i;
     }
   }
 
-  return false;
+  return null;
 }

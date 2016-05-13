@@ -110,6 +110,25 @@ class Item extends Model
 
 	/*
 	|--------------------------------------------------------------------------
+	| Static Functions
+	|--------------------------------------------------------------------------
+	*/
+
+	static public function extractTypeInfo($item, $type) 
+	{
+		$type = $item['type'];
+		$schema = config("samwise.type_schema.item.$type");
+
+		$type_info = [];
+		foreach ($schema_merged as $field) {
+			$type_info[$field['name']] = $item[$field['name']];
+		}
+
+		return json_encode($type_info);
+	}
+
+	/*
+	|--------------------------------------------------------------------------
 	| Elastiquent Configuration
 	|--------------------------------------------------------------------------
 	*/

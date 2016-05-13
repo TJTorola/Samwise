@@ -29,7 +29,6 @@ class Offer extends Model
 		'price_low',
 		'sold',
 		'stock',
-		'pictures',
 		'timestamp'
 	];
 
@@ -38,7 +37,7 @@ class Offer extends Model
 	 *
 	 * @var array
 	 */
-	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next', 'pictures', 'timestamp'];
+	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next', 'timestamp'];
 
 	/**
 	 * The attributes that should be casted to native types.
@@ -61,6 +60,14 @@ class Offer extends Model
 	public function items()
 	{
 		return $this->hasMany('App\Item');
+	}
+
+		/**
+	 * An offer can have many pictures
+	 */
+	public function pictures()
+	{
+		return $this->hasMany('App\OfferPicture');
 	}
 
 	/*
@@ -152,14 +159,33 @@ class Offer extends Model
 		return $stock;
 	}
 
-	public function getPicturesAttribute()
-	{
-		return OfferPicture::find($this['id']);
-	}
-
 	public function getTimestampAttribute()
 	{
 		return $this->created_at->timestamp;
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Static Functions
+	|--------------------------------------------------------------------------
+	*/
+
+	static public function extractTypeInfo($offer) 
+	{
+		$type = $offer['type'];
+		$schema = config("samwise.type_schema.offer.$type");
+
+		$schema_merged = [];
+		foreach ($schema as $catagory) {
+			$schema_merged = array_merge($schema_merged, $catagory);
+		}
+
+		$type_info = [];
+		foreach ($schema_merged as $field) {
+			$type_info[$field['name']] = $offer[$field['name']];
+		}
+
+		return json_encode($type_info);
 	}
 
 	/*

@@ -9,7 +9,7 @@
 	</div>
 
 	<div class="col-xs-12 col-md-6">
-		<tags :tag-string="offer.tags"></tags>
+		<tags :tag-string.sync="offer.tags"></tags>
 
 		<picture-upload :offer-id="offer.id"></picture-upload>
 
@@ -84,8 +84,7 @@ module.exports = {
 		NEW_PICTURE (fileName) {
 			this.offer.pictures.push({
 				source: `tmp/${fileName}`,
-				original_index: null,
-				saved: false
+				original_index: null
 			})
 		}
 	},
@@ -99,7 +98,24 @@ module.exports = {
 		},
 
 		store () {
+			this.$refs.store.working()
 
+			if (this.offer.id) {
+				this.update()
+				return
+			}
+
+			this.$http.post('offer', this.offer).then(response => {
+				this.$refs.store.check()
+				console.log(response)
+			})
+		},
+
+		update () {
+			this.$http.patch(`offer/${this.offer.id}`, this.offer).then(response => {
+				this.$refs.store.check()
+				console.log(response)
+			})
 		},
 
 		discard () {

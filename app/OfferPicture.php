@@ -2,96 +2,63 @@
 
 namespace App;
 
-use App\Offer;
+use Illuminate\Database\Eloquent\Model;
 
-use Storage;
-use Image;
+use Elasticquent\ElasticquentTrait;
 
-class OfferPicture
+class OfferPicture extends Model
 {
+	/*
+	|--------------------------------------------------------------------------
+	| Eloquent Configuration
+	|--------------------------------------------------------------------------
+	*/
+
 	/**
-	 *  Return all the existing pictures for given Offer ID
+	 * The accessors to append to the model's array form.
 	 *
-	 * @return array
+	 * @var array
 	 */
-	static public function find($offer_id)
+	protected $appends = [];
+
+	/**
+	 * The attributes that aren't mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $guarded = ['id', 'created_at', 'updated_at'];
+
+	/**
+	 * The attributes that should be casted to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [];
+
+	/*
+	|--------------------------------------------------------------------------
+	| Eloquent Relations
+	|--------------------------------------------------------------------------
+	*/
+
+	/**
+	 * An picture belogs to an offer
+	 */
+	public function offer()
 	{
-		$files = Storage::files("inventory/$offer_id/lg");
-		$accepted_mimes = ['image/jpeg', 'image/bmp', 'image/gif', 'image/png', 'image/svg+xml'];
-
-		$pictures = [];
-
-		foreach ($files as $index => $file) {
-			if (!in_array(Storage::mimeType($file), $accepted_mimes)) {
-				continue;
-			}
-
-			$stamp = Storage::lastModified($file);
-			$pictures[] = [
-				'source' => "$file?m=$stamp",
-				'saved' => true
-			];
-		}
-
-		return $pictures;
+		return $this->belongsTo('App\Offer');
 	}
 
-	/**
-	 *	Store a tmp file into its picture folder
-	 *	
-	 * @return int the id of the placed image
-	 */
-	static public function store($offer_id, $file_name)
-	{
-		$ext = pathinfo($file_name, PATHINFO_EXTENSION);
-		$dir = "inventory/$offer_id";
-		// Make directories incase it does not exist
-		Storage::makeDirectory("$dir");
-		Storage::makeDirectory("$dir/lg");
-		Storage::makeDirectory("$dir/md");
-		Storage::makeDirectory("$dir/sm");
+	/*
+	|--------------------------------------------------------------------------
+	| Computed Properties
+	|--------------------------------------------------------------------------
+	*/
 
-		// find next availible index (ext agnostic)
-		$files = Storage::files("$dir/lg");
-		$index = 0;
-		while (anyStartsWith("$dir/lg/$index.", $files)) {
-			$index++;
-		}
-
-		// Copy to lg directory
-		Storage::move("$file_name", "$dir/lg/$index.$ext");
-
-		// Make the image to modify
-		$root = base_path()."/storage/app";
-		$file_name = Image::make("$root/$dir/lg/$index.$ext");
-
-		// Resize md Image, and copy to dir
-		$file_name->resize(400, null, function ($constraint) {
-				$constraint->aspectRatio();
-				$constraint->upsize();
-		})->save("$root/$dir/md/$index.$ext");
-
-		// Resize sm image, and copy to dir
-		$file_name->fit(200)->save("$root/$dir/sm/$index.$ext");
-
-		return "$index.$ext";
-	}
-
-	/**
-	 *	Rearrange the images for an offer
-	 *
-	 *	@return bool on success of function
-	 */
-	static public function rearrange($offer_id, $mapping)
-	{
-
-	}
-
-
-
-	/**
-	 *
-	 *
-	 *
-	 */
+	/*
+	|--------------------------------------------------------------------------
+	| Return Arrays
+	|--------------------------------------------------------------------------
+	*/
+	
 }
