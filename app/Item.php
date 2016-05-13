@@ -9,6 +9,11 @@ use DB;
 
 class Item extends Model
 {
+	public static function saveMany($items, $offer_id)
+	{
+		
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Eloquent Configuration

@@ -33,11 +33,17 @@ class Offer extends Model
 	];
 
 	/**
-	 * The attributes that aren't mass assignable.
+	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $guarded = ['id', 'created_at', 'updated_at', 'prev', 'next', 'timestamp'];
+	protected $fillable = [
+		'name',
+		'public',
+		'description',
+		'tags',
+		'type_info'
+	];
 
 	/**
 	 * The attributes that should be casted to native types.

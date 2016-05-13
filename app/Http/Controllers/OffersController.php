@@ -16,6 +16,7 @@ use App\Http\Requests\Offers\UpdateImagesRequest;
 use App\Search;
 use App\Offer;
 use App\OfferPicture;
+use App\Item;
 
 class OffersController extends Controller
 {
@@ -71,30 +72,12 @@ class OffersController extends Controller
 	 */
 	public function update(UpdateRequest $request, $id)
 	{
+		$offer = Offer::findOrFail($id);
+
 		OfferPicture::saveMany($request['pictures'], $id);
 		OfferPicture::destroy($request['deleted_pictures']);
-
-		$allowed_fields = [
-			'name',
-			'public',
-			'description',
-			'tags',
-			'type_info'
-		];
-
-		$request['type_info'] = Offer::extractTypeInfo($request->all());
-
-		$offer = Offer::findOrFail($id);
-		foreach ($request->all() as $key => $value) {
-			if (!in_array($key, $allowed_fields)) {
-				continue;
-			}
-			$offer[$key] = $value;
-		}
-
-		$offer->save();
-
-		// items
+		Item::saveMany($request['items'], $id);
+		$offer->update($request->all());
 
 		return $offer->toPrivateArray();
 	}
