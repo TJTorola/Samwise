@@ -81,6 +81,11 @@ class OffersController extends Controller
 			}
 		}
 
+		foreach ($request['deleted_pictures'] as $picture_id) {
+			$picture = OfferPicture::find($picture_id);
+			$picture->delete();
+		}
+
 		$allowed_fields = [
 			'name',
 			'public',

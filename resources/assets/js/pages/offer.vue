@@ -15,6 +15,7 @@
 
 		<pictures v-if="offer.pictures.length > 0"
 			:pictures="offer.pictures" 
+			:deleted="offer.deleted_pictures"
 			:offer-id="offer.id">
 		</pictures>
 	</div>
@@ -94,6 +95,7 @@ module.exports = {
 	methods: {
 		get () {
 			this.$http.get(`offer/${this.id}/admin`).then(response => {
+				response.data['deleted_pictures'] = []
 				this.$set('offer', response.data)
 				this.loaded = true
 			})

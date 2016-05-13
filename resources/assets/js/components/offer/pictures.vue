@@ -15,6 +15,7 @@
 				:picture="picture"
 				:index="$index"
 				:pictures="pictures"
+				:deleted="deleted"
 				:offer-id="offerId">
 			</picture>
 		</div>
@@ -24,7 +25,7 @@
 
 <script>
 module.exports = {
-	props: ['pictures', 'offerId'],
+	props: ['pictures', 'offerId', 'deleted'],
 
 	components: {
 		picture: require('./picture.vue')

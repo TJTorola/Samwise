@@ -8,7 +8,7 @@
 			<i class="fa fa-chevron-left"></i>
 		</a>
 		<a type="button" class="btn btn-danger" role="button"
-			@click="pictures.splice(index,1)">
+			@click="delete">
 			<i class="fa fa-trash"></i>
 		</a>
 		<a type="button" class="btn btn-default" role="button"
@@ -22,7 +22,7 @@
 
 <script>
 module.exports = {
-	props: ['picture', 'index', 'pictures', 'offerId'],
+	props: ['picture', 'index', 'pictures', 'deleted', 'offerId'],
 
 	methods: {
 		imgShift (shift) {
@@ -33,6 +33,11 @@ module.exports = {
 			var save = this.pictures[this.index + shift]
   		this.pictures[this.index + shift] = this.pictures[this.index]
   		this.pictures.$set(this.index, save)
+		},
+
+		delete () {
+			this.deleted.push(this.picture.id)
+			this.pictures.splice(this.index,1)
 		}
 	}
 }
