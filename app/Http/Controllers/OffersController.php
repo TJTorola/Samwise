@@ -74,6 +74,10 @@ class OffersController extends Controller
 		foreach ($request['pictures'] as $index => $picture) {
 			if ($picture['id'] === null) {
 				OfferPicture::processImage($picture['source']['lg'], $id, $index);
+			} else {
+				$picture = OfferPicture::find($picture['id']);
+				$picture->sorting = $index;
+				$picture->save();
 			}
 		}
 

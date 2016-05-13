@@ -67,7 +67,7 @@ class Offer extends Model
 	 */
 	public function pictures()
 	{
-		return $this->hasMany('App\OfferPicture');
+		return $this->hasMany('App\OfferPicture')->orderBy('sorting');
 	}
 
 	/*
