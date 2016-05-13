@@ -83,8 +83,10 @@ module.exports = {
 	events: {
 		NEW_PICTURE (fileName) {
 			this.offer.pictures.push({
-				source: `tmp/${fileName}`,
-				original_index: null
+				id: null,
+				source: {
+					lg: `tmp/${fileName}`
+				},
 			})
 		}
 	},
