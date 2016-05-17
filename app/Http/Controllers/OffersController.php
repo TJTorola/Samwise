@@ -72,12 +72,14 @@ class OffersController extends Controller
 	 */
 	public function update(UpdateRequest $request, $id)
 	{
+		// dd($request['deleted_items']);
 		$offer = Offer::findOrFail($id);
 		$request['type_info'] = Offer::extractTypeInfo($request->all());
 
 		OfferPicture::saveMany($request['pictures'], $id);
 		OfferPicture::destroy($request['deleted_pictures']);
 		Item::saveMany($request['items'], $id);
+		Item::destroy($request['deleted_items']);
 		$offer->update($request->all());
 
 		return Offer::findOrFail($id)->toPrivateArray();

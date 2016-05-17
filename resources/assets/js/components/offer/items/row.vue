@@ -80,6 +80,9 @@ module.exports = {
 
 	methods: {
 		delete () {
+			if (this.item.id) {
+				this.offer.deleted_items.push(this.item.id)
+			}
 			this.offer.items.splice(this.index, 1)
 		},
 

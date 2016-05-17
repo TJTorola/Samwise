@@ -32,7 +32,7 @@ class Page extends Model
 	 */
 	public function getChildrenAttribute()
 	{
-		return $this->hasMany('App\Page', 'parent_id')->get();
+		return $this->hasMany('App\Page', 'parent_id')->orderBy('sorting')->get();
 	}
 
 	public function getPathAttribute()

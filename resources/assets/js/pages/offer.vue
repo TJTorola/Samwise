@@ -96,6 +96,7 @@ module.exports = {
 		get () {
 			this.$http.get(`offer/${this.id}/admin`).then(response => {
 				response.data['deleted_pictures'] = []
+				response.data['deleted_items'] = []
 				this.$set('offer', response.data)
 				this.loaded = true
 			})

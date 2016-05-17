@@ -7,14 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Elasticquent\ElasticquentTrait;
 use DB;
 
+use App\Offer;
+
 class Item extends Model
 {
 	public static function saveMany($items, $offer_id)
 	{
+		$offer = Offer::findOrFail($offer_id);
+		$new_items = [];
+
 		foreach ($items as $item_array) {
-			$item = self::findOrFail($item_array['id']);
 			$item_array['type_info'] = self::extractTypeInfo($item_array);
-			$item->update($item_array);
+
+			if (isset($item_array['id'])) {
+				$item = self::findOrFail($item_array['id']);
+				$item->update($item_array);
+			} else {
+				$new_items[] = new self($item_array);
+			}
+		}
+
+		if (count($new_items) > 0) {
+			$offer->items()->saveMany($new_items);
 		}
 	}
 
@@ -58,7 +72,8 @@ class Item extends Model
 		'y',
 		'z',
 		'location',
-		'type_info'
+		'type_info',
+		'type'
 	];
 
 	/*

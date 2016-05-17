@@ -81,6 +81,10 @@ class InventoryManagementProvider extends ServiceProvider
 			$current_item = Item::findOrFail($item->id);
 			if ($item->price != $current_item->price
 			 || $item->name != $current_item->name
+			 || $item->weight != $current_item->weight
+			 || $item->x != $current_item->x
+			 || $item->y != $current_item->y
+			 || $item->z != $current_item->z
 			 || $item->unit != $current_item->unit
 			)  {
 				$invoice_items = InvoiceItem::where('item_id', $item->id)->get();
@@ -88,32 +92,6 @@ class InventoryManagementProvider extends ServiceProvider
 					$invoice_item->item_id = null;
 					$invoice_item->save();
 					Log::info("Due to a change in item (id#$item[id]) Cart item (id#$item[id]) was decoupled from the inventory.");
-				}
-				
-			}
-		});
-
-		/**
-		 * If an item changes in a dramatic way, make sure to 
-		 * decouple the all of it's variant's from their 
-		 * cart item's, for the same reason as above.
-		 */
-		Item::updating(function($item) {
-			$current_item = Item::findOrFail($item->id);
-			if ($item->name != $current_item->name
-			 || $item->weight != $current_item->weight
-			 || $item->x != $current_item->x
-			 || $item->y != $current_item->y
-			 || $item->z != $current_item->z
-			 || $item->oversized != $current_item->oversized
-			)  {
-				foreach ($item->variants as $variant) {
-					$invoice_items = InvoiceItem::where('item_id', $variant->id)->get();
-					foreach ($invoice_items as $invoice_item) {
-						$invoice_item->item_id = null;
-						$invoice_item->save();
-						Log::info("Due to a change in item (id#$item[id]) Cart item (id#$cart_item[id]) was decoupled from the inventory.");
-					}
 				}
 			}
 		});

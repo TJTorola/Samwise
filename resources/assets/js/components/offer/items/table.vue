@@ -3,7 +3,7 @@
 	<thead>
 		<th width="65"></th>
 		<th width="1%">Name</th>
-		<th></th>
+		<th style="min-width: 100px;"></th>
 		<th width="100" class="text-right">Price</th>
 		<th width="10"></th>
 		<th width="40">Per.</th>
