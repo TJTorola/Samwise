@@ -14,6 +14,8 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Cache\RateLimiter;
 
+use App\User;
+
 class AuthController extends Controller
 {
 	public function login(LoginRequest $request, RateLimiter $limiter) 
@@ -72,7 +74,11 @@ class AuthController extends Controller
 
 	public function register(RegisterRequest $request)
 	{
-
+		return User::create([
+			'name' => $request->name,
+			'email' => strtolower($request->email),
+			'password' => bcrypt($request->password),
+		]);
 	}
 
 	private function check_captcha($captcha, $ip)

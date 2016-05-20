@@ -25,7 +25,15 @@ class User extends Authenticatable
    * @var array
    */
   protected $fillable = [
-    'name', 'email', 'password',
+    'name',
+    'email',
+    'password',
+    'admin',
+    'catalogs',
+    'customers',
+    'inventory',
+    'invoices',
+    'pages'
   ];
 
   /**
@@ -40,7 +48,7 @@ class User extends Authenticatable
     'customers' => 'boolean',
     'inventory' => 'boolean',
     'invoices' => 'boolean',
-    'pages' => 'boolean',
+    'pages' => 'boolean'
   ];
 
   /**
@@ -49,7 +57,7 @@ class User extends Authenticatable
    * @var array
    */
   protected $hidden = [
-      'password', 'remember_token',
+      'password', 'remember_token'
   ];
 
   /*

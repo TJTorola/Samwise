@@ -21,7 +21,7 @@
 				</button>
 
 				<button class="btn btn-sm pull-right" @click="show = false">
-					<i class="fa fa-repeat"></i> Discard Changes
+					<i class="fa fa-times"></i> Cancel Changes
 				</button>
 			</div>
 		</div>

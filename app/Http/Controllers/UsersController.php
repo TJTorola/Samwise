@@ -11,7 +11,7 @@ use App\Http\Requests\Users\StoreRequest;
 use App\Http\Requests\Users\UpdateRequest;
 
 use App\Search;
-use App\Users;
+use App\User;
 
 class UsersController extends Controller
 {
@@ -56,7 +56,9 @@ class UsersController extends Controller
    */
   public function update(UpdateRequest $request, $id)
   {
-    //
+    $user = User::findOrFail($id);
+    $user->update($request->all());
+    return $user;
   }
 
   /**

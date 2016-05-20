@@ -18,11 +18,11 @@
 
 			<div class="lightbox-footer">
 				<button class="btn btn-sm btn-primary" @click="save">
-					<status-icon icon="fa-floppy-o" v-ref:save></status-icon> save
+					<status-icon icon="fa-floppy-o" v-ref:save></status-icon> Save Changes
 				</button>
 
 				<button class="btn btn-sm pull-right" @click="show = false">
-					<i class="fa fa-times"></i> Cancel
+					<i class="fa fa-times"></i> Cancel Changes
 				</button>
 			</div>
 		</div>

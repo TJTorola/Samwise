@@ -38,7 +38,17 @@ class OffersController extends Controller
 	 */
 	public function store(StoreRequest $request)
 	{
-		return Offer::extractTypeInfo($request->offer);
+		$request['type_info'] = Offer::extractTypeInfo($request->all());
+		$offer = Offer::create($request->all());
+
+		$id = $offer->id;
+		OfferPicture::saveMany($request['pictures'], $id);
+		OfferPicture::destroy($request['deleted_pictures']);
+		Item::saveMany($request['items'], $id);
+		Item::destroy($request['deleted_items']);
+
+		dd($offer);
+		// $offer->touch
 	}
 
 	/**

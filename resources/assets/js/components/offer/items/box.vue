@@ -37,11 +37,20 @@ module.exports = {
 		addItem () {
 			this.offer.items.push({
 				name: '',
+				type: 'auto',
+				public: 1,
+				x: '',
+				y: '',
+				z: '',
+				weight: '',
+				shipping_cost: '',
+				location: '',
 				unit: 'Unit',
-				price: 0,
+				infinite: false,
 				stock: 0,
 				store_reserve: 0,
-				type: 'auto'
+				sold: 0,
+				price: 0
 			})
 			this.expandedIndex = this.offer.items.length - 1
 		}

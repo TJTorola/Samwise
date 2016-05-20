@@ -42,7 +42,8 @@ class Offer extends Model
 		'public',
 		'description',
 		'tags',
-		'type_info'
+		'type_info',
+		'type'
 	];
 
 	/**
@@ -188,7 +189,11 @@ class Offer extends Model
 
 		$type_info = [];
 		foreach ($schema_merged as $field) {
-			$type_info[$field['name']] = $offer[$field['name']];
+			if (isset($offer[$field['name']])) {
+				$type_info[$field['name']] = $offer[$field['name']];
+			} else {
+				$type_info[$field['name']] = '';
+			}
 		}
 
 		return json_encode($type_info);

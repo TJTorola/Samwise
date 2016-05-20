@@ -24,12 +24,13 @@ var Invoices = 			require('./pages/invoices.vue')
 var NewInvoice = 		require('./pages/newInvoice.vue')
 var Offers = 				require('./pages/offers.vue')
 var Offer = 				require('./pages/offer.vue')
+var NewOffer = 			require('./pages/newOffer.vue')
 var Pages = 				require('./pages/pages.vue')
 // var Page = 					require('./pages/page.vue')
 var Catalogs = 			require('./pages/catalogs.vue')
 var Catalog = 			require('./pages/catalog.vue')
 // var MySettings = 		require('./pages/mysettings.vue')
-// var AdminSettings = require('./pages/adminSettings.vue')
+var AdminSettings = require('./pages/adminSettings.vue')
 // var StoreSettings = require('./pages/storesettings.vue')
 // var Log = 					require('./pages/log.vue')
 
@@ -73,6 +74,11 @@ router.map({
 		description: 'An offer is comprised of an item or multiple similar items to be purchased.',
 		component: Offer
 	},
+	'/new-offer': {
+		name: 'New Offer',
+		description: 'Offer a new item or collection of items on your store.',
+		component: NewOffer
+	},
 	'/pages': {
 		name: 'Pages',
 		description: 'Pages allow for static content on your website.',
@@ -97,11 +103,11 @@ router.map({
 	// 	name: 'MySettings',
 	// 	component: MySettings
 	// },
-	// '/admin-settings': {
-	// 	name: 'Adminstrative Settings',
-	// 	description: 'Set Global Control Panel Settings and Users.',
-	// 	component: AdminSettings
-	// },
+	'/admin-settings': {
+		name: 'Adminstrative Settings',
+		description: 'Set Global Control Panel Settings and Users.',
+		component: AdminSettings
+	},
 	// '/storesettings': {
 	// 	name: 'StoreSettings',
 	// 	component: StoreSettings
@@ -114,9 +120,9 @@ router.map({
 
 // Redirect to home route on unmatched route
 // TODO: set to user's home
-// router.redirect({
-// 	'*': '/login'
-// })
+router.redirect({
+	'*': '/invoices'
+})
 
 router.beforeEach(function (transition) {
 	var app = transition.to.router.app

@@ -1,5 +1,5 @@
 <template>
-<div class="row" v-if="loaded">
+<div class="row">
 	<div class="col-xs-12">
 		<offer-info :offer="offer"></offer-info>
 	</div>
@@ -56,17 +56,35 @@
 module.exports = {
 	data () {
 		return {
-			loaded: false,
-			id: 0,
-			offer: {}
-		}
-	},
-
-	route: {
-		data () {
-			this.loaded = false
-			this.$set('id', this.$route.params.id)
-			this.get()
+			offer: {
+				name: '',
+				type: 'auto',
+				public: 1,
+				description: '',
+				tags: '',
+				items: [
+					{
+						name: '',
+						type: 'auto',
+						public: 1,
+						x: '',
+						y: '',
+						z: '',
+						weight: '',
+						shipping_cost: '',
+						location: '',
+						unit: 'Unit',
+						infinite: false,
+						stock: 0,
+						store_reserve: 0,
+						sold: 0,
+						price: 0
+					}
+				],
+				pictures: [],
+				deleted_pictures: [],
+				deleted_items: []
+			}
 		}
 	},
 
@@ -93,22 +111,12 @@ module.exports = {
 	},
 
 	methods: {
-		get () {
-			this.$http.get(`offer/${this.id}/admin`).then(response => {
-				response.data['deleted_pictures'] = []
-				response.data['deleted_items'] = []
-				this.$set('offer', response.data)
-				this.loaded = true
-			})
-		},
-
 		store () {
 			this.$refs.store.working()
 
-			this.$http.patch(`offer/${this.offer.id}`, this.offer).then(response => {
-				response.data['deleted_pictures'] = []
-				this.$set('offer', response.data)
+			this.$http.post('offer', this.offer).then(response => {
 				this.$refs.store.check()
+				console.log(response)
 			})
 		},
 
