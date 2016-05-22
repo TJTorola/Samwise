@@ -47,9 +47,14 @@ class PagesController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id)
+	public function show($page_slug)
 	{
-		//
+		foreach (Page::all() as $page) {
+			if ($page->path == "/$page_slug") {
+				return $page;
+			}
+		}
+		return null;
 	}
 
 	/**

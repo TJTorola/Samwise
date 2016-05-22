@@ -68,4 +68,22 @@ class Page extends Model
 		}
 		return "/page/$next_id";
 	}
+
+	static public function getMenus() {
+		$menu = [
+			'header' => Page::where('parent_id', null)->where('location','header')->orderBy('sorting')->get()->toArray(),
+			'footer' => Page::where('parent_id', null)->where('location','footer')->orderBy('sorting')->get()->toArray()
+		];
+
+		foreach ($menu as $location => $page) {
+			for ($i=0; $i < count($menu[$location]); $i++) { 
+				$id = $menu[$location][$i]['id'];
+				$name = $menu[$location][$i]['name'];
+				$path = $menu[$location][$i]['path'];
+				$menu[$location][$i] = ['id' => $id,'name' => $name, 'path' => $path];
+			}
+		}
+
+		return $menu;
+	}
 }

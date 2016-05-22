@@ -1,6 +1,11 @@
 <?php
 
 return [
+	"store_info" => [
+		"email" => "Info@Pangolin4x4.com",
+		"phone" => "(541) 606-0095",
+		"copyright" => "Copyright 2016 Pangolin 4x4, LLC http://www.pangolin4x4.com"
+	],
 	"type_schema" => [
 		"offer" => [
 			"auto" => [

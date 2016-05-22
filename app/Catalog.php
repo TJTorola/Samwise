@@ -52,4 +52,21 @@ class Catalog extends Model
 		}
 		return "/catalog/$next_id";
 	}
+
+	static public function getMenu()
+	{
+		$catalogs = Catalog::orderBy('sorting')->get()->toArray();
+		$menu = ['sidebar' => []];
+
+		foreach ($catalogs as $catalog) {
+			array_push($menu['sidebar'], [
+				'id' => $catalog['id'],
+				'label' => $catalog['label'],
+				'name' => $catalog['name'],
+				'slug' => makeSlug($catalog['name'])
+			]);
+		}
+
+		return $menu;
+	}
 }
