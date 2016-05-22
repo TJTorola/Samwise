@@ -11,6 +11,6 @@ class StoreController extends Controller
 {
 	public function home() 
 	{
-
+		return view('store');
 	}
 }
