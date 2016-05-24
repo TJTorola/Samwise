@@ -77,28 +77,25 @@ class Invoice extends Model
 	 */
 	protected $casts = [
 		'seperate_billing' => 'boolean',
+		'phone_preferred' => 'boolean',
 		'billed' => 'boolean',
 		'paid' => 'boolean',
 		'shipped' => 'boolean'
 	];
 
 	/**
-	 * The attributes that aren't mass assignable.
+	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $guarded = [
-		'id', 
-		'created_at', 
-		'updated_at', 
-		'prev', 
-		'next', 
-		'subtotal', 
-		'status', 
-		'amount_paid', 
-		'due', 
-		'cart',
-		'created'
+	protected $fillable = [
+		'email',
+		'phone',
+		'phone_preferred',
+		'notes',
+		'seperate_billing',
+		'billing_address',
+		'shipping_address'
 	];
 
 	/*

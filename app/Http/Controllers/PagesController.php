@@ -47,10 +47,14 @@ class PagesController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($page_slug)
+	public function show($page_slug_or_id)
 	{
+		if (is_numeric($page_slug_or_id)) {
+			return Page::findOrFail($page_slug_or_id);
+		}
+
 		foreach (Page::all() as $page) {
-			if ($page->path == "/$page_slug") {
+			if ($page->path == "/$page_slug_or_id") {
 				return $page;
 			}
 		}
@@ -66,7 +70,7 @@ class PagesController extends Controller
 	 */
 	public function update(UpdateRequest $request, $id)
 	{
-		//
+		Page::findOrFail($id)->update($request->all());
 	}
 
 	public function updateCollection(UpdateCollectionRequest $request)

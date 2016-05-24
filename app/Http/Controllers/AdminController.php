@@ -19,4 +19,9 @@ class AdminController extends Controller
 	{
 		return view('admin');
 	}
+
+	public function editPage()
+	{
+		return view('page');
+	}
 }

@@ -90,6 +90,8 @@ Route::group(['prefix' => 'api'], function() {
 
 		Route::post('/', 'ImagesController@store');
 		Route::delete('/', 'ImagesController@destroy');
+		Route::post('directory', 'ImagesController@createDirectory');
+		Route::delete('directory', 'ImagesController@deleteDirectory');
 
 	});
 
@@ -279,6 +281,7 @@ Route::group(['prefix' => 'api'], function() {
 Route::group(['prefix' => 'admin'], function() {
 
 	Route::get('/', 'AdminController@home');
+	Route::get('/page/{id}', 'AdminController@editPage');
 	Route::get('{path}', 'AdminController@home')->where(['path' => '.*']);
 
 });

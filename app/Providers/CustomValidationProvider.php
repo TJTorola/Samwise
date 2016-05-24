@@ -35,7 +35,7 @@ class CustomValidationProvider extends ServiceProvider
 						return false;
 					}
 
-					if (in_array('in_stock', $parameters) && !$item->infinite && $count > $item->stock) {
+					if (in_array('in_stock', $parameters) && !$item->infinite && $count > ($item->stock - $item->store_reserve)) {
 						return false;
 					}
 				}

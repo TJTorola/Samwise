@@ -219,8 +219,8 @@ class Item extends Model
 	/**
 	 * Modify index model as it goes into ES
 	 */
-	// function getIndexDocumentData()
-	// {
-	//   return $this->publicArray();
-	// }
+	function getIndexDocumentData()
+	{
+	  return $this->toPublicArray();
+	}
 }
