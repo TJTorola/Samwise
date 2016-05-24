@@ -43,7 +43,7 @@ class Item extends Model
 	 *
 	 * @var array
 	 */
-	protected $appends = ['next', 'prev','full_name'];
+	protected $appends = ['next', 'prev', 'offer_name', 'full_name'];
 
 	/**
 	 * The attributes that should be casted to native types.
@@ -121,15 +121,22 @@ class Item extends Model
 	}
 
 	/**
+	 * Retrieve the parent offer name
+	 */
+	public function getOfferNameAttribute()
+	{
+		return DB::table('offers')->where('id', $this->offer_id)->pluck('name')[0];
+	}
+
+	/**
 	 * Retrieve the full name, including parent offer name
 	 */
 	public function getFullNameAttribute()
 	{
-		$name = DB::table('offers')->where('id', $this->offer_id)->pluck('name')[0];
 		if ($this->name) {
-			return $name." - ".$this->name;
+			return $this->offer_name." - ".$this->name;
 		} else {
-			return $name;
+			return $this->offer_name;
 		}
 	}
 

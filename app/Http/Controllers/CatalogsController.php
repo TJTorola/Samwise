@@ -48,6 +48,17 @@ class CatalogsController extends Controller
 	}
 
 	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function showBySlug($slug)
+	{
+		return Catalog::findOrFail($id);
+	}
+
+	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
