@@ -29,6 +29,7 @@ class Offer extends Model
 		'price_low',
 		'sold',
 		'stock',
+		'in_stock',
 		'timestamp'
 	];
 
@@ -166,6 +167,11 @@ class Offer extends Model
 		return $stock;
 	}
 
+	public function getInStockAttribute()
+	{
+		return ($this->stock > 0 || $this->infinite);
+	}
+
 	public function getTimestampAttribute()
 	{
 		return $this->created_at->timestamp;
@@ -218,6 +224,7 @@ class Offer extends Model
 			return $item->toPrivateArray();
 		});
 		$offer['pictures'] = $this->pictures->toArray();
+		$offer['tags'] = explode(',', $offer['tags']);
 
 		return $offer;
 	}

@@ -1,8 +1,17 @@
 <template>
 <span>
-	<h4 v-if="!invoice.sepearate_billing">Shipping/Billing Address</h4>
+	<h4 v-if="!invoice.seperate_billing">Shipping/Billing Address</h4>
 	<h4 v-else>Shipping Address</h4>
 	<hr>
+	<div class="pull-right text-right">
+		<b v-if="invoice.email">
+			{{ invoice.email }}
+		</b>
+		<div v-if="invoice.phone">
+			{{ invoice.phone }}
+		</div>
+	</div>
+
 	<address-block :address="invoice.shipping_address"></address-block>
 
 	<span v-if="invoice.seperate_billing">

@@ -11,50 +11,50 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * A list of the exception types that should not be reported.
-     *
-     * @var array
-     */
-    protected $dontReport = [
-        AuthorizationException::class,
-        HttpException::class,
-        ModelNotFoundException::class,
-        ValidationException::class,
-    ];
+	/**
+	 * A list of the exception types that should not be reported.
+	 *
+	 * @var array
+	 */
+	protected $dontReport = [
+		AuthorizationException::class,
+		HttpException::class,
+		ModelNotFoundException::class,
+		ValidationException::class,
+	];
 
-    /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $e
-     * @return void
-     */
-    public function report(Exception $e)
-    {
-        parent::report($e);
-    }
+	/**
+	 * Report or log an exception.
+	 *
+	 * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+	 *
+	 * @param  \Exception  $e
+	 * @return void
+	 */
+	public function report(Exception $e)
+	{
+		parent::report($e);
+	}
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $e)
-    {
-        switch(get_class($e)) {
-            case "Tymon\JWTAuth\Exceptions\JWTException":
-            case "Tymon\JWTAuth\Exceptions\TokenInvalidException":
-            case "Tymon\JWTAuth\Exceptions\TokenExpiredException":
-                return response()->json('User is unauthorized.', 401);
+	/**
+	 * Render an exception into an HTTP response.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \Exception  $e
+	 * @return \Illuminate\Http\Response
+	 */
+	public function render($request, Exception $e)
+	{
+		switch(get_class($e)) {
+			case "Tymon\JWTAuth\Exceptions\JWTException":
+			case "Tymon\JWTAuth\Exceptions\TokenInvalidException":
+			case "Tymon\JWTAuth\Exceptions\TokenExpiredException":
+				return response()->json('User is unauthorized.', 401);
 
-            default:
-                break;
-        }
+			default:
+				break;
+		}
 
-        return parent::render($request, $e);
-    }
+		return parent::render($request, $e);
+	}
 }

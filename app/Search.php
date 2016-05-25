@@ -206,9 +206,6 @@ class Search
 	 */
 	public function search($index, Request $request)
 	{
-		// Build the must query
-		$must = [];
-
 		// Add the full text query to the must query
 		if ($request->has('_query')) {
 			// Take the query and brake it into an array for ES
@@ -226,6 +223,7 @@ class Search
 		}
 
 		// Add defined must rules
+		$must = [];
 		if ($request->has('_must')) {
 			$rules = $request->_must;
 			$rules = json_decode($rules);
@@ -234,6 +232,20 @@ class Search
 					$must[] = [ 'terms' => [ $rule => $terms]];
 				} else {
 					$must[] = [ 'term' => [ $rule => $terms]];
+				}
+			}
+		}
+
+		// Add defined should rules
+		$should = [];
+		if ($request->has('_should')) {
+			$rules = $request->_should;
+			$rules = json_decode($rules);
+			foreach ($rules as $rule => $terms) {
+				if (is_array($terms)) {
+					$should[] = [ 'terms' => [ $rule => $terms ]];
+				} else {
+					$should[] = [ 'term' => [ $rule => $terms ]];
 				}
 			}
 		}
@@ -261,6 +273,12 @@ class Search
 			$query['bool']['must_not'] = $must_not;
 		}
 
+		if (count($should)) {
+			$query['bool']['should'] = $should;
+		}
+
+		// dd($query);
+
 		// set defaults for page/limit
 		$page = 0;
 		$limit = env('STORE_COLLECTION_LIMIT', 10);
@@ -282,7 +300,7 @@ class Search
 		}
 
 		// ES uses offset rather than chunks
-			$offset = $page * $limit;
+		$offset = $page * $limit;
 
 		// search the appropriate index
 		if ($index == 'customers') {

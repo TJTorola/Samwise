@@ -169,8 +169,8 @@ module.exports = {
 					this.exp_year = this.thisYear
 					this.show = false
 
-					this.$dispatch('PAID', response.data.amount)
-
+					this.$dispatch('PAID', response.data)
+					// this.payments.push(response.data)
 
 					this.$refs.status.check()
 				}, function() {

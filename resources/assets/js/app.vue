@@ -288,6 +288,15 @@ module.exports = {
 		}
 	},
 
+	created () {
+		if (localStorage.samwellToken) {
+			var Vue = require('vue')
+			Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.samwellToken
+
+			this.getUser()
+		}
+	},
+
 	watch: {
 		loggedIn () {
 			if (this.loggedIn) {
@@ -307,6 +316,8 @@ module.exports = {
 
 	methods: {
 		storeTodo () {}
+
+		
 	},
 
 	store,

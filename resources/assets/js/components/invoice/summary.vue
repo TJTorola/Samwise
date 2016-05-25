@@ -67,9 +67,10 @@ module.exports = {
 	},
 
 	events: {
-		PAID (amount) {
-			this.invoice.cart.paid += amount
-			this.invoice.cart.due -= amount
+		PAID (payment) {
+			this.invoice.cart.paid += payment.amount
+			this.invoice.cart.due -= payment.amount
+			this.invoice.payments.push(payment)
 		}
 	},
 

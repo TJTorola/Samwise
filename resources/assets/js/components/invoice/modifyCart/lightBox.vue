@@ -77,7 +77,10 @@ module.exports = {
 		save () {
 			if (this.$refs.table.hasErrors) {
 				this.$root.notify('danger', 'Invalid Cart', 'Fix errors on cart before submitting.')
+				this.$refs.save.fail()
+				return
 			}
+
 			this.$refs.save.working()
 			var request = {
 				deleted: this.deleted,

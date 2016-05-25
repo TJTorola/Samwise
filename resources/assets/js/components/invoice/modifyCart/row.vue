@@ -67,7 +67,7 @@ module.exports = {
 
 	computed: {
 		invalidCount () {
-			return /([^0-9])/g.test(this.item.count) || this.item.count == ''
+			return !/^-?[0-9]+$/.test(this.item.count)
 		},
 
 		invalidName () {
@@ -83,7 +83,7 @@ module.exports = {
 
 	methods: {
 		changePrice (price) {
-			this.item.price = price
+			this.item.price = parseInt(price.replace(/[,.]/g, ''))
 		},
 
 		deleteItem () {

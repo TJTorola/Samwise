@@ -83,9 +83,9 @@ module.exports = {
 				// append the auth token to all http further requests
 				var Vue = require('vue')
 				Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
+				localStorage.samwellToken = response.data.token
 
 				// set auth token and grab the logged in user data
-				this.setAuthentication(response.data)
 				this.getUser()
 
 				this.$refs.loginStatus.check()

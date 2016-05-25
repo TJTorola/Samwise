@@ -43,14 +43,14 @@ Route::group(['prefix' => 'api'], function() {
 	| Catalogs Group (Mix it up with the catalogs)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('catalogs', 'CatalogsController@index');
-	Route::post('catalogs', 'CatalogsController@updateCollection');
+	Route::get('catalogs', 'CatalogsController@index')->middleware('auth:catalogs');
+	Route::post('catalogs', 'CatalogsController@updateCollection')->middleware('auth:catalogs');
 	Route::group(['prefix' => 'catalog'], function() {
 
-		Route::post('/', 'CatalogsController@store');
+		Route::post('/', 'CatalogsController@store')->middleware('auth:catalogs');
 		Route::get('{catalog}', 'CatalogsController@show');
-		Route::patch('{catalog}', 'CatalogsController@update');
-		Route::delete('{catalog}', 'CatalogsController@destroy');
+		Route::patch('{catalog}', 'CatalogsController@update')->middleware('auth:catalogs');
+		Route::delete('{catalog}', 'CatalogsController@destroy')->middleware('auth:catalogs');
 
 	});
 
@@ -59,8 +59,8 @@ Route::group(['prefix' => 'api'], function() {
 	| Customers Group (Keep those customers happy)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('customers', 'CustomersController@index');
-	Route::group(['prefix' => 'customer'], function() {
+	Route::get('customers', 'CustomersController@index')->middleware('auth:customers');
+	Route::group(['prefix' => 'customer', 'middleware' => 'auth:customers'], function() {
 
 		Route::post('/', 'CustomersController@store');
 		Route::get('{customer}', 'CustomersController@show');
@@ -76,7 +76,7 @@ Route::group(['prefix' => 'api'], function() {
 	*/
 	Route::group(['prefix' => 'email'], function() {
 
-		Route::post('invoice/{invoice}', 'EmailController@invoice');
+		Route::post('invoice/{invoice}', 'EmailController@invoice')->middleware('auth:invoices');
 
 	});
 
@@ -85,8 +85,8 @@ Route::group(['prefix' => 'api'], function() {
 	| Images Group (Manage store images)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('images', 'ImagesController@index');
-	Route::group(['prefix' => 'image'], function() {
+	Route::get('images', 'ImagesController@index')->middleware('auth:pages');
+	Route::group(['prefix' => 'image', 'middleware' => 'auth:pages'], function() {
 
 		Route::post('/', 'ImagesController@store');
 		Route::delete('/', 'ImagesController@destroy');
@@ -100,8 +100,8 @@ Route::group(['prefix' => 'api'], function() {
 	| Invoices Group (View/Modify customer invoices)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('invoices', 'InvoicesController@index');
-	Route::group(['prefix' => 'invoice'], function() {
+	Route::get('invoices', 'InvoicesController@index')->middleware('auth:invoices');
+	Route::group(['prefix' => 'invoice', 'middleware' => 'auth:invoices'], function() {
 
 		Route::post('/', 'InvoicesController@store');
 		Route::get('{invoice}', 'InvoicesController@show');
@@ -119,8 +119,8 @@ Route::group(['prefix' => 'api'], function() {
 
 	});
 
-	Route::get('cancelled-invoices', 'InvoicesController@indexCancelled');
-	Route::group(['prefix' => 'cancelled-invoice'], function() {
+	Route::get('cancelled-invoices', 'InvoicesController@indexCancelled')->middleware('auth:invoices');
+	Route::group(['prefix' => 'cancelled-invoice', 'middleware' => 'auth:invoices'], function() {
 
 		Route::delete('{invoice}', 'InvoicesController@destroy');
 		Route::patch('{invoice}', 'InvoicesController@restore');
@@ -133,8 +133,8 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 
-	Route::get('invoice-items', 'InvoiceItemsController@index');
-	Route::group(['prefix' => 'invoice-item'], function() {
+	Route::get('invoice-items', 'InvoiceItemsController@index')->middleware('auth:invoices');
+	Route::group(['prefix' => 'invoice-item', 'middleware' => 'auth:invoices'], function() {
 
 		Route::get('{invoiceItem}', 'InvoiceItemsController@show');
 		Route::patch('{invoiceItem}', 'InvoiceItemsController@update');
@@ -238,6 +238,7 @@ Route::group(['prefix' => 'api'], function() {
 	Route::group(['prefix' => 'store'], function() {
 
 		Route::get('menus', 'StoreController@getMenus');
+		Route::post('invoice', 'StoreController@postInvoice');
 
 	});
 
