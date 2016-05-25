@@ -85,7 +85,11 @@ module.exports = {
 		},
 
 		email () {
-			console.log('EMAIL')
+			this.$http.post(`email/invoice/${this.invoice.id}`).then(() => {
+				this.$refs.email.check()
+			}, () => {
+				this.$refs.email.fail()
+			})
 		},
 
 		

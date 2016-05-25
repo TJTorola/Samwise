@@ -44,7 +44,7 @@
 			<confirmed-button icon="fa-trash" 
 				text="Delete Offer" 
 				color="btn-danger"
-				:action="delete"
+				:action="deleteOffer"
 				v-ref:delete>
 			</confirmed-button>
 		</div>
@@ -99,6 +99,9 @@ module.exports = {
 				response.data['deleted_items'] = []
 				this.$set('offer', response.data)
 				this.loaded = true
+				if (this.$refs.discard) {
+					this.$refs.discard.check()
+				}
 			})
 		},
 
@@ -106,18 +109,22 @@ module.exports = {
 			this.$refs.store.working()
 
 			this.$http.patch(`offer/${this.offer.id}`, this.offer).then(response => {
-				response.data['deleted_pictures'] = []
+				response.data['deleted_pictures'] = [] 
 				this.$set('offer', response.data)
 				this.$refs.store.check()
+			}, () => {
+				this.$refs.store.fail()
 			})
 		},
 
 		discard () {
-
+			this.get()
 		},
 
-		delete () {
-			
+		deleteOffer () {
+			this.$http.delete(`offer/${this.offer.id}`).then(response => {
+				this.$router.go({ path: '/offers' })
+			})
 		}
 	}
 }

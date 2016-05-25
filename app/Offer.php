@@ -224,7 +224,7 @@ class Offer extends Model
 			return $item->toPrivateArray();
 		});
 		$offer['pictures'] = $this->pictures->toArray();
-		$offer['tags'] = explode(',', $offer['tags']);
+		$offer['tag_array'] = explode(',', $offer['tags']);
 
 		return $offer;
 	}
@@ -250,7 +250,7 @@ class Offer extends Model
 
 		
 	protected $mappingProperties = array(
-		'tags' => [
+		'tag_array' => [
 			'type' => 'string',
 			'index' => 'not_analyzed',
 		],

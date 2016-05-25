@@ -56,6 +56,16 @@ class InvoicesController extends Controller
 		$invoice = Invoice::create($request->all());
 		InvoiceItem::saveMany($request->cart, $invoice->id);
 
+		$users = User::all();
+
+		foreach ($users as $user) {
+			Mail::queue('emails.newInvoiceNotification', ['invoice' => $invoice, 'user' => $this], function($message) use ($invoice) {
+				$message->from('info@pangolin4x4.com');
+				$message->to($this->email);
+				$message->subject("[p4x4] NEW ORDER - INV".$invoice->id);
+			});
+		}
+
 		return $invoice;
 	}
 

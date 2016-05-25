@@ -148,11 +148,9 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('items', 'ItemsController@index');
-	Route::group(['prefix' => 'item'], function() {
+	Route::group(['prefix' => 'item', 'middleware' => 'auth:inventory'], function() {
 
 		Route::get('{item}', 'ItemsController@show');
-		Route::patch('{item}', 'ItemsController@update');
-		Route::delete('{item}', 'ItemsController@destroy');
 
 	});
 
@@ -162,17 +160,15 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('offers', 'OffersController@index');
-	Route::group(['prefix' => 'offer'], function() {
+	Route::group(['prefix' => 'offer', 'middleware' => 'auth:inventory'], function() {
 
-		Route::post('/', 'OffersController@store');
+		Route::post('/', 'OffersController@store')->middleware('auth:inventory');
 		Route::get('{offer}', 'OffersController@show');
-		Route::get('{offer}/admin', 'OffersController@showAdmin'); // ->middleware('auth:inventory')
-		Route::patch('{offer}', 'OffersController@update');
-		Route::delete('{offer}', 'OffersController@destroy');
+		Route::get('{offer}/admin', 'OffersController@showAdmin')->middleware('auth:inventory');
+		Route::patch('{offer}', 'OffersController@update')->middleware('auth:inventory');
+		Route::delete('{offer}', 'OffersController@destroy')->middleware('auth:inventory');
 
-		Route::post('{offer}/item', 'OffersController@storeItem');
-		Route::post('{offer}/image', 'OffersController@storeImage');
-		Route::patch('{offer}/images', 'OffersController@updateImages');
+		Route::post('{offer}/image', 'OffersController@storeImage')->middleware('auth:inventory');
 
 	});
 

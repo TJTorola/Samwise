@@ -47,8 +47,8 @@ class OffersController extends Controller
 		Item::saveMany($request['items'], $id);
 		Item::destroy($request['deleted_items']);
 
-		dd($offer);
-		// $offer->touch
+		$offer->touch();
+		return $offer;
 	}
 
 	/**
@@ -103,12 +103,7 @@ class OffersController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
-	}
-
-	public function storeItem(StoreItemRequest $request)
-	{
-
+		Offer::findOrFail($id)->delete();
 	}
 
 	public function storeImage(StoreImageRequest $request)
@@ -118,10 +113,5 @@ class OffersController extends Controller
 		$file->move(base_path()."/storage/app/tmp", "$file_name");
 
 		return $file_name;
-	}
-
-	public function updateImages(UpdateImagesRequest $request)
-	{
-
 	}
 }

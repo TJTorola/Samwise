@@ -206,6 +206,10 @@ class Search
 	 */
 	public function search($index, Request $request)
 	{
+		$must = [];
+		$should = [];
+		$must_not = [];
+
 		// Add the full text query to the must query
 		if ($request->has('_query')) {
 			// Take the query and brake it into an array for ES
@@ -223,7 +227,6 @@ class Search
 		}
 
 		// Add defined must rules
-		$must = [];
 		if ($request->has('_must')) {
 			$rules = $request->_must;
 			$rules = json_decode($rules);
@@ -237,7 +240,6 @@ class Search
 		}
 
 		// Add defined should rules
-		$should = [];
 		if ($request->has('_should')) {
 			$rules = $request->_should;
 			$rules = json_decode($rules);
@@ -251,7 +253,6 @@ class Search
 		}
 
 		// Add defined must not rules
-		$must_not = [];
 		if ($request->has('_must_not')) {
 			$rules = $request->_must_not;
 			$rules = json_decode($rules);

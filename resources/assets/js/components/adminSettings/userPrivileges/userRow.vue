@@ -34,16 +34,18 @@
 
 <script>
 module.exports = {
-	props: ['user'],
+	props: ['user', 'icon'],
 
 	methods: {
 		set (privilege) {
 			var request = {}
+			this.icon.working()
 			request[privilege] = this.user[privilege]
 
-			console.log(request)
 			this.$http.patch(`user/${this.user.id}`, request).then(response => {
-				console.log(response)
+				this.icon.check()
+			}, () => {
+				this.icon.fail()
 			})
 		}
 	}

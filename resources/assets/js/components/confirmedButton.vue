@@ -47,6 +47,10 @@ module.exports = {
 		},
 
 		confirm () {
+			if (this.disabled) {
+				return
+			}
+
 			this.buttonWidth = this.$el.clientWidth
 			this.confirming = true
 		},

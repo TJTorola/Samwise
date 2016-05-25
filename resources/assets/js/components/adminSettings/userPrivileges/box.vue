@@ -1,7 +1,7 @@
 <template>
 <div class="box box-warning">
 	<div class="box-header">
-		<h3 class="box-title"><i class="fa fa-check-square-o"></i> User Privileges</h3>
+		<h3 class="box-title"><status-icon icon="fa-check-square-o" v-ref:status></status-icon> User Privileges</h3>
 
 		<div class="box-tools pull-right">
 			<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -22,7 +22,7 @@
 				</tr> 
 			</thead>
 			<tbody>
-				<tr is="user-row" v-for="user in users" :user="user"></tr>
+				<tr is="user-row" v-for="user in users" :user="user" :icon="$refs.status"></tr>
 			</tbody>
 		</table>
 	</div>
@@ -42,7 +42,8 @@ module.exports = {
 	},
 
 	components: {
-		userRow: require('./userRow.vue')
+		userRow: require('./userRow.vue'),
+		statusIcon: require('app/components/statusIcon.vue')
 	},
 
 	methods: {
@@ -50,11 +51,6 @@ module.exports = {
 			this.$http.get('users').then(response => {
 				this.$set('users', response.data.body)
 			})
-		},
-
-		modifyPrivilege ()
-		{
-
 		}
 	}
 }

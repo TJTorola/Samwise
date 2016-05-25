@@ -163,6 +163,7 @@ return [
 		Intervention\Image\ImageServiceProvider::class,
 
 		App\Providers\SearchManagementProvider::class,
+		App\Providers\CacheManagementProvider::class,
 		App\Providers\CustomValidationProvider::class,
 		App\Providers\InventoryManagementProvider::class,
 

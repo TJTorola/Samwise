@@ -115,17 +115,12 @@ module.exports = {
 			this.$refs.store.working()
 
 			this.$http.post('offer', this.offer).then(response => {
-				this.$refs.store.check()
-				console.log(response)
+				this.$router.go({ path: `/offer/${response.data.id}` })
 			})
 		},
 
-		discard () {
-
-		},
-
 		delete () {
-			
+			this.$router.go({ path: '/offers' })
 		}
 	}
 }

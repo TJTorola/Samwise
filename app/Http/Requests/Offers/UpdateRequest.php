@@ -29,7 +29,7 @@ class UpdateRequest extends Request
 			'type' 									=> 'required',
 			'public' 								=> 'boolean',
 			'items.*.id' 						=> 'integer',
-			'items.*.name' 					=> 'required',
+			'items.*.name' 					=> 'required_with:items.1',
 			'items.*.type' 					=> 'required',
 			'items.*.public' 				=> 'boolean',
 			'items.*.x' 						=> 'numeric',
@@ -45,37 +45,3 @@ class UpdateRequest extends Request
 		];
 	}
 }
-
-// return {
-// 	offer: {
-// 		id: null,
-// 		name: '',
-// 		type: 'auto',
-// 		public: 1,
-// 		description: '',
-// 		tags: '',
-// 		items: [
-// 			{
-// 				id: null,
-// 				name: '',
-// 				type: 'auto',
-// 				public: 1,
-// 				x: '',
-// 				y: '',
-// 				z: '',
-// 				weight: '',
-// 				shipping_cost: '',
-// 				location: '',
-// 				unit: 'Unit',
-// 				infinite: false,
-// 				stock: 0,
-// 				store_reserve: 0,
-// 				sold: 0,
-// 				price: 0
-// 			}
-// 		],
-// 		pictures: [],
-// 		deleted_pictures: [],
-// 		deleted_items: []
-// 	}
-// }
