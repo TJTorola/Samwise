@@ -219,8 +219,8 @@ Route::group(['prefix' => 'api'], function() {
 	| Settings Group (Configure the system)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('settings', 'SettingsController@index')->middleware('auth');
-	Route::group(['prefix' => 'setting', 'middleware' => 'auth'], function() {
+	Route::get('settings', 'SettingsController@index');
+	Route::group(['prefix' => 'setting'], function() {
 
 		Route::get('{setting}', 'SettingsController@show')->where(['setting' => '[a-z_/]+']);
 
