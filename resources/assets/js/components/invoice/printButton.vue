@@ -77,8 +77,8 @@
 						<tr v-for="item in invoice.cart.items">
 						<td>{{{ item.name | nl2br }}}</td>
 							<td>{{ item.count }}</td>
-							<td>{{ item.price | currency }}</td>
-							<td>{{ parseFloat(item.count) * parseFloat(item.price) | currency }}</td>
+							<td>{{ item.price / 100| currency }}</td>
+							<td>{{ (parseFloat(item.count) * parseFloat(item.price)) / 100 | currency }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -96,10 +96,10 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<p style='float:right;width:1.2in;text-align:right;'>
-					{{ invoice.subtotal | currency }}<br>
-					{{ invoice.shipping_cost | currency }}<br>
+					{{ invoice.subtotal / 100 | currency }}<br>
+					{{ invoice.shipping_cost / 100 | currency }}<br>
 					<br>
-					{{ parseFloat(invoice.subtotal) + parseFloat(invoice.shipping_cost) | currency }}
+					{{ (parseFloat(invoice.subtotal) + parseFloat(invoice.shipping_cost)) / 100 | currency }}
 				</p>
 				<p style='float:right;text-align:right;'>
 					<b>Subtotal:</b><br>
