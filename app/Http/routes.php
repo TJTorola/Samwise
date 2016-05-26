@@ -178,13 +178,13 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('pages', 'PagesController@index');
-	Route::post('pages', 'PagesController@updateCollection');
+	Route::post('pages', 'PagesController@updateCollection')->middleware('auth:pages');
 	Route::group(['prefix' => 'page'], function() {
 
-		Route::post('/', 'PagesController@store');
+		Route::post('/', 'PagesController@store')->middleware('auth:pages');
 		Route::get('{page_slug}', 'PagesController@show')->where(['page_slug' => '.*']);
-		Route::patch('{page}', 'PagesController@update');
-		Route::delete('{page}', 'PagesController@destroy');
+		Route::patch('{page}', 'PagesController@update')->middleware('auth:pages');
+		Route::delete('{page}', 'PagesController@destroy')->middleware('auth:pages');
 
 	});
 
@@ -193,8 +193,8 @@ Route::group(['prefix' => 'api'], function() {
 	| Payments Group (Lets make some money)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('payments', 'PaymentsController@index');
-	Route::group(['prefix' => 'payment'], function() {
+	Route::get('payments', 'PaymentsController@index')->middleware('auth:invoices');
+	Route::group(['prefix' => 'payment', 'middleware' => 'auth:invoices'], function() {
 
 		Route::get('{payment}', 'PaymentsController@show');
 
@@ -219,8 +219,8 @@ Route::group(['prefix' => 'api'], function() {
 	| Settings Group (Configure the system)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('settings', 'SettingsController@index');
-	Route::group(['prefix' => 'setting'], function() {
+	Route::get('settings', 'SettingsController@index')->middleware('auth');
+	Route::group(['prefix' => 'setting', 'middleware' => 'auth'], function() {
 
 		Route::get('{setting}', 'SettingsController@show')->where(['setting' => '[a-z_/]+']);
 
@@ -243,7 +243,7 @@ Route::group(['prefix' => 'api'], function() {
 	| Tags Group (Retrieve tags and tag usage)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('tags', 'TagsController@index');
+	Route::get('tags', 'TagsController@index')->middleware('auth');
 
 	/*
 	|--------------------------------------------------------------------------
@@ -258,8 +258,8 @@ Route::group(['prefix' => 'api'], function() {
 	| User Group (Handling admin users)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('users', 'UsersController@index');
-	Route::group(['prefix' => 'user'], function() {
+	Route::get('users', 'UsersController@index')->middleware('auth:admin');
+	Route::group(['prefix' => 'user', 'middleware' => 'auth:admin'], function() {
 
 		Route::post('/', 'UsersController@store');
 		Route::get('{user}', 'UsersController@show');
