@@ -18,6 +18,9 @@ use App\Invoice;
 use App\InvoiceItem;
 use App\Payment;
 use App\Item;
+use App\User;
+
+use Mail;
 use JWTAuth;
 
 use Stripe\Stripe;
@@ -56,12 +59,18 @@ class InvoicesController extends Controller
 		$invoice = Invoice::create($request->all());
 		InvoiceItem::saveMany($request->cart, $invoice->id);
 
-		$users = User::all();
+		Mail::queue('emails.invoice', ['invoice' => $invoice], function($message) use ($invoice) {
+			// TODO: Add email setting
+			$message->from('info@pangolin4x4.com');
+			$message->to($invoice->email);
+			$message->subject("Pangolin4x4: INV".$invoice->id);
+		});
 
+		$users = User::all();
 		foreach ($users as $user) {
-			Mail::queue('emails.newInvoiceNotification', ['invoice' => $invoice, 'user' => $this], function($message) use ($invoice) {
+			Mail::queue('emails.newInvoiceNotification', ['invoice' => $invoice, 'user' => $user], function($message) use ($invoice, $user) {
 				$message->from('info@pangolin4x4.com');
-				$message->to($this->email);
+				$message->to($user->email);
 				$message->subject("[p4x4] NEW ORDER - INV".$invoice->id);
 			});
 		}

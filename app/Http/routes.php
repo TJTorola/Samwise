@@ -101,21 +101,21 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('invoices', 'InvoicesController@index')->middleware('auth:invoices');
-	Route::group(['prefix' => 'invoice', 'middleware' => 'auth:invoices'], function() {
+	Route::group(['prefix' => 'invoice'], function() {
 
 		Route::post('/', 'InvoicesController@store');
-		Route::get('{invoice}', 'InvoicesController@show');
-		Route::patch('{invoice}', 'InvoicesController@update');
-		Route::delete('{invoice}', 'InvoicesController@cancel');
+		Route::get('{invoice}', 'InvoicesController@show')->middleware('auth:pages');
+		Route::patch('{invoice}', 'InvoicesController@update')->middleware('auth:pages');
+		Route::delete('{invoice}', 'InvoicesController@cancel')->middleware('auth:pages');
 
-		Route::get('{invoice}/cart', 'InvoicesController@indexItems');
-		Route::get('{invoice}/items', 'InvoicesController@indexItems');
-		Route::post('{invoice}/cart', 'InvoicesController@storeItems');
-		Route::post('{invoice}/items', 'InvoicesController@storeItems');
-		Route::post('{invoice}/item', 'InvoicesController@storeItem');
+		Route::get('{invoice}/cart', 'InvoicesController@indexItems')->middleware('auth:pages');
+		Route::get('{invoice}/items', 'InvoicesController@indexItems')->middleware('auth:pages');
+		Route::post('{invoice}/cart', 'InvoicesController@storeItems')->middleware('auth:pages');
+		Route::post('{invoice}/items', 'InvoicesController@storeItems')->middleware('auth:pages');
+		Route::post('{invoice}/item', 'InvoicesController@storeItem')->middleware('auth:pages');
 
-		Route::get('{invoice}/payments', 'InvoicesController@indexPayments');
-		Route::post('{invoice}/payment', 'InvoicesController@storePayment');
+		Route::get('{invoice}/payments', 'InvoicesController@indexPayments')->middleware('auth:pages');
+		Route::post('{invoice}/payment', 'InvoicesController@storePayment')->middleware('auth:pages');
 
 	});
 
