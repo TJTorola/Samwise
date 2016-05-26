@@ -7,7 +7,7 @@
 	<div class="print-area">
 		<div class="row">
 			<div class="col-xs-6">
-				<img src="/img/webLogoOutlined.svg" class="img-responsive">
+				<img src="/img/store/webLogoOutlined.svg" class="img-responsive">
 			</div>
 			<div class="col-xs-6">
 				<table class="print-table" style='float:right;'>

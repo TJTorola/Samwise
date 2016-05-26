@@ -123,6 +123,7 @@ module.exports = {
 		this.char = String.fromCharCode(this.kcode)
 		this.is_numeric = !isNaN(parseInt(this.char))
 		this.is_backspace = (this.kcode == 8)
+		console.log(this)
 
 		// place the caret position in the value array
 		this.value.splice(this.start, 0, 'caret')
