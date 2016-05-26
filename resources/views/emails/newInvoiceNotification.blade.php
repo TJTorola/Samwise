@@ -84,8 +84,8 @@
 			<tr style="font-size: 13px;">
 				<td style="border-style: solid;">{!! nl2br($item->name) !!}</td>
 				<td style="border-style: solid;">{{ $item->count }}</td>
-				<td style="border-style: solid;">{{ returnUSD($item->price) }}</td>
-				<td style="border-style: solid;">{{ returnUSD($item->price * $item->count) }}</td>
+				<td style="border-style: solid;">{{ returnUSD($item->price / 100) }}</td>
+				<td style="border-style: solid;">{{ returnUSD(($item->price * $item->count) / 100) }}</td>
 			</tr>
 			@endforeach
 		</table>
