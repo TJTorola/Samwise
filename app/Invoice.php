@@ -89,6 +89,7 @@ class Invoice extends Model
 	 * @var array
 	 */
 	protected $fillable = [
+		'id',
 		'email',
 		'phone',
 		'phone_preferred',

@@ -104,6 +104,7 @@ class OffersController extends Controller
 	public function destroy($id)
 	{
 		Offer::findOrFail($id)->delete();
+		sleep(1);
 	}
 
 	public function storeImage(StoreImageRequest $request)

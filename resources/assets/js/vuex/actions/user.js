@@ -8,5 +8,6 @@ module.exports = {
 	logout ({ dispatch }) {
 		dispatch('DELETE_USER')
 		dispatch('DELETE_TOKEN')
+		delete localStorage.samwellToken
 	}
 }

@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ImportItems::class,
+        Commands\ImportOffers::class,
         Commands\ImportVariants::class,
         Commands\ImportInvoices::class,
         Commands\ImportInvoiceItems::class,

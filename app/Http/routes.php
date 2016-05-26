@@ -160,7 +160,7 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('offers', 'OffersController@index');
-	Route::group(['prefix' => 'offer', 'middleware' => 'auth:inventory'], function() {
+	Route::group(['prefix' => 'offer'], function() {
 
 		Route::post('/', 'OffersController@store')->middleware('auth:inventory');
 		Route::get('{offer}', 'OffersController@show');

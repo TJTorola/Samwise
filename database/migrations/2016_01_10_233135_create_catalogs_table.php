@@ -19,6 +19,7 @@ class CreateCatalogsTable extends Migration
             $table->boolean('label')->default(0);
             $table->text('description')->default("");
             $table->string('tags', 511)->default("");
+            $table->string('trim')->nullable();
             $table->timestamps();
         });
     }

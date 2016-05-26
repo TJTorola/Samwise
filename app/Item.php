@@ -61,6 +61,7 @@ class Item extends Model
 	 * @var array
 	 */
 	protected $fillable = [
+		'id',
 		'name',
 		'price',
 		'unit',

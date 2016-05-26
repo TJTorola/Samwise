@@ -39,6 +39,7 @@ class Offer extends Model
 	 * @var array
 	 */
 	protected $fillable = [
+		'id',
 		'name',
 		'public',
 		'description',

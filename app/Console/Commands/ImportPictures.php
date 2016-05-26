@@ -43,13 +43,13 @@ class ImportPictures extends Command
 	public function handle()
 	{
 		Model::unguard();
-		$files = Storage::allFiles("inventory");
+		$files = Storage::allFiles("tmp-inventory");
 		foreach ($files as $file) {
-			if (!preg_match('/inventory\/\d+\/lg\/\d+.\w+/', $file)) {
+			if (!preg_match('/tmp-inventory\/\d+\/lg\/\d+.\w+/', $file)) {
 				continue;
 			}
 
-			$mod_file = ltrim($file, 'inventory/');
+			$mod_file = ltrim($file, 'tmp-inventory/');
 			$mod_file = explode('/lg/', $mod_file);
 			$offer_id = $mod_file[0];
 			$mod_file = explode('.', $mod_file[1]);

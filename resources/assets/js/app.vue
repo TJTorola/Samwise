@@ -221,7 +221,7 @@
 
 			<section class='content'>
 				<router-view v-if="loggedIn"></router-view>
-				<login-form v-else></login-form>
+				<login-form v-else v-ref:login></login-form>
 			</section>
 
 		</div><!-- /.content-wrapper -->
