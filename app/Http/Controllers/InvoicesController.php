@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Invoices\StoreRequest;
+use App\Http\Requests\Invoices\AdminStoreRequest;
 use App\Http\Requests\Invoices\UpdateRequest;
 use App\Http\Requests\Invoices\StoreItemRequest;
 use App\Http\Requests\Invoices\StoreItemsRequest;
@@ -77,6 +78,22 @@ class InvoicesController extends Controller
 
 		return $invoice;
 	}
+
+	/**
+	 * Store a newly created resource in storage using the admin panel.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function adminStore(AdminStoreRequest $request)
+	{
+		$invoice = Invoice::create($request->all());
+		InvoiceItem::saveMany($request->cart, $invoice->id);
+
+		return $invoice;
+	}
+
+	
 
 	/**
 	 * Display the specified resource.

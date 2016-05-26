@@ -6,7 +6,7 @@
 
 	<div class="col-xs-8 col-xs-offset-2">
 		<button type="button" class="btn btn-block btn-sm btn-primary" @click="submit">
-			<i class="fa fa-plus"></i> Submit Invoice
+			<status-icon icon="fa-plus" v-ref:submit></status-icon> Submit Invoice
 		</button>
 	</div>
 </div>
@@ -16,11 +16,13 @@
 module.exports = {
 	components: {
 		modifyCart: require('app/components/cart/modifyCart.vue'),
-		customerInfo: require('app/components/invoice/customerInfoForm.vue')
+		customerInfo: require('app/components/invoice/customerInfoForm.vue'),
+		statusIcon: require('app/components/statusIcon.vue')
 	},
 
 	methods: {
 		submit () {
+			this.$refs.submit.working()
 			var request = {
 				cart: this.offers,
 				email: this.email,
@@ -31,8 +33,12 @@ module.exports = {
 			}
 
 			this.$http.post('invoice', request).then(response => {
+				this.$refs.submit.check()
 				this.clearInvoice()
 				this.$root.$refs.cart.clearCart()
+				this.$router.go({ path: `invoices` })
+			}, () => {
+				this.$refs.submit.fail()
 			})
 		}
 	},

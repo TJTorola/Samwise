@@ -104,18 +104,19 @@ Route::group(['prefix' => 'api'], function() {
 	Route::group(['prefix' => 'invoice'], function() {
 
 		Route::post('/', 'InvoicesController@store');
-		Route::get('{invoice}', 'InvoicesController@show')->middleware('auth:pages');
-		Route::patch('{invoice}', 'InvoicesController@update')->middleware('auth:pages');
-		Route::delete('{invoice}', 'InvoicesController@cancel')->middleware('auth:pages');
+		Route::post('/', 'InvoicesController@adminStore')->middleware('auth:invoices');
+		Route::get('{invoice}', 'InvoicesController@show')->middleware('auth:invoices');
+		Route::patch('{invoice}', 'InvoicesController@update')->middleware('auth:invoices');
+		Route::delete('{invoice}', 'InvoicesController@cancel')->middleware('auth:invoices');
 
-		Route::get('{invoice}/cart', 'InvoicesController@indexItems')->middleware('auth:pages');
-		Route::get('{invoice}/items', 'InvoicesController@indexItems')->middleware('auth:pages');
-		Route::post('{invoice}/cart', 'InvoicesController@storeItems')->middleware('auth:pages');
-		Route::post('{invoice}/items', 'InvoicesController@storeItems')->middleware('auth:pages');
-		Route::post('{invoice}/item', 'InvoicesController@storeItem')->middleware('auth:pages');
+		Route::get('{invoice}/cart', 'InvoicesController@indexItems')->middleware('auth:invoices');
+		Route::get('{invoice}/items', 'InvoicesController@indexItems')->middleware('auth:invoices');
+		Route::post('{invoice}/cart', 'InvoicesController@storeItems')->middleware('auth:invoices');
+		Route::post('{invoice}/items', 'InvoicesController@storeItems')->middleware('auth:invoices');
+		Route::post('{invoice}/item', 'InvoicesController@storeItem')->middleware('auth:invoices');
 
-		Route::get('{invoice}/payments', 'InvoicesController@indexPayments')->middleware('auth:pages');
-		Route::post('{invoice}/payment', 'InvoicesController@storePayment')->middleware('auth:pages');
+		Route::get('{invoice}/payments', 'InvoicesController@indexPayments')->middleware('auth:invoices');
+		Route::post('{invoice}/payment', 'InvoicesController@storePayment')->middleware('auth:invoices');
 
 	});
 
