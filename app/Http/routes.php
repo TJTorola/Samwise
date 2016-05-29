@@ -104,7 +104,7 @@ Route::group(['prefix' => 'api'], function() {
 	Route::group(['prefix' => 'invoice'], function() {
 
 		Route::post('/', 'InvoicesController@store');
-		Route::post('/', 'InvoicesController@adminStore')->middleware('auth:invoices');
+		Route::post('/admin', 'InvoicesController@adminStore')->middleware('auth:invoices');
 		Route::get('{invoice}', 'InvoicesController@show')->middleware('auth:invoices');
 		Route::patch('{invoice}', 'InvoicesController@update')->middleware('auth:invoices');
 		Route::delete('{invoice}', 'InvoicesController@cancel')->middleware('auth:invoices');
