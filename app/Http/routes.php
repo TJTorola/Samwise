@@ -32,7 +32,6 @@ Route::group(['prefix' => 'api'], function() {
 	*/
 	Route::group(['prefix' => 'auth'], function() {
 
-		Route::post('/', 'AuthController@login');
 		Route::get('logout', 'AuthController@logout');
 		Route::post('register', 'AuthController@register');
 
@@ -232,12 +231,12 @@ Route::group(['prefix' => 'api'], function() {
 	| Store Group (Optimized storefront requests)
 	|--------------------------------------------------------------------------
 	*/
-	Route::group(['prefix' => 'store'], function() {
-
-		Route::get('menus', 'StoreController@getMenus');
-		Route::post('invoice', 'StoreController@postInvoice');
-
-	});
+	// Route::group(['prefix' => 'store'], function() {
+	//
+	// 	Route::get('menus', 'StoreController@getMenus');
+	// 	Route::post('invoice', 'StoreController@postInvoice');
+	//
+	// });
 
 	/*
 	|--------------------------------------------------------------------------
@@ -270,10 +269,23 @@ Route::group(['prefix' => 'api'], function() {
 	});
 });
 
+/*
+|--------------------------------------------------------------------------
+| Public API (All of the publicaly available resources in one place)
+|--------------------------------------------------------------------------
+*/
+
 Route::group(['prefix' => 'public-api'], function() {
 
-	Route::get('offer/{id}', 'PublicController@offer');
-	
+	Route::get('catalog/{id}', 'CatalogsController@show');
+	Route::get('menus', 'PublicController@indexMenus');
+	Route::get('offers', 'PublicController@indexOffers');
+	Route::get('offer/{id}', 'PublicController@showOffer');
+	Route::get('page/{slug}', 'PagesController@show')->where(['slug' => '.*']);
+
+	Route::post('auth', 'AuthController@login');
+	Route::post('invoice', 'InvoicesController@store');
+
 });
 
 /*
