@@ -232,8 +232,19 @@ class Offer extends Model
 
 	public function toPublicArray()
 	{
-		$offer = $this->toPrivateArray();
-		// TODO, strip private attributes
+		$offer = $this->toArray();
+
+		// place type info fields directly under root
+		$type_info = json_decode($this->type_info);
+		foreach ($type_info as $type_field => $value) {
+			$offer[$type_field] = $value;
+		}
+
+		$offer['items'] = $this->items->transform(function ($item, $key) {
+			return $item->toPublicArray();
+		});
+		$offer['pictures'] = $this->pictures->toArray();
+		$offer['tag_array'] = explode(',', $offer['tags']);
 
 		return $offer;
 	}

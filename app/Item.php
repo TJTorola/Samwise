@@ -200,7 +200,9 @@ class Item extends Model
 	public function toPublicArray()
 	{
 		$item = $this->toPrivateArray();
-		// TODO, strip private attributes
+		$item['stock'] = $item['stock'] - $item['store_reserve'];
+		if ($item['stock'] < 0) $item['stock'] = 0;
+		unset($item['store_reserve']);
 
 		return $item;
 	}
