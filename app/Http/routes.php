@@ -270,6 +270,12 @@ Route::group(['prefix' => 'api'], function() {
 	});
 });
 
+Route::group(['prefix' => 'public-api'], function() {
+
+	Route::get('offer/{id}', 'PublicController@offer');
+	
+});
+
 /*
 |--------------------------------------------------------------------------
 | Admin panel

@@ -50,14 +50,22 @@ class Search
 		Offer::putMapping($ignoreConflicts = true);
 		$offer_chunks = Offer::all()->chunk(50);
 		foreach ($offer_chunks as $offers) {
-			$offers->addToIndex();
+			foreach ($offers as $offer ) {
+				if ($offer->public) {
+					$offer->addToIndex();
+				}
+			}
 		}
 
 		// Item index
 		// Item::putMapping($ignoreConflicts = true);
 		$item_chunks = Item::all()->chunk(50);
 		foreach ($item_chunks as $items) {
-			$items->addToIndex();
+			foreach ($items as $item ) {
+				if ($item->public) {
+					$item->addToIndex();
+				}
+			}
 		}
 	}
 
@@ -79,7 +87,7 @@ class Search
 	 * @param string $index the index to query
 	 * @param Request $request the client provided request
 	 *
-	 * @return array 
+	 * @return array
 	 */
 	public function query($index, Request $request)
 	{
@@ -202,7 +210,7 @@ class Search
 	 * @param string $index the index to query
 	 * @param Request $request the client provided request
 	 *
-	 * @return array 
+	 * @return array
 	 */
 	public function search($index, Request $request)
 	{
@@ -336,7 +344,7 @@ class Search
 	 * @param string $index the index to query
 	 * @param Request $request the client provided request
 	 *
-	 * @return array 
+	 * @return array
 	 */
 	public function collect($index, Request $request)
 	{
@@ -385,11 +393,11 @@ class Search
 			$page = count($collection) - 1;
 		}
 
-		if ($page < 0) { 
-			$page = 0; 
+		if ($page < 0) {
+			$page = 0;
 			$collection = [];
 		} else {
-			$collection = $collection[$page];			
+			$collection = $collection[$page];
 		}
 
 		return [

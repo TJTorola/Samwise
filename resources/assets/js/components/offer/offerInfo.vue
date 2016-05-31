@@ -21,6 +21,13 @@
 				<textarea class="form-control" rows="6" id="description" v-model="offer.description"></textarea>
 			</div>
 		</div>
+
+		<div class="col-xs-12">
+			<button class="btn btn-default pull-right" v-on:click="offer.public = !offer.public">
+				<span v-if="offer.public"><span class="fa fa-eye"></span> Public</span>
+				<span v-else><span class="fa fa-eye-slash"></span> Hidden</span>
+			</button>
+		</div>
 	</div>
 </div>
 </template>

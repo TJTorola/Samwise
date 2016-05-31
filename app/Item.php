@@ -51,7 +51,8 @@ class Item extends Model
 	 * @var array
 	 */
 	protected $casts = [
-		'infinite' => 'boolean',
+		'infinite'  => 'boolean',
+		'public'    => 'boolean',
 		'type_info' => 'array',
 	];
 
@@ -160,7 +161,7 @@ class Item extends Model
 	|--------------------------------------------------------------------------
 	*/
 
-	static public function extractTypeInfo($item) 
+	static public function extractTypeInfo($item)
 	{
 		$type = $item['type'];
 		$schema = config("samwise.type_schema.item.$type");

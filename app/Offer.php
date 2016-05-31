@@ -55,6 +55,7 @@ class Offer extends Model
 	 */
 	protected $casts = [
 			'type_info' => 'array',
+			'public' => 'boolean'
 	];
 
 	/*
@@ -184,7 +185,7 @@ class Offer extends Model
 	|--------------------------------------------------------------------------
 	*/
 
-	static public function extractTypeInfo($offer) 
+	static public function extractTypeInfo($offer)
 	{
 		$type = $offer['type'];
 		$schema = config("samwise.type_schema.offer.$type");
@@ -260,7 +261,7 @@ class Offer extends Model
 	 * Set mapping properties
 	 */
 
-		
+
 	protected $mappingProperties = array(
 		'tag_array' => [
 			'type' => 'string',
