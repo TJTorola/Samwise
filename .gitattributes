@@ -1,3 +1,14 @@
 * text=auto
 *.css linguist-vendored
 *.less linguist-vendored
+
+resources/assets/css/_bootstrap.css merge=ours
+resources/assets/css/adminLTE.css merge=ours
+resources/assets/css/font-awesome.css merge=ours
+resources/assets/css/main.css merge=ours
+resources/assets/css/skin-blue.css merge=ours
+
+public/js/main.min.js merge=ours
+public/js/vendor.min.js merge=ours
+public/js/main.min.js.map merge=ours
+public/js/vendor.min.js.map merge=ours
