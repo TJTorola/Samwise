@@ -279,12 +279,12 @@ Route::group(['prefix' => 'public-api'], function() {
 	Route::get('offers', 'PublicController@indexOffers');
 	Route::get('settings', 'PublicController@settings');
 
-	Route::get('catalog/{id}', 'PublicController@showCatalog'); // CatalogsController@show
+	Route::get('catalog/{id}', 'PublicController@showCatalog');
 	Route::get('offer/{id}', 'PublicController@showOffer');
-	Route::get('page/{slug}', 'PublicController@showPage')->where(['slug' => '.*']); // PagesController@show
+	Route::get('page/{slug}', 'PublicController@showPage')->where(['slug' => '.*']);
 
-	Route::post('auth', 'AuthController@login'); // AuthController@login
-	Route::post('invoice', 'PublicController@store'); // InvoicesController@store
+	Route::post('auth', 'AuthController@login');
+	Route::post('invoice', 'PublicController@storeInvoice');
 
 });
 

@@ -7,13 +7,19 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Pub\StoreInvoiceRequest;
+
 use App;
 use Cache;
+use Mail;
 
 use App\Offer;
 use App\Page;
+use App\User;
 use App\Catalog;
 use App\Search;
+use App\Invoice;
+use App\InvoiceItem;
 
 class PublicController extends Controller
 {
@@ -53,7 +59,7 @@ class PublicController extends Controller
 		}
 	}
 
-	public function storeInvoice()
+	public function storeInvoice(StoreInvoiceRequest $request)
 	{
 		$invoice = Invoice::create($request->all());
 		InvoiceItem::saveMany($request->cart, $invoice->id);

@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Invoices\StoreRequest;
-use App\Http\Requests\Invoices\AdminStoreRequest;
 use App\Http\Requests\Invoices\UpdateRequest;
 use App\Http\Requests\Invoices\StoreItemRequest;
 use App\Http\Requests\Invoices\StoreItemsRequest;
@@ -50,7 +49,7 @@ class InvoicesController extends Controller
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a newly created resource in storage using the admin panel.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
@@ -60,40 +59,10 @@ class InvoicesController extends Controller
 		$invoice = Invoice::create($request->all());
 		InvoiceItem::saveMany($request->cart, $invoice->id);
 
-		Mail::queue('emails.invoice', ['invoice' => $invoice], function($message) use ($invoice) {
-			// TODO: Add email setting
-			$message->from('info@pangolin4x4.com');
-			$message->to($invoice->email);
-			$message->subject("Pangolin4x4: INV".$invoice->id);
-		});
-
-		$users = User::all();
-		foreach ($users as $user) {
-			Mail::queue('emails.newInvoiceNotification', ['invoice' => $invoice, 'user' => $user], function($message) use ($invoice, $user) {
-				$message->from('info@pangolin4x4.com');
-				$message->to($user->email);
-				$message->subject("[p4x4] NEW ORDER - INV".$invoice->id);
-			});
-		}
-
 		return $invoice;
 	}
 
-	/**
-	 * Store a newly created resource in storage using the admin panel.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function adminStore(AdminStoreRequest $request)
-	{
-		$invoice = Invoice::create($request->all());
-		InvoiceItem::saveMany($request->cart, $invoice->id);
 
-		return $invoice;
-	}
-
-	
 
 	/**
 	 * Display the specified resource.

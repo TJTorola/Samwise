@@ -1,7 +1,8 @@
 <template>
 <li v-if="loaded">
 	<div class="pull-left">
-		<img src="/img/def.jpg">
+		<img :src=`/img/${offer.pictures['0'].source.sm}` v-if="offer.pictures.length > 0">
+		<img src="/img/inventory/def.jpg" v-else>
 	</div>
 	<h4>
 		<a>{{ offer.name }}</a>
@@ -24,7 +25,7 @@ module.exports = {
 			if (!this.loaded) {
 				return 0
 			}
-			
+
 			var subTotal = 0
 			for (var i = 0; i < this.$refs.items.length; i++) {
 				subTotal += this.$refs.items[i].subTotal
@@ -38,7 +39,7 @@ module.exports = {
 	},
 
 	created () {
-		this.$http.get(`offer/${this.id}/admin`).then(function(response) {
+		this.$http.get(`offer/${this.id}`).then(function(response) {
 			this.$set('offer', response.data)
 			this.loaded = true
 		})
