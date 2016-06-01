@@ -50,22 +50,14 @@ class Search
 		Offer::putMapping($ignoreConflicts = true);
 		$offer_chunks = Offer::all()->chunk(50);
 		foreach ($offer_chunks as $offers) {
-			foreach ($offers as $offer ) {
-				if ($offer->public) {
-					$offer->addToIndex();
-				}
-			}
+			$offers->addToIndex();
 		}
 
 		// Item index
 		// Item::putMapping($ignoreConflicts = true);
 		$item_chunks = Item::all()->chunk(50);
 		foreach ($item_chunks as $items) {
-			foreach ($items as $item ) {
-				if ($item->public) {
-					$item->addToIndex();
-				}
-			}
+			$items->addToIndex();
 		}
 	}
 

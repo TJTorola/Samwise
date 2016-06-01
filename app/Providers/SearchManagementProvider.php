@@ -51,26 +51,18 @@ class SearchManagementProvider extends ServiceProvider
 			$item->addToIndex();
 
 			$offer = Offer::find($item->offer_id);
-			if ($offer->public) {
-				$offer->addToIndex();
-			}
+			$offer->addToIndex();
 		});
 
 		Item::deleted(function($item) {
 			$item->removeFromIndex();
 
 			$offer = Offer::find($item->offer_id);
-			if ($offer->public) {
-				$offer->addToIndex();
-			}
+			$offer->addToIndex();
 		});
 
 		Offer::saved(function($offer) {
-			if ($offer->public) {
-				$offer->addToIndex();
-			} else {
-				$offer->removeFromIndex();
-			}
+			$offer->addToIndex();
 		});
 
 		Offer::deleted(function($offer) {

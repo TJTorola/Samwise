@@ -34,6 +34,17 @@ class PublicController extends Controller
 
 	public function indexOffers(Request $request, Search $search)
 	{
+		// decode existing must, if there is any
+		if ($request['_must'] == null) {
+			$must = [];
+		} else {
+			$must = json_decode($request['_must'], true);
+		}
+
+		// append/change public to must be true
+		$must['public'] = true;
+		$request['_must'] = json_encode($must);
+
 		return $search->query('offers', $request);
 	}
 
