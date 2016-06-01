@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 */
 
-Route::group(['prefix' => 'api'], function() {
+Route::group(['prefix' => 'api', 'middleware' => 'auth'], function() {
 
 	/**
 	 * Authentication Middleware:
@@ -44,12 +44,12 @@ Route::group(['prefix' => 'api'], function() {
 	*/
 	Route::get('catalogs', 'CatalogsController@index')->middleware('auth:catalogs');
 	Route::post('catalogs', 'CatalogsController@updateCollection')->middleware('auth:catalogs');
-	Route::group(['prefix' => 'catalog'], function() {
+	Route::group(['prefix' => 'catalog', 'middleware' => 'auth:catalogs'], function() {
 
-		Route::post('/', 'CatalogsController@store')->middleware('auth:catalogs');
+		Route::post('/', 'CatalogsController@store');
 		Route::get('{catalog}', 'CatalogsController@show');
-		Route::patch('{catalog}', 'CatalogsController@update')->middleware('auth:catalogs');
-		Route::delete('{catalog}', 'CatalogsController@destroy')->middleware('auth:catalogs');
+		Route::patch('{catalog}', 'CatalogsController@update');
+		Route::delete('{catalog}', 'CatalogsController@destroy');
 
 	});
 
@@ -100,22 +100,21 @@ Route::group(['prefix' => 'api'], function() {
 	|--------------------------------------------------------------------------
 	*/
 	Route::get('invoices', 'InvoicesController@index')->middleware('auth:invoices');
-	Route::group(['prefix' => 'invoice'], function() {
+	Route::group(['prefix' => 'invoice', 'middleware' => 'auth:invoices'], function() {
 
 		Route::post('/', 'InvoicesController@store');
-		Route::post('/admin', 'InvoicesController@adminStore')->middleware('auth:invoices');
-		Route::get('{invoice}', 'InvoicesController@show')->middleware('auth:invoices');
-		Route::patch('{invoice}', 'InvoicesController@update')->middleware('auth:invoices');
-		Route::delete('{invoice}', 'InvoicesController@cancel')->middleware('auth:invoices');
+		Route::get('{invoice}', 'InvoicesController@show');
+		Route::patch('{invoice}', 'InvoicesController@update');
+		Route::delete('{invoice}', 'InvoicesController@cancel');
 
-		Route::get('{invoice}/cart', 'InvoicesController@indexItems')->middleware('auth:invoices');
-		Route::get('{invoice}/items', 'InvoicesController@indexItems')->middleware('auth:invoices');
-		Route::post('{invoice}/cart', 'InvoicesController@storeItems')->middleware('auth:invoices');
-		Route::post('{invoice}/items', 'InvoicesController@storeItems')->middleware('auth:invoices');
-		Route::post('{invoice}/item', 'InvoicesController@storeItem')->middleware('auth:invoices');
+		Route::get('{invoice}/cart', 'InvoicesController@indexItems');
+		Route::get('{invoice}/items', 'InvoicesController@indexItems');
+		Route::post('{invoice}/cart', 'InvoicesController@storeItems');
+		Route::post('{invoice}/items', 'InvoicesController@storeItems');
+		Route::post('{invoice}/item', 'InvoicesController@storeItem');
 
-		Route::get('{invoice}/payments', 'InvoicesController@indexPayments')->middleware('auth:invoices');
-		Route::post('{invoice}/payment', 'InvoicesController@storePayment')->middleware('auth:invoices');
+		Route::get('{invoice}/payments', 'InvoicesController@indexPayments');
+		Route::post('{invoice}/payment', 'InvoicesController@storePayment');
 
 	});
 
@@ -147,7 +146,7 @@ Route::group(['prefix' => 'api'], function() {
 	| Items Group (Control the inventory)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('items', 'ItemsController@index');
+	Route::get('items', 'ItemsController@index')->middleware('auth:inventory');
 	Route::group(['prefix' => 'item', 'middleware' => 'auth:inventory'], function() {
 
 		Route::get('{item}', 'ItemsController@show');
@@ -159,16 +158,15 @@ Route::group(['prefix' => 'api'], function() {
 	| Offers Group (Control the offers)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('offers', 'OffersController@index');
-	Route::group(['prefix' => 'offer'], function() {
+	Route::get('offers', 'OffersController@index')->middleware('auth:inventory');
+	Route::group(['prefix' => 'offer', 'middleware' => 'auth:inventory'], function() {
 
-		Route::post('/', 'OffersController@store')->middleware('auth:inventory');
+		Route::post('/', 'OffersController@store');
 		Route::get('{offer}', 'OffersController@show');
-		Route::get('{offer}/admin', 'OffersController@showAdmin')->middleware('auth:inventory');
-		Route::patch('{offer}', 'OffersController@update')->middleware('auth:inventory');
-		Route::delete('{offer}', 'OffersController@destroy')->middleware('auth:inventory');
+		Route::patch('{offer}', 'OffersController@update');
+		Route::delete('{offer}', 'OffersController@destroy');
 
-		Route::post('{offer}/image', 'OffersController@storeImage')->middleware('auth:inventory');
+		Route::post('{offer}/image', 'OffersController@storeImage');
 
 	});
 
@@ -177,14 +175,14 @@ Route::group(['prefix' => 'api'], function() {
 	| Pages Group (Modify indevidual pages)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('pages', 'PagesController@index');
+	Route::get('pages', 'PagesController@index')->middleware('auth:pages');
 	Route::post('pages', 'PagesController@updateCollection')->middleware('auth:pages');
-	Route::group(['prefix' => 'page'], function() {
+	Route::group(['prefix' => 'page', 'middleware' => 'auth:pages'], function() {
 
-		Route::post('/', 'PagesController@store')->middleware('auth:pages');
-		Route::get('{page_slug}', 'PagesController@show')->where(['page_slug' => '.*']);
-		Route::patch('{page}', 'PagesController@update')->middleware('auth:pages');
-		Route::delete('{page}', 'PagesController@destroy')->middleware('auth:pages');
+		Route::post('/', 'PagesController@store');
+		Route::get('{page}', 'PagesController@show');
+		Route::patch('{page}', 'PagesController@update');
+		Route::delete('{page}', 'PagesController@destroy');
 
 	});
 
@@ -205,7 +203,7 @@ Route::group(['prefix' => 'api'], function() {
 	| Self Group (Control yourself!)
 	|--------------------------------------------------------------------------
 	*/
-	Route::group(['prefix' => 'self', 'middleware' => 'auth'], function() {
+	Route::group(['prefix' => 'self'], function() {
 
 		Route::get('/', 'SelfController@show');
 		Route::get('todos', 'SelfController@indexTodos');
@@ -243,7 +241,7 @@ Route::group(['prefix' => 'api'], function() {
 	| Tags Group (Retrieve tags and tag usage)
 	|--------------------------------------------------------------------------
 	*/
-	Route::get('tags', 'TagsController@index')->middleware('auth');
+	Route::get('tags', 'TagsController@index');
 
 	/*
 	|--------------------------------------------------------------------------
@@ -277,14 +275,16 @@ Route::group(['prefix' => 'api'], function() {
 
 Route::group(['prefix' => 'public-api'], function() {
 
-	Route::get('catalog/{id}', 'CatalogsController@show');
 	Route::get('menus', 'PublicController@indexMenus');
 	Route::get('offers', 'PublicController@indexOffers');
-	Route::get('offer/{id}', 'PublicController@showOffer');
-	Route::get('page/{slug}', 'PagesController@show')->where(['slug' => '.*']);
+	Route::get('settings', 'PublicController@settings');
 
-	Route::post('auth', 'AuthController@login');
-	Route::post('invoice', 'InvoicesController@store');
+	Route::get('catalog/{id}', 'PublicController@showCatalog'); // CatalogsController@show
+	Route::get('offer/{id}', 'PublicController@showOffer');
+	Route::get('page/{slug}', 'PublicController@showPage')->where(['slug' => '.*']); // PagesController@show
+
+	Route::post('auth', 'AuthController@login'); // AuthController@login
+	Route::post('invoice', 'PublicController@store'); // InvoicesController@store
 
 });
 

@@ -14,17 +14,13 @@ use Cache;
 
 class StoreController extends Controller
 {
-	public function home() 
+	public function home()
 	{
 		return view('store');
 	}
 
 	public function getMenus()
 	{
-		$menus = Cache::rememberForever('menus', function() { 
-			return array_merge(Page::getMenus(), Catalog::getMenu());
-		});
-
-		return $menus;
+		
 	}
 }

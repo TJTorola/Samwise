@@ -47,18 +47,9 @@ class PagesController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($page_slug_or_id)
+	public function show($id)
 	{
-		if (is_numeric($page_slug_or_id)) {
-			return Page::findOrFail($page_slug_or_id);
-		}
-
-		foreach (Page::all() as $page) {
-			if ($page->path == "/$page_slug_or_id") {
-				return $page;
-			}
-		}
-		return null;
+		return Page::findOrFail($id);
 	}
 
 	/**

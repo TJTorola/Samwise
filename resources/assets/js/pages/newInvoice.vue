@@ -32,7 +32,7 @@ module.exports = {
 				billing_address: this.billing_address
 			}
 
-			this.$http.post('invoice/admin', request).then(response => {
+			this.$http.post('invoice', request).then(response => {
 				this.$refs.submit.check()
 				this.clearInvoice()
 				this.$root.$refs.cart.clearCart()

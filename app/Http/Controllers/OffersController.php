@@ -52,23 +52,12 @@ class OffersController extends Controller
 	}
 
 	/**
-	 * Display the specified public version of the resource.
+	 * Display the specified resource.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id)
-	{
-		return Offer::findOrFail($id)->toPublicArray();
-	}
-
-	/**
-	 * Display the specified private version of the resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function showAdmin($id)
 	{
 		return Offer::findOrFail($id)->toPrivateArray();
 	}

@@ -2,14 +2,14 @@
 <div v-else class="login-form">
 	<div class="input-wrapper">
 		<span class='fa fa-envelope'></span>
-		<input type='text' name='email' placeholder="E-Mail" 
+		<input type='text' name='email' placeholder="E-Mail"
 			v-model="email"
 			@enter="postLogin">
 	</div>
 
 	<div class="input-wrapper">
 		<span class='fa fa-key'></span>
-		<input type='password' name='password' placeholder="*******" id="password" 
+		<input type='password' name='password' placeholder="*******" id="password"
 			v-model="password"
 			@enter="postLogin">
 	</div>
@@ -74,7 +74,7 @@ module.exports = {
 				captcha: captcha
 			}
 
-			this.$http.post('auth', request).then(function(response) {
+			this.$http.post('/public-api/auth', request).then(function(response) {
 				// reset authentication credentials
 				this.password = ""
 				this.email = ""
