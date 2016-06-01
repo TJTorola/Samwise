@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Item;
 use App\InvoiceItem;
+use App\Invoice;
 use Log;
 
 class InventoryManagementProvider extends ServiceProvider
@@ -22,6 +23,20 @@ class InventoryManagementProvider extends ServiceProvider
 		 * infinite stock. In which case we will add to it's sold value.
 		 */
 		InvoiceItem::creating(function($invoice_item) {
+			if (isset($invoice_item['item_id'])) {
+				$item = Item::findOrFail($invoice_item['item_id']);
+				if (!$item->infinite) {
+					$item->stock -= $invoice_item->count;
+					$item->sold += $invoice_item->count;
+					if ($item->stock < 0) {
+						$item->stock = 0;
+					}
+					$item->save();
+				}
+			}
+		});
+
+		InvoiceItem::restored(function($invoice_item) {
 			if (isset($invoice_item['item_id'])) {
 				$item = Item::findOrFail($invoice_item['item_id']);
 				if (!$item->infinite) {
@@ -55,10 +70,14 @@ class InventoryManagementProvider extends ServiceProvider
 
 		/**
 		 * When deleting a cart item, you need to make sure and
-		 * add those items back to the inventory, also, make 
+		 * add those items back to the inventory, also, make
 		 * sure that it doesn't look like those item's were sold.
 		 */
 		InvoiceItem::deleting(function($invoice_item) {
+			if ($invoice_item->trashed()) {
+				return;
+			}
+
 			if (isset($invoice_item['item_id'])) {
 				$item = Item::findOrFail($invoice_item['item_id']);
 				if (!$item->infinite) {
@@ -72,9 +91,27 @@ class InventoryManagementProvider extends ServiceProvider
 			}
 		});
 
+		Invoice::deleted(function($invoice) {
+			$invoice->items()->delete();
+		});
+
+		Invoice::restored(function($invoice) {
+			$invoice->items()->withTrashed()->restore();
+		});
+
+		Invoice::deleting(function($invoice) {
+			if ($invoice->trashed()) {
+				return;
+			}
+
+			foreach ($variable as $key => $value) {
+				# code...
+			}
+		});
+
 		/**
-		 * If a item changes in a dramatic way, make sure to decouple 
-		 * the item from it's cart item's, because the cart item's 
+		 * If a item changes in a dramatic way, make sure to decouple
+		 * the item from it's cart item's, because the cart item's
 		 * should not change from what the customer ordered
 		 */
 		Item::updating(function($item) {

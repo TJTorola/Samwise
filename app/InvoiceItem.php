@@ -3,12 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Invoice;
 use App\Item;
 
 class InvoiceItem extends Model
 {
+	use SoftDeletes;
+
 	public static function saveMany($cart, $invoice_id)
 	{
 		$invoice = Invoice::findOrFail($invoice_id);
@@ -30,8 +33,8 @@ class InvoiceItem extends Model
 		$invoice->items()->saveMany($invoice_items);
 	}
 
-	
-	
+
+
 	/**
 	 * The accessors to append to the model's array form.
 	 *
@@ -44,6 +47,13 @@ class InvoiceItem extends Model
 	 * @var array
 	 */
 	protected $casts = [];
+
+	/**
+	 * The attributes that should be mutated to dates.
+	 *
+	 * @var array
+	 */
+	protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes that aren't mass assignable.
