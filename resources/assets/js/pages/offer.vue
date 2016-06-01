@@ -94,7 +94,7 @@ module.exports = {
 
 	methods: {
 		get () {
-			this.$http.get(`offer/${this.id}/admin`).then(response => {
+			this.$http.get(`offer/${this.id}`).then(response => {
 				response.data['deleted_pictures'] = []
 				response.data['deleted_items'] = []
 				this.$set('offer', response.data)

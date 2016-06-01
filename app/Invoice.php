@@ -346,4 +346,24 @@ class Invoice extends Model
 	// {
 	// 	return $this->toArray();
 	// }
+
+	/*
+	|--------------------------------------------------------------------------
+	| Inventory Management
+	|--------------------------------------------------------------------------
+	*/
+
+	public function unstock()
+	{
+		foreach ($this->items as $item) {
+			$item->unstock();
+		}
+	}
+
+	public function restock()
+	{
+		foreach ($this->items as $item) {
+			$item->restock();
+		}
+	}
 }

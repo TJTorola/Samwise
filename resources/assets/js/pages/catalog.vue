@@ -93,7 +93,7 @@ module.exports = {
 		saveCatalog () {
 			this.$refs.status.working()
 
-			this.$http.patch('/admin/catalogs/'+this.catalog.id, this.catalog).then(function(response) {
+			this.$http.patch(`catalog/${this.catalog.id}`, this.catalog).then(function(response) {
 				if (response.data) {
 					this.$dispatch('notification', {type: 'info', title: 'Success', message: 'The catalog was saved.', timeout: 3})
 					this.getCatalog()
@@ -109,9 +109,9 @@ module.exports = {
 
 		deleteCatalog () {
 			if (confirm("Are you sure? This will permenantly delete the Catalog.")) {
-				this.$http.delete('/admin/catalogs/'+this.catalog.id).then(function(response) {
+				this.$http.delete(`catalogs${this.catalog.id}`).then(function(response) {
 					if (response.data) {
-						window.location.href = "#!/catalogs"
+						this.$router.go('catalogs')
 					} else {
 						this.$dispatch('notification', {type: 'danger', title: 'Error', message: 'There was an error deleting the catalog.', timeout: 0})
 					}

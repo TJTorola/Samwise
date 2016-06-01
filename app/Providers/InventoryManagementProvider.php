@@ -22,32 +22,12 @@ class InventoryManagementProvider extends ServiceProvider
 		 * decrement it's stock and incrament it's sold. Unless of course the item has
 		 * infinite stock. In which case we will add to it's sold value.
 		 */
-		InvoiceItem::creating(function($invoice_item) {
-			if (isset($invoice_item['item_id'])) {
-				$item = Item::findOrFail($invoice_item['item_id']);
-				if (!$item->infinite) {
-					$item->stock -= $invoice_item->count;
-					$item->sold += $invoice_item->count;
-					if ($item->stock < 0) {
-						$item->stock = 0;
-					}
-					$item->save();
-				}
-			}
+		InvoiceItem::created(function($invoice_item) {
+			$invoice_item->unstock();
 		});
 
 		InvoiceItem::restored(function($invoice_item) {
-			if (isset($invoice_item['item_id'])) {
-				$item = Item::findOrFail($invoice_item['item_id']);
-				if (!$item->infinite) {
-					$item->stock -= $invoice_item->count;
-					$item->sold += $invoice_item->count;
-					if ($item->stock < 0) {
-						$item->stock = 0;
-					}
-					$item->save();
-				}
-			}
+			$invoice_item->unstock();
 		});
 
 		/**
@@ -59,13 +39,7 @@ class InventoryManagementProvider extends ServiceProvider
 			$current_item = InvoiceItem::find($invoice_item->id);
 			$count_change = $current_item->count - $invoice_item->count;
 
-			if (isset($invoice_item['item_id'])) {
-				$item = Item::findOrFail($invoice_item['item_id']);
-				if (!$item->infinite) {
-					$item->stock += $count_change;
-					$item->save();
-				}
-			}
+			$invoice_item->changeStock($count_change);
 		});
 
 		/**
@@ -74,39 +48,15 @@ class InventoryManagementProvider extends ServiceProvider
 		 * sure that it doesn't look like those item's were sold.
 		 */
 		InvoiceItem::deleting(function($invoice_item) {
-			if ($invoice_item->trashed()) {
-				return;
-			}
-
-			if (isset($invoice_item['item_id'])) {
-				$item = Item::findOrFail($invoice_item['item_id']);
-				if (!$item->infinite) {
-					$item->stock += $invoice_item->count;
-					$item->sold -= $invoice_item->count;
-					if ($item->sold < 0) {
-						$item->sold = 0;
-					}
-					$item->save();
-				}
-			}
+			$invoice_item->restock();
 		});
 
 		Invoice::deleted(function($invoice) {
-			$invoice->items()->delete();
+			$invoice->restock();
 		});
 
 		Invoice::restored(function($invoice) {
-			$invoice->items()->withTrashed()->restore();
-		});
-
-		Invoice::deleting(function($invoice) {
-			if ($invoice->trashed()) {
-				return;
-			}
-
-			foreach ($variable as $key => $value) {
-				# code...
-			}
+			$invoice->unstock();
 		});
 
 		/**

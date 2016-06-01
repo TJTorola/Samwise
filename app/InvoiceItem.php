@@ -33,8 +33,6 @@ class InvoiceItem extends Model
 		$invoice->items()->saveMany($invoice_items);
 	}
 
-
-
 	/**
 	 * The accessors to append to the model's array form.
 	 *
@@ -92,5 +90,41 @@ class InvoiceItem extends Model
 			$next_id = InvoiceItem::all()->min('id');
 		}
 		return "/invoice-item/$next_id";
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Inventory Management
+	|--------------------------------------------------------------------------
+	*/
+
+	public function changeStock($change)
+	{
+		$item = Item::find($this->item_id);
+
+		if ($item == null) {
+			return;
+		}
+
+		$item->sold -= $change;
+		if ($item->sold < 0) {
+			$item->sold = 0;
+		}
+
+		if (!$item->infinite) {
+			$item->stock += $change;
+		}
+
+		$item->save();
+	}
+
+	public function unstock()
+	{
+		$this->changeStock(-$this->count);
+	}
+
+	public function restock()
+	{
+		$this->changeStock($this->count);
 	}
 }
