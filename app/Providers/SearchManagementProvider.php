@@ -9,6 +9,8 @@ use App\Item;
 use App\Offer;
 use App\Payment;
 
+use Log;
+
 class SearchManagementProvider extends ServiceProvider
 {
 	/**

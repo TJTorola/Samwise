@@ -17,6 +17,7 @@ use App\Search;
 use App\Offer;
 use App\OfferPicture;
 use App\Item;
+use Log;
 
 class OffersController extends Controller
 {
@@ -47,8 +48,7 @@ class OffersController extends Controller
 		Item::saveMany($request['items'], $id);
 		Item::destroy($request['deleted_items']);
 
-		$offer->touch();
-		return $offer;
+		return Offer::find($offer->id);
 	}
 
 	/**
