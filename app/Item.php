@@ -54,6 +54,10 @@ class Item extends Model
 		'infinite'  => 'boolean',
 		'public'    => 'boolean',
 		'type_info' => 'array',
+		'x'         => 'float',
+		'y'         => 'float',
+		'z'         => 'float',
+		'weight'    => 'float'
 	];
 
 	/**
@@ -218,7 +222,7 @@ class Item extends Model
 	/**
 	 * Set mapping properties
 	 */
-	// protected $mappingProperties = array();
+	// protected $mappingProperties = [];
 
 	/**
 	 * Modify index model as it goes into ES

@@ -14,7 +14,7 @@
 		<picture-upload :offer-id="offer.id"></picture-upload>
 
 		<pictures v-if="offer.pictures.length > 0"
-			:pictures="offer.pictures" 
+			:pictures="offer.pictures"
 			:deleted="offer.deleted_pictures"
 			:offer-id="offer.id">
 		</pictures>
@@ -31,9 +31,9 @@
 		</div>
 
 		<div class="col-md-4 col-xs-12">
-			<confirmed-button icon="fa-repeat" 
+			<confirmed-button icon="fa-repeat"
 				v-if="offer.id"
-				text="Discard Changes" 
+				text="Discard Changes"
 				color="btn-info"
 				:action="discard"
 				v-ref:discard>
@@ -41,8 +41,8 @@
 		</div>
 
 		<div class="col-md-4 col-xs-12">
-			<confirmed-button icon="fa-trash" 
-				text="Delete Offer" 
+			<confirmed-button icon="fa-trash"
+				text="Delete Offer"
 				color="btn-danger"
 				:action="delete"
 				v-ref:delete>
@@ -116,6 +116,8 @@ module.exports = {
 
 			this.$http.post('offer', this.offer).then(response => {
 				this.$router.go({ path: `/offer/${response.data.id}` })
+			}, () => {
+				this.$refs.store.fail()
 			})
 		},
 

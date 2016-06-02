@@ -226,18 +226,6 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth'], function() {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Store Group (Optimized storefront requests)
-	|--------------------------------------------------------------------------
-	*/
-	// Route::group(['prefix' => 'store'], function() {
-	//
-	// 	Route::get('menus', 'StoreController@getMenus');
-	// 	Route::post('invoice', 'StoreController@postInvoice');
-	//
-	// });
-
-	/*
-	|--------------------------------------------------------------------------
 	| Tags Group (Retrieve tags and tag usage)
 	|--------------------------------------------------------------------------
 	*/
