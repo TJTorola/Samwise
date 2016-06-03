@@ -57,12 +57,12 @@ module.exports = {
 	components: {
 		statusIcon: require('app/components/statusIcon.vue')
 	},
-	
+
 	methods: {
 		shippingCostInput (cost) {
 			this.$refs.shippingCost.working()
-			cost = parseInt(parseFloat(cost.split(',').join('')) * 100)
-			
+			cost = parseInt(cost.replace(/[,.]/g, ''))
+
 			this.$http.patch(`/api/invoice/${this.id}`, { shipping_cost: cost }).then(response => {
 				this.cart.due -= this.cart.shipping_cost
 				this.cart.shipping_cost = cost
