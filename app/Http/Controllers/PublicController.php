@@ -68,6 +68,7 @@ class PublicController extends Controller
 				return $page;
 			}
 		}
+		App::abort(404);
 	}
 
 	public function storeInvoice(StoreInvoiceRequest $request)
