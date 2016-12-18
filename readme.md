@@ -1,8 +1,7 @@
-# Samwise SPA Storefront Manager
+# Samwise E-Commerce CMS
 
 ## Installation Process
 
-After git clone.
 1. `composer install`
 2. `npm install`
 3. Install Virtual Box
