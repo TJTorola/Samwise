@@ -87,7 +87,7 @@ module.exports = {
 		},
 
 		setPrice (price) {
-			this.item.price = parseFloat(price) * 100
+			this.item.price = parseFloat(price.replace(',', '')) * 100
 		}
 	}
 }
