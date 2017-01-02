@@ -1,5 +1,7 @@
 # Samwise E-Commerce CMS
 
+<img src="https://github.com/TJTorola/Samwise/raw/master/docs/readme_imgs/samwise.png" width="100%" />
+
 ## Installation Process
 
 1. `composer install`
