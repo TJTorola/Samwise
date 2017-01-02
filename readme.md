@@ -24,6 +24,15 @@ View a launched storefront at [Pangolin4x4.com](https://www.pangoling4x4.com).
 
 ## Features
 
+### Static Page Management
+
+Samwise exposes a static page management interface for maintaining simple static content without diving into the actual codebase. Using the interface, users can write an escaped version of HTML for their pages. Also enhanced by Vue.js components users can write code as simple as `<catalog limit="15" />` to generate complex components such as a catalog of all items limited to 15 items per page using the code just provided.
+
+<img src="https://github.com/TJTorola/Samwise/raw/master/docs/readme_imgs/page-editor.png" width="100%" />
+
+The code editor interface is implamented in a seperate page so that custom css can be added to allow for previewing the page without leaving the interface or saving.
+
+
 ### Custom Store Items
 
 Using interfaces generated off of custom-item schemas Samwise eases and abstracts customized item management. This allows for handling any type of item, from T-Shirts to used car parts on the same platform.
