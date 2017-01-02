@@ -22,7 +22,7 @@ Samwise is built on Laravel/PHP in the backend with Elasticsearch for running se
 
 ## Storefront Example
 
-View a launched storefront at [Pangolin4x4.com](https://www.pangoling4x4.com).
+View a launched storefront at [Pangolin4x4.com](https://www.pangolin4x4.com).
 
 ## Features
 
