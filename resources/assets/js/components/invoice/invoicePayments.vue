@@ -9,7 +9,7 @@
 	</thead>
 	<tbody>
 		<tr v-for="payment in payments">
-			<td>{{ payment.card_brand }} '{{ payment.last_four }}'</td>
+			<td>{{ payment.card_brand }} '{{ payment.last_four | frontZeros 4 }}'</td>
 			<td>{{ payment.charged }}</td>
 			<td>{{ payment.amount / 100 | currency }}</td>
 		</tr>
@@ -33,6 +33,11 @@
 </template>
 
 <script>
+const frontZeros = (targetLength, string) => {
+	if (string.length === targetLength) return string;
+	return frontZeros(targetLength, `0${string}`);
+}
+
 module.exports = {
 	props: ['cart', 'payments'],
 

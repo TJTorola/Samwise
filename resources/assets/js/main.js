@@ -1,9 +1,9 @@
 // libraries
-var Vue = 					require('vue')
-var Vuex = 					require('vuex')
-var VueRouter = 		require('vue-router')
-var VueResource = 	require('vue-resource')
-var App = 					require('./app.vue')
+var Vue         = require('vue');
+var Vuex        = require('vuex');
+var VueRouter   = require('vue-router');
+var VueResource = require('vue-resource');
+var App         = require('./app.vue');
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
@@ -15,6 +15,7 @@ Vue.directive('mask', require('./directives/mask.js'))
 // Vue-filters
 Vue.filter('displayFormat', require('./filters/displayFormat.js'))
 Vue.filter('nl2br', require('./filters/nl2br.js'))
+Vue.filter('frontZeros', require('./filters/frontZeros.js'))
 
 // Set up routing and match routes to components
 Vue.http.options.root = '/api';
