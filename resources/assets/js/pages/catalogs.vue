@@ -13,51 +13,51 @@
 			<div class="box-body no-padding">
 				<table class="table table-striped" v-if="loaded">
 					<tr v-for="catalog in catalogs">
-						<td>
+						<td class="u-full">
 							<div class="input-group input-group-sm">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" @click="catalog.label = !catalog.label">
-                  	<span class="fa fa-fw fa-check-square-o" v-if="catalog.label"></span>
-                  	<span class="fa fa-fw fa-square-o" v-else></span>
-                  	 Label
-                  </button>
-                </span>	
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" @click="catalog.label = !catalog.label">
+										<span class="fa fa-fw fa-check-square-o" v-if="catalog.label"></span>
+										<span class="fa fa-fw fa-square-o" v-else></span>
+										 Label
+									</button>
+								</span>	
 
-                <input type="text" class="form-control" v-model="catalog.name" :class="testName($index)?'has-error':''">
+								<input type="text" class="form-control" v-model="catalog.name" :class="testName($index)?'has-error':''">
 								
 								<span class="input-group-btn" v-if="catalog.id">
-                  <a class="btn btn-primary btn-flat" :disabled="catalog.label" v-link="{ path: '/catalog/' + catalog.id }">
+									<a class="btn btn-primary btn-flat" :disabled="catalog.label" v-link="{ path: '/catalog/' + catalog.id }">
 										<i class="fa fa-pencil"></i> Edit
-                  </a>
-                </span>
+									</a>
+								</span>
 								<span class="input-group-btn" v-else>
-                  <button class="btn btn-default btn-flat save-catalogs" type="button"
-                  	@click="saveCatalogs">
+									<button class="btn btn-default btn-flat save-catalogs" type="button"
+										@click="saveCatalogs">
 										<span class="fa fa-floppy-o"></span> Save
-                  </button>
-                </span>
+									</button>
+								</span>
 
-                <span class="input-group-btn">
-                  <button class="btn btn-default btn-flat" type="button" 
-                  	:disabled="$index == 0"
-                  	@click="shiftCatalog($index, -1)">
+								<span class="input-group-btn">
+									<button class="btn btn-default btn-flat" type="button" 
+										:disabled="$index == 0"
+										@click="shiftCatalog($index, -1)">
 										<span class="fa fa-chevron-up"></span>
-                  </button>
-                </span>
+									</button>
+								</span>
 
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" 
-                  	:disabled="$index == catalogs.length - 1"
-                  	@click="shiftCatalog($index, 1)">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" 
+										:disabled="$index == catalogs.length - 1"
+										@click="shiftCatalog($index, 1)">
 										<span class="fa fa-chevron-down"></span>
-                  </button>
-                </span>
-              </span>
+									</button>
+								</span>
+							</span>
 						</td>
 						<td>
 							<button class="btn btn-sm btn-danger" type="button" @click="deleteCatalog($index)">
 								<span class="fa fa-trash"></span>
-              </button>
+							</button>
 						</td>
 					</tr>
 				</table>
@@ -65,7 +65,7 @@
 			<div class="box-footer">
 				<button class="btn btn-sm btn-default pull-right" type="button" @click="addCatalog">
 					<span class="fa fa-plus"></span> Add Catalog
-        </button>
+				</button>
 			</div>
 		</div>
 
@@ -111,11 +111,11 @@ module.exports = {
 	methods: {
 		getCatalogs () {
 			this.$http.get('catalogs').then(function(response) {
-		  	this.$set('deletedCatalogs', [])
-		  	this.$set('catalogs', response.data)
-		  	this.loaded = true
-		  	this.$refs.status.check()
-	    })
+				this.$set('deletedCatalogs', [])
+				this.$set('catalogs', response.data)
+				this.loaded = true
+				this.$refs.status.check()
+			})
 		},
 
 		discardChanges () {
