@@ -98,15 +98,6 @@
 				</div>
 			</div>
 
-			<!-- search form -->
-			<div class="input-group isSearch">
-					<input type="text" class="form-control grayFade-input" placeholder="Search...">
-					<span class="input-group-addon grayFade-addon">
-						<i class="fa fa-search"></i>
-					</span>
-				</div>
-			<!-- /.search form -->
-
 			<!-- Sidebar Menu -->
 			<ul class="sidebar-menu">
 				<!-- invoices inventory pages catalogs customers -->
